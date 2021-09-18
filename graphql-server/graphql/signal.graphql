@@ -1,0 +1,19 @@
+type Signal {
+    id: String
+    states: [State!]
+}
+
+type State {
+    key: StateKey!
+    value: String
+}
+
+enum StateKey {
+    OK
+    ERROR
+}
+
+type EmitSignal {
+    id: String
+    key: StateKey
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@csmets/generated-types",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.4.12",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.2.0",
+    "@graphql-codegen/typescript": "2.2.2",
+    "@graphql-codegen/typescript-react-apollo": "3.1.4",
+    "graphql": "^15.5.3",
+    "@graphql-codegen/typescript-operations": "2.1.4",
+    "@graphql-codegen/introspection": "2.1.0"
+  }
+}

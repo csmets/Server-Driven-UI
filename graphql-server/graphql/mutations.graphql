@@ -1,0 +1,7 @@
+type Mutation {
+    save(id: Int): SaveResponse
+}
+
+type SaveResponse {
+    signals: [EmitSignal!]
+}

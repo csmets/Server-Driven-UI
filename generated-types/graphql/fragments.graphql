@@ -1,0 +1,34 @@
+fragment feedItem on FeedItem {
+    id
+    image {
+        ...image
+    }
+    caption
+    action {
+        ...favouriteAction
+    }
+}
+
+fragment image on Image {
+    src
+    alt
+}
+
+fragment favouriteAction on FavouriteAction {
+    id
+    signal {
+        ...signal
+    }
+}
+
+fragment signal on Signal {
+    id
+    states {
+        ...state
+    }
+}
+
+fragment state on State {
+    key
+    value
+}

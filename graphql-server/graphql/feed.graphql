@@ -1,0 +1,35 @@
+type FeedItem {
+    items: [FeedElement]
+}
+
+enum ElementType {
+    typography
+    image
+    icon
+}
+
+interface FeedElement {
+    type: ElementType
+}
+
+type FeedFavourite implements FeedElement {
+    type: ElementType
+    icon: String
+    action: FavouriteAction
+}
+
+type FeedCaption implements FeedElement {
+    type: ElementType
+    text: String
+}
+
+type FavouriteAction {
+    id: String!
+    signal: Signal
+}
+
+type FeedImage implements FeedElement {
+    type: ElementType
+    src: String!
+    alt: String
+}

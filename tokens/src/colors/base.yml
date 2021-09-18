@@ -1,0 +1,6 @@
+props:
+  font_primary:
+    value: "#2c3e50"
+global:
+  type: color
+  category: typography
