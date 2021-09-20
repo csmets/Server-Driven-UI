@@ -14,6 +14,12 @@ export type Scalars = {
   Float: number;
 };
 
+export enum ElementType {
+  Icon = 'icon',
+  Image = 'image',
+  Typography = 'typography'
+}
+
 export type EmitSignal = {
   __typename?: 'EmitSignal';
   id?: Maybe<Scalars['String']>;
@@ -26,18 +32,33 @@ export type FavouriteAction = {
   signal?: Maybe<Signal>;
 };
 
-export type FeedItem = {
-  __typename?: 'FeedItem';
-  action?: Maybe<FavouriteAction>;
-  caption?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  image?: Maybe<Image>;
+export type FeedCaption = FeedElement & {
+  __typename?: 'FeedCaption';
+  text?: Maybe<Scalars['String']>;
+  type?: Maybe<ElementType>;
 };
 
-export type Image = {
-  __typename?: 'Image';
+export type FeedElement = {
+  type?: Maybe<ElementType>;
+};
+
+export type FeedFavourite = FeedElement & {
+  __typename?: 'FeedFavourite';
+  action?: Maybe<FavouriteAction>;
+  icon?: Maybe<Scalars['String']>;
+  type?: Maybe<ElementType>;
+};
+
+export type FeedImage = FeedElement & {
+  __typename?: 'FeedImage';
   alt?: Maybe<Scalars['String']>;
   src: Scalars['String'];
+  type?: Maybe<ElementType>;
+};
+
+export type FeedItem = {
+  __typename?: 'FeedItem';
+  items?: Maybe<Array<Maybe<FeedElement>>>;
 };
 
 export type Mutation = {
@@ -77,9 +98,9 @@ export enum StateKey {
   Ok = 'OK'
 }
 
-export type FeedItemFragment = { __typename?: 'FeedItem', id: string, caption?: Maybe<string>, image?: Maybe<{ __typename?: 'Image', src: string, alt?: Maybe<string> }>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> };
+export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> } | { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> }>>> };
 
-export type ImageFragment = { __typename?: 'Image', src: string, alt?: Maybe<string> };
+export type FeedFavouriteFragment = { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> };
 
 export type FavouriteActionFragment = { __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> };
 
@@ -87,17 +108,15 @@ export type SignalFragment = { __typename?: 'Signal', id?: Maybe<string>, states
 
 export type StateFragment = { __typename?: 'State', key: StateKey, value?: Maybe<string> };
 
+export type FeedCaptionFragment = { __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> };
+
+export type FeedImageFragment = { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> };
+
 export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<Array<{ __typename?: 'FeedItem', id: string, caption?: Maybe<string>, image?: Maybe<{ __typename?: 'Image', src: string, alt?: Maybe<string> }>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> }>> };
+export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<Array<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> } | { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> }>>> }>> };
 
-export const ImageFragmentDoc = gql`
-    fragment image on Image {
-  src
-  alt
-}
-    `;
 export const StateFragmentDoc = gql`
     fragment state on State {
   key
@@ -120,19 +139,39 @@ export const FavouriteActionFragmentDoc = gql`
   }
 }
     ${SignalFragmentDoc}`;
-export const FeedItemFragmentDoc = gql`
-    fragment feedItem on FeedItem {
-  id
-  image {
-    ...image
-  }
-  caption
+export const FeedFavouriteFragmentDoc = gql`
+    fragment feedFavourite on FeedFavourite {
+  type
+  icon
   action {
     ...favouriteAction
   }
 }
-    ${ImageFragmentDoc}
-${FavouriteActionFragmentDoc}`;
+    ${FavouriteActionFragmentDoc}`;
+export const FeedCaptionFragmentDoc = gql`
+    fragment feedCaption on FeedCaption {
+  type
+  text
+}
+    `;
+export const FeedImageFragmentDoc = gql`
+    fragment feedImage on FeedImage {
+  type
+  src
+  alt
+}
+    `;
+export const FeedItemFragmentDoc = gql`
+    fragment feedItem on FeedItem {
+  items {
+    ...feedFavourite
+    ...feedCaption
+    ...feedImage
+  }
+}
+    ${FeedFavouriteFragmentDoc}
+${FeedCaptionFragmentDoc}
+${FeedImageFragmentDoc}`;
 export const GetFeedDocument = gql`
     query getFeed {
   feed {

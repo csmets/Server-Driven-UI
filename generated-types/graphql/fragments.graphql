@@ -1,17 +1,17 @@
 fragment feedItem on FeedItem {
-    id
-    image {
-        ...image
-    }
-    caption
-    action {
-        ...favouriteAction
+    items {
+        ...feedFavourite
+        ...feedCaption
+        ...feedImage
     }
 }
 
-fragment image on Image {
-    src
-    alt
+fragment feedFavourite on FeedFavourite {
+    type
+    icon
+    action {
+        ...favouriteAction
+    }
 }
 
 fragment favouriteAction on FavouriteAction {
@@ -31,4 +31,15 @@ fragment signal on Signal {
 fragment state on State {
     key
     value
+}
+
+fragment feedCaption on FeedCaption {
+    type
+    text
+}
+
+fragment feedImage on FeedImage {
+    type
+    src
+    alt
 }

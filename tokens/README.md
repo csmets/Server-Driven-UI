@@ -17,3 +17,9 @@ To generate tokens, run the following command:
 ```
 npm run generate
 ```
+
+The tokens are to be used within `web-app`. To enable it's usage within the `web-app` package, run the following command:
+
+```
+npm link
+```

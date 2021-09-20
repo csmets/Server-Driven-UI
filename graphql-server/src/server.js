@@ -3,7 +3,7 @@ const fs = require('fs')
 const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const { fetchFeed } = require('./feed')
+const { fetchFeed } = require('./feed');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
 let schema = "";
@@ -42,8 +42,17 @@ var resolvers = {
 
 async function startApolloServer(typeDefs, resolvers) {
   const app = express();
-  app.use(cors());
+  const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+}
+
+  app.use(cors(corsOptions))
   const server = new ApolloServer({
+    cors: {
+      origin: '*',
+      credentials: true
+    },
     typeDefs,
     resolvers,
   });

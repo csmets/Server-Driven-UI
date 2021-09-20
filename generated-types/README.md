@@ -15,3 +15,9 @@ To generate types, run the following command:
 ```
 npm run generate
 ```
+
+This package is to be used within `web-app` module. To enable this package to be used within `web-app` run the following:
+
+```
+npm link
+```
