@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useQuery } from "@apollo/client";
-import Image from 'next/image';
 import { GetFeedQuery, GetFeedDocument } from '@csmets/generated-types/generated/types';
+import { FeedItem } from './elements/feed-item';
 
 const Feed = (): JSX.Element => {
   const { loading, error, data } = useQuery<GetFeedQuery>(GetFeedDocument);
@@ -12,20 +12,13 @@ const Feed = (): JSX.Element => {
     return <></>;
   }
 
-  const feed = data.feed.map(({ id, image }) => (
-    <div key={id}>
-      <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-      <p>
-        {id}
-      </p>
-    </div>
-  ));
+  const feedList = data.feed.map((feed, index) => {
+    return <FeedItem key={`feedItem-${index}`} data={feed} />
+  });
 
-  if (feed.length) {
-    return <>{feed}</>;
-  } else {
-    return <></>;
-  }
+  return (
+    <>{feedList}</>
+  )
 }
 
 export {

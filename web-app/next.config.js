@@ -4,4 +4,7 @@ module.exports = {
   experimental: {
     externalDir: true,
   },
+  images: {
+    domains: ['picsum.photos'],
+  },
 }

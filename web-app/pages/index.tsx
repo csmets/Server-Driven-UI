@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 
 import styles from '../styles/Home.module.css';
-import { Feed } from './components/feed';
+import { Feed } from './components/feed/feed';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
