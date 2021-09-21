@@ -1,0 +1,8 @@
+mutation saveItem($id: String) {
+    save(id: $id) {
+        signals {
+            id
+            key
+        }
+    }
+}

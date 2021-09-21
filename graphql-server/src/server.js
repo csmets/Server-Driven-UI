@@ -37,6 +37,18 @@ var resolvers = {
   },
   Query: {
     feed: () => fetchFeed()
+  },
+  Mutation: {
+    save: (_, { id }) => {
+      return {
+        signals: [
+          {
+            id,
+            key: 'ERROR'
+          }
+        ]
+      }
+    }
   }
 };
 

@@ -5,7 +5,7 @@ theo
     .convert({
         transform: {
             type: "web",
-            file: "./src/colors/base.yml"
+            file: "./src/index.yml"
         },
         format: {
             type: "custom-properties.css"

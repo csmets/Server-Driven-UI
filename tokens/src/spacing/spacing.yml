@@ -1,0 +1,14 @@
+props:
+  spacing_x1:
+    value: "4px"
+  spacing_x2:
+    value: "12px"
+  spacing_x3:
+    value: "16px"
+  spacing_x4:
+    value: "20px"
+  spacing_x5:
+    value: "24px"
+global:
+  type: spacing
+  category: spacing

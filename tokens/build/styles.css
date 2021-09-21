@@ -1,4 +1,9 @@
 
 :root {
   --font-primary: rgb(44, 62, 80);
+  --spacing-x1: 4px;
+  --spacing-x2: 12px;
+  --spacing-x3: 16px;
+  --spacing-x4: 20px;
+  --spacing-x5: 24px;
 }

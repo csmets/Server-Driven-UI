@@ -68,7 +68,7 @@ export type Mutation = {
 
 
 export type MutationSaveArgs = {
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -111,6 +111,13 @@ export type StateFragment = { __typename?: 'State', key: StateKey, value?: Maybe
 export type FeedCaptionFragment = { __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> };
 
 export type FeedImageFragment = { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> };
+
+export type SaveItemMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SaveItemMutation = { __typename?: 'Mutation', save?: Maybe<{ __typename?: 'SaveResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', id?: Maybe<string>, key?: Maybe<StateKey> }>> }> };
 
 export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -172,6 +179,42 @@ export const FeedItemFragmentDoc = gql`
     ${FeedFavouriteFragmentDoc}
 ${FeedCaptionFragmentDoc}
 ${FeedImageFragmentDoc}`;
+export const SaveItemDocument = gql`
+    mutation saveItem($id: String) {
+  save(id: $id) {
+    signals {
+      id
+      key
+    }
+  }
+}
+    `;
+export type SaveItemMutationFn = Apollo.MutationFunction<SaveItemMutation, SaveItemMutationVariables>;
+
+/**
+ * __useSaveItemMutation__
+ *
+ * To run a mutation, you first call `useSaveItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveItemMutation, { data, loading, error }] = useSaveItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSaveItemMutation(baseOptions?: Apollo.MutationHookOptions<SaveItemMutation, SaveItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveItemMutation, SaveItemMutationVariables>(SaveItemDocument, options);
+      }
+export type SaveItemMutationHookResult = ReturnType<typeof useSaveItemMutation>;
+export type SaveItemMutationResult = Apollo.MutationResult<SaveItemMutation>;
+export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutation, SaveItemMutationVariables>;
 export const GetFeedDocument = gql`
     query getFeed {
   feed {
