@@ -1,25 +1,27 @@
+union FeedViewElement = FeedItem | TypographyContent
+union FeedElement = ColumnLayout | FeedCaption | FeedImage
+
+type FeedView {
+    elements: [FeedViewElement]
+}
+
 type FeedItem {
     items: [FeedElement]
 }
 
-enum ElementType {
-    typography
-    image
-    icon
+type FeedFavouriteCount implements Column {
+    align: ColumnAlignment!
+    count: String!
+    signal: Signal
 }
 
-interface FeedElement {
-    type: ElementType
-}
-
-type FeedFavourite implements FeedElement {
-    type: ElementType
+type FeedFavourite implements Column {
+    align: ColumnAlignment!
     icon: String
     action: FavouriteAction
 }
 
-type FeedCaption implements FeedElement {
-    type: ElementType
+type FeedCaption {
     text: String
 }
 
@@ -28,8 +30,7 @@ type FavouriteAction {
     signal: Signal
 }
 
-type FeedImage implements FeedElement {
-    type: ElementType
+type FeedImage {
     src: String!
     alt: String
 }

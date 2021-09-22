@@ -19,32 +19,97 @@
         "possibleTypes": null
       },
       {
+        "kind": "INTERFACE",
+        "name": "Column",
+        "description": null,
+        "fields": [
+          {
+            "name": "align",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ColumnAlignment",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "FeedFavourite",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "FeedFavouriteCount",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "ENUM",
-        "name": "ElementType",
+        "name": "ColumnAlignment",
         "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
-            "name": "icon",
+            "name": "CENTER",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "image",
+            "name": "LEFT",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "typography",
+            "name": "RIGHT",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ColumnLayout",
+        "description": null,
+        "fields": [
+          {
+            "name": "columns",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INTERFACE",
+                "name": "Column",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -137,61 +202,30 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "type",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "ElementType",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "FeedElement",
-            "ofType": null
-          }
-        ],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INTERFACE",
-        "name": "FeedElement",
-        "description": null,
-        "fields": [
-          {
-            "name": "type",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "ElementType",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "FeedElement",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "FeedCaption",
+            "name": "ColumnLayout",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "FeedFavourite",
+            "name": "FeedCaption",
             "ofType": null
           },
           {
@@ -219,6 +253,22 @@
             "deprecationReason": null
           },
           {
+            "name": "align",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ColumnAlignment",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "icon",
             "description": null,
             "args": [],
@@ -229,14 +279,63 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
           {
-            "name": "type",
+            "kind": "INTERFACE",
+            "name": "Column",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FeedFavouriteCount",
+        "description": null,
+        "fields": [
+          {
+            "name": "align",
             "description": null,
             "args": [],
             "type": {
-              "kind": "ENUM",
-              "name": "ElementType",
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ColumnAlignment",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "signal",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Signal",
               "ofType": null
             },
             "isDeprecated": false,
@@ -247,7 +346,7 @@
         "interfaces": [
           {
             "kind": "INTERFACE",
-            "name": "FeedElement",
+            "name": "Column",
             "ofType": null
           }
         ],
@@ -286,28 +385,10 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "type",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "ElementType",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "FeedElement",
-            "ofType": null
-          }
-        ],
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -324,7 +405,7 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "INTERFACE",
+                "kind": "UNION",
                 "name": "FeedElement",
                 "ofType": null
               }
@@ -337,6 +418,54 @@
         "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FeedView",
+        "description": null,
+        "fields": [
+          {
+            "name": "elements",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "FeedViewElement",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "FeedViewElement",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "FeedItem",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "TypographyContent",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "OBJECT",
@@ -376,6 +505,29 @@
       },
       {
         "kind": "OBJECT",
+        "name": "Paragraph",
+        "description": null,
+        "fields": [
+          {
+            "name": "text",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "Query",
         "description": null,
         "fields": [
@@ -384,17 +536,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "FeedItem",
-                  "ofType": null
-                }
-              }
+              "kind": "OBJECT",
+              "name": "FeedView",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -548,6 +692,33 @@
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TypographyContent",
+        "description": null,
+        "fields": [
+          {
+            "name": "paragraph",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Paragraph",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },

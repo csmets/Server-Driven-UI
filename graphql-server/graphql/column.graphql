@@ -1,0 +1,13 @@
+type ColumnLayout {
+    columns: [Column]
+}
+
+enum ColumnAlignment {
+    LEFT
+    RIGHT
+    CENTER
+}
+
+interface Column {
+    align: ColumnAlignment!
+}

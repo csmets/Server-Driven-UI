@@ -1,28 +1,34 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { EmitSignal, FeedFavourite as FeedFavouriteType, SaveItemDocument, State, StateKey } from '@csmets/generated-types/generated/types';
+import { FeedFavouriteFragment, SaveItemDocument, StateKey } from '@csmets/generated-types/generated/types';
 import { useMutation } from '@apollo/client';
-import { SignalContext, useEmitSignal, useSignal } from '../../../provider/signal';
+import { SignalContext } from '../../../provider/signal';
 
-const FeedFavourite = (props: { data: FeedFavouriteType }): JSX.Element => {
+const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const { icon, action } = props.data;
   const [saveItemMutation, { data, loading, error }] = useMutation(SaveItemDocument);
   const signalContext = React.useContext(SignalContext);
-  const { subscribeSignal } = signalContext;
-  const [svg, setSvg] = React.useState(icon);
-  useEmitSignal(data);
-  const cb = (signal: EmitSignal) => {
-    switch (signal.key) {
-      case StateKey.Ok:
-        break;
-      case StateKey.Error:
-        setSvg(icon);
-        break;
-      default:
-        break;
-    }
+  const { subscribeSignal, emitSignal } = signalContext;
+  let [svg, setSvg] = React.useState(icon);
+
+  if (data && data.save) {
+    const { signals } = data.save;
+    emitSignal({
+      id: signals[0].id,
+      key: signals[0].key,
+      cb: (signal: any) => {
+        switch (signal.key) {
+          case StateKey.Ok:
+            break;
+          case StateKey.Error:
+            svg = icon;
+            break;
+          default:
+            break;
+        }
+      }
+    });
   }
-  useSignal(cb);
 
   const onClick = () => {
     const id = action?.id || "";

@@ -1,0 +1,7 @@
+type TypographyContent {
+    paragraph: [Paragraph]
+}
+
+type Paragraph {
+    text: String
+}

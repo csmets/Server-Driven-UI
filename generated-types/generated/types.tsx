@@ -14,11 +14,20 @@ export type Scalars = {
   Float: number;
 };
 
-export enum ElementType {
-  Icon = 'icon',
-  Image = 'image',
-  Typography = 'typography'
+export type Column = {
+  align: ColumnAlignment;
+};
+
+export enum ColumnAlignment {
+  Center = 'CENTER',
+  Left = 'LEFT',
+  Right = 'RIGHT'
 }
+
+export type ColumnLayout = {
+  __typename?: 'ColumnLayout';
+  columns?: Maybe<Array<Maybe<Column>>>;
+};
 
 export type EmitSignal = {
   __typename?: 'EmitSignal';
@@ -32,34 +41,44 @@ export type FavouriteAction = {
   signal?: Maybe<Signal>;
 };
 
-export type FeedCaption = FeedElement & {
+export type FeedCaption = {
   __typename?: 'FeedCaption';
   text?: Maybe<Scalars['String']>;
-  type?: Maybe<ElementType>;
 };
 
-export type FeedElement = {
-  type?: Maybe<ElementType>;
-};
+export type FeedElement = ColumnLayout | FeedCaption | FeedImage;
 
-export type FeedFavourite = FeedElement & {
+export type FeedFavourite = Column & {
   __typename?: 'FeedFavourite';
   action?: Maybe<FavouriteAction>;
+  align: ColumnAlignment;
   icon?: Maybe<Scalars['String']>;
-  type?: Maybe<ElementType>;
 };
 
-export type FeedImage = FeedElement & {
+export type FeedFavouriteCount = Column & {
+  __typename?: 'FeedFavouriteCount';
+  align: ColumnAlignment;
+  count: Scalars['String'];
+  signal?: Maybe<Signal>;
+};
+
+export type FeedImage = {
   __typename?: 'FeedImage';
   alt?: Maybe<Scalars['String']>;
   src: Scalars['String'];
-  type?: Maybe<ElementType>;
 };
 
 export type FeedItem = {
   __typename?: 'FeedItem';
   items?: Maybe<Array<Maybe<FeedElement>>>;
 };
+
+export type FeedView = {
+  __typename?: 'FeedView';
+  elements?: Maybe<Array<Maybe<FeedViewElement>>>;
+};
+
+export type FeedViewElement = FeedItem | TypographyContent;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -71,9 +90,14 @@ export type MutationSaveArgs = {
   id?: Maybe<Scalars['String']>;
 };
 
+export type Paragraph = {
+  __typename?: 'Paragraph';
+  text?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  feed?: Maybe<Array<FeedItem>>;
+  feed?: Maybe<FeedView>;
 };
 
 export type SaveResponse = {
@@ -98,9 +122,20 @@ export enum StateKey {
   Ok = 'OK'
 }
 
-export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> } | { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> }>>> };
+export type TypographyContent = {
+  __typename?: 'TypographyContent';
+  paragraph?: Maybe<Array<Maybe<Paragraph>>>;
+};
 
-export type FeedFavouriteFragment = { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> };
+export type FeedViewFragment = { __typename?: 'FeedView', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> };
+
+export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> };
+
+export type ColumnLayoutFragment = { __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> };
+
+export type FeedFavouriteFragment = { __typename?: 'FeedFavourite', icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> };
+
+export type FeedFavouriteCountFragment = { __typename?: 'FeedFavouriteCount', count: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> };
 
 export type FavouriteActionFragment = { __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> };
 
@@ -108,9 +143,13 @@ export type SignalFragment = { __typename?: 'Signal', id?: Maybe<string>, states
 
 export type StateFragment = { __typename?: 'State', key: StateKey, value?: Maybe<string> };
 
-export type FeedCaptionFragment = { __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> };
+export type FeedCaptionFragment = { __typename?: 'FeedCaption', text?: Maybe<string> };
 
-export type FeedImageFragment = { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> };
+export type FeedImageFragment = { __typename?: 'FeedImage', src: string, alt?: Maybe<string> };
+
+export type TypographyContentFragment = { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> };
+
+export type ParagraphFragment = { __typename?: 'Paragraph', text?: Maybe<string> };
 
 export type SaveItemMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -122,7 +161,7 @@ export type SaveItemMutation = { __typename?: 'Mutation', save?: Maybe<{ __typen
 export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<Array<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'FeedCaption', type?: Maybe<ElementType>, text?: Maybe<string> } | { __typename?: 'FeedFavourite', type?: Maybe<ElementType>, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedImage', type?: Maybe<ElementType>, src: string, alt?: Maybe<string> }>>> }>> };
+export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedView', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon?: Maybe<string>, action?: Maybe<{ __typename?: 'FavouriteAction', id: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }> } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', id?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> }> };
 
 export const StateFragmentDoc = gql`
     fragment state on State {
@@ -148,22 +187,37 @@ export const FavouriteActionFragmentDoc = gql`
     ${SignalFragmentDoc}`;
 export const FeedFavouriteFragmentDoc = gql`
     fragment feedFavourite on FeedFavourite {
-  type
   icon
   action {
     ...favouriteAction
   }
 }
     ${FavouriteActionFragmentDoc}`;
+export const FeedFavouriteCountFragmentDoc = gql`
+    fragment feedFavouriteCount on FeedFavouriteCount {
+  count
+  signal {
+    ...signal
+  }
+}
+    ${SignalFragmentDoc}`;
+export const ColumnLayoutFragmentDoc = gql`
+    fragment columnLayout on ColumnLayout {
+  columns {
+    align
+    ...feedFavourite
+    ...feedFavouriteCount
+  }
+}
+    ${FeedFavouriteFragmentDoc}
+${FeedFavouriteCountFragmentDoc}`;
 export const FeedCaptionFragmentDoc = gql`
     fragment feedCaption on FeedCaption {
-  type
   text
 }
     `;
 export const FeedImageFragmentDoc = gql`
     fragment feedImage on FeedImage {
-  type
   src
   alt
 }
@@ -171,14 +225,35 @@ export const FeedImageFragmentDoc = gql`
 export const FeedItemFragmentDoc = gql`
     fragment feedItem on FeedItem {
   items {
-    ...feedFavourite
+    ...columnLayout
     ...feedCaption
     ...feedImage
   }
 }
-    ${FeedFavouriteFragmentDoc}
+    ${ColumnLayoutFragmentDoc}
 ${FeedCaptionFragmentDoc}
 ${FeedImageFragmentDoc}`;
+export const ParagraphFragmentDoc = gql`
+    fragment paragraph on Paragraph {
+  text
+}
+    `;
+export const TypographyContentFragmentDoc = gql`
+    fragment typographyContent on TypographyContent {
+  paragraph {
+    ...paragraph
+  }
+}
+    ${ParagraphFragmentDoc}`;
+export const FeedViewFragmentDoc = gql`
+    fragment feedView on FeedView {
+  elements {
+    ...feedItem
+    ...typographyContent
+  }
+}
+    ${FeedItemFragmentDoc}
+${TypographyContentFragmentDoc}`;
 export const SaveItemDocument = gql`
     mutation saveItem($id: String) {
   save(id: $id) {
@@ -218,10 +293,10 @@ export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutatio
 export const GetFeedDocument = gql`
     query getFeed {
   feed {
-    ...feedItem
+    ...feedView
   }
 }
-    ${FeedItemFragmentDoc}`;
+    ${FeedViewFragmentDoc}`;
 
 /**
  * __useGetFeedQuery__

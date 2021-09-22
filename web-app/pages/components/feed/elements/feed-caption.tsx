@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FeedCaption as FeedCaptionType } from '@csmets/generated-types/generated/types';
+import { FeedCaptionFragment } from '@csmets/generated-types/generated/types';
 
-const FeedCaption = (props: { data: FeedCaptionType }): JSX.Element => {
+const FeedCaption = (props: { data: FeedCaptionFragment }): JSX.Element => {
   const { data } = props;
 
   if (!data) {

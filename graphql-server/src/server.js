@@ -20,23 +20,55 @@ graphqlFiles.forEach(element => {
 // The root provides a resolver function for each API endpoint
 var resolvers = {
   FeedElement: {
-    __resolveType(obj, args, context) {
-      console.log(obj, args, context);
-      if (obj.type == 'image') {
+    __resolveType(obj) {
+      if (obj.src) {
         return 'FeedImage';
       }
-      if (obj.type == 'typography') {
+      if (obj.text) {
         return 'FeedCaption';
       }
-      if (obj.type == 'icon') {
-        return 'FeedFavourite';
+      if (obj.columns) {
+        return 'ColumnLayout';
       }
 
-      return null
+      return null;
+    }
+  },
+  FeedViewElement: {
+    __resolveType(obj) {
+      if (obj.paragraph) {
+        return 'TypographyContent';
+      }
+      if (obj.items) {
+        return 'FeedItem';
+      }
+
+      return null;
+    }
+  },
+  Column: {
+    __resolveType(obj) {
+      if (obj.count) {
+        return 'FeedFavouriteCount';
+      }
+      if (obj.icon) {
+        return 'FeedFavourite'
+      }
     }
   },
   Query: {
-    feed: () => fetchFeed()
+    feed: () => {
+      return {
+        elements: [
+          {
+            paragraph: [{
+              text: "This is a description"
+            }]
+          },
+          ...fetchFeed()
+        ]
+      }
+    }
   },
   Mutation: {
     save: (_, { id }) => {

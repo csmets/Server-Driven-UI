@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useQuery } from "@apollo/client";
 import { GetFeedQuery, GetFeedDocument } from '@csmets/generated-types/generated/types';
-import { FeedItem } from './elements/feed-item';
+import { FeedView } from './elements/feed-view';
 
 const Feed = (): JSX.Element => {
   const { loading, error, data } = useQuery<GetFeedQuery>(GetFeedDocument);
@@ -12,13 +12,7 @@ const Feed = (): JSX.Element => {
     return <></>;
   }
 
-  const feedList = data.feed.map((feed, index) => {
-    return <FeedItem key={`feedItem-${index}`} data={feed} />
-  });
-
-  return (
-    <>{feedList}</>
-  )
+  return <FeedView data={data.feed} />
 }
 
 export {

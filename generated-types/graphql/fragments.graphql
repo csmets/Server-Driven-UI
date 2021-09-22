@@ -1,16 +1,37 @@
+fragment feedView on FeedView {
+    elements {
+        ...feedItem
+        ...typographyContent
+    }
+}
+
 fragment feedItem on FeedItem {
     items {
-        ...feedFavourite
+        ...columnLayout
         ...feedCaption
         ...feedImage
     }
 }
 
+fragment columnLayout on ColumnLayout {
+    columns {
+        align
+        ...feedFavourite
+        ...feedFavouriteCount
+    }
+}
+
 fragment feedFavourite on FeedFavourite {
-    type
     icon
     action {
         ...favouriteAction
+    }
+}
+
+fragment feedFavouriteCount on FeedFavouriteCount {
+    count
+    signal {
+        ...signal
     }
 }
 
@@ -34,12 +55,20 @@ fragment state on State {
 }
 
 fragment feedCaption on FeedCaption {
-    type
     text
 }
 
 fragment feedImage on FeedImage {
-    type
     src
     alt
+}
+
+fragment typographyContent on TypographyContent {
+    paragraph {
+        ...paragraph
+    }
+}
+
+fragment paragraph on Paragraph {
+    text
 }

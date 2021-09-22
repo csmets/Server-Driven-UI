@@ -21,5 +21,7 @@ const signal = (id) => {
 }
 
 module.exports = {
-  signal
+  signal,
+  state,
+  stateKeyEnum
 }

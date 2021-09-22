@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { EmitSignal } from '../../../generated-types/generated/types';
-
 interface ISignalContext {
-  signal: ISignal
   subscribeSignal: (sub: ISignalSub) => void
   emitSignal: (receivedSignal: IEmitSignal) => void
 }
@@ -18,19 +15,19 @@ interface ISignalSub {
 
 interface IEmitSignal {
   id: string
-  key: string
+  key: string,
+  cb: (signal: any) => void
 }
 
 const SignalContext = React.createContext({} as ISignalContext);
 
 const SignalProvider = (props: any) => {
   const { children } = props;
-  const [subSignal, subscribeSignal] = React.useState({} as ISignalSub);
-  const [signal, setSignal] = React.useState({} as ISignal);
+  const [signal, subscribeSignal] = React.useState({} as ISignalSub);
 
   const emitSignal = (value: IEmitSignal) => {
-    if (value.id === subSignal.id) {
-      setSignal({
+    if (value.id === signal.id) {
+      value.cb({
         id: value.id,
         key: value.key
       });
@@ -38,7 +35,6 @@ const SignalProvider = (props: any) => {
   }
 
   const context = {
-    signal,
     subscribeSignal,
     emitSignal
   }
@@ -48,37 +44,7 @@ const SignalProvider = (props: any) => {
   )
 }
 
-const useEmitSignal = (data: any) => {
-  const signalContext = React.useContext(SignalContext);
-  const { emitSignal } = signalContext;
-
-  React.useEffect(() => {
-    if (data) {
-      const { signals } = data.save;
-      emitSignal({
-        id: signals[0].id,
-        key: signals[0].key
-      });
-    }
-  }, [data])
-};
-
-const useSignal = (callback: (signal: EmitSignal) => void) => {
-  const signalContext = React.useContext(SignalContext);
-  const { signal } = signalContext;
-
-  React.useEffect(() => {
-    if (signal) {
-      return callback(signal as EmitSignal);
-    }
-  }, [signal]);
-
-  return {};
-};
-
 export {
   SignalContext,
   SignalProvider,
-  useEmitSignal,
-  useSignal
 }
