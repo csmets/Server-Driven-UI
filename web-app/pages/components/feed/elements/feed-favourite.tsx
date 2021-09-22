@@ -31,7 +31,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   }
 
   const onClick = () => {
-    const id = action?.id || "";
+    const id = action?.feedId || "";
     saveItemMutation({
       variables: {
         id

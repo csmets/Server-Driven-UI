@@ -1,5 +1,5 @@
 type Signal {
-    id: String
+    signalId: String
     states: [State!]
 }
 
@@ -14,6 +14,6 @@ enum StateKey {
 }
 
 type EmitSignal {
-    id: String
+    signalId: String
     key: StateKey
 }

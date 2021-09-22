@@ -1,5 +1,5 @@
 type Mutation {
-    save(id: String): SaveResponse
+    save(feedId: String): SaveResponse
 }
 
 type SaveResponse {

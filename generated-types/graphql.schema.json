@@ -118,24 +118,24 @@
         "description": null,
         "fields": [
           {
-            "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "key",
             "description": null,
             "args": [],
             "type": {
               "kind": "ENUM",
               "name": "StateKey",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "signalId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -153,7 +153,7 @@
         "description": null,
         "fields": [
           {
-            "name": "id",
+            "name": "feedId",
             "description": null,
             "args": [],
             "type": {
@@ -477,7 +477,7 @@
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "feedId",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -586,7 +586,7 @@
         "description": null,
         "fields": [
           {
-            "name": "id",
+            "name": "signalId",
             "description": null,
             "args": [],
             "type": {

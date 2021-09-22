@@ -36,14 +36,14 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 }
 
 fragment favouriteAction on FavouriteAction {
-    id
+    feedId
     signal {
         ...signal
     }
 }
 
 fragment signal on Signal {
-    id
+    signalId
     states {
         ...state
     }

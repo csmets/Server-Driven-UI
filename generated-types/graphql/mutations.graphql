@@ -1,7 +1,7 @@
-mutation saveItem($id: String) {
-    save(id: $id) {
+mutation saveItem($feedId: String) {
+    save(feedId: $feedId) {
         signals {
-            id
+            signalId
             key
         }
     }
