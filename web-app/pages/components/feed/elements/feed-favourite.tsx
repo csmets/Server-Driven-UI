@@ -3,47 +3,49 @@ import Image from 'next/image';
 import { FeedFavouriteFragment, SaveItemDocument, StateKey } from '@csmets/generated-types/generated/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
+import { resultKeyNameFromField } from '@apollo/client/utilities';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const { icon, action } = props.data;
   const [saveItemMutation, { data, loading, error }] = useMutation(SaveItemDocument);
   const signalContext = React.useContext(SignalContext);
-  const { subscribeSignal, emitSignal } = signalContext;
+  const { registerSignal, emitSignal } = signalContext;
   let [svg, setSvg] = React.useState(icon);
+  const signalId = action?.signal?.signalId || "";
+  const { subscribe } = registerSignal({ signalId });
 
-  if (data && data.save) {
-    const { signals } = data.save;
-    emitSignal({
-      id: signals[0].id,
-      key: signals[0].key,
-      cb: (signal: any) => {
-        switch (signal.key) {
-          case StateKey.Ok:
-            break;
-          case StateKey.Error:
-            svg = icon;
-            break;
-          default:
-            break;
-        }
+  React.useEffect(() => {
+    if (subscribe && subscribe.result) {
+      switch (subscribe.result?.key) {
+        case StateKey.Error:
+          setSvg(icon);
+        default:
+          break;
       }
-    });
-  }
+    }
+  }, [subscribe]);
+
+  React.useEffect(() => {
+    if (data && data.save) {
+      const { signals } = data.save;
+      emitSignal({
+        signalId: signals[0].signalId,
+        key: signals[0].key
+      });
+    }
+  }, [data]);
 
   const onClick = () => {
-    const id = action?.feedId || "";
+    const feedId = action?.feedId || "";
     saveItemMutation({
       variables: {
-        id
+        feedId
       }
     });
 
     action?.signal?.states?.map((state) => {
       if (state.key == StateKey.Ok) {
         setSvg(state.value);
-        subscribeSignal({
-          id
-        });
       }
     });
   }

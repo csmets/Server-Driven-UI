@@ -71,12 +71,12 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: (_, { id }) => {
+    save: (_, { feedId }) => {
       return {
         signals: [
           {
-            id,
-            key: 'ERROR'
+            signalId: `signal-${feedId}`,
+            key: 'OK'
           }
         ]
       }

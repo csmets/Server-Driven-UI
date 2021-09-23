@@ -35,7 +35,7 @@ const feedFavouriteCount = (count, feedId) => {
   return {
     align: 'RIGHT',
     count,
-    signal: signal(`signal-${feedId}`, 22, count)
+    signal: signal(`signal-${feedId}`, count + 1, count)
   };
 };
 

@@ -1,43 +1,57 @@
 import * as React from 'react';
 interface ISignalContext {
-  subscribeSignal: (sub: ISignal) => void
+  registerSignal: (sub: ISignal) => ISubscribe
   emitSignal: (receivedSignal: IEmitSignal) => void
 }
 
 interface ISignal {
-  id: string
+  signalId: string
 }
 
 interface IEmitSignal {
-  id: string
-  key: string,
-  cb: (signal: any) => void
+  signalId: string
+  key: string
+}
+
+interface ISubscribe {
+  subscribe: ISubscribeResult
+}
+
+interface ISubscribeResult {
+  result: any
 }
 
 const SignalContext = React.createContext({} as ISignalContext);
 
 const SignalProvider = (props: any) => {
   const { children } = props;
+  const [subscribe, setSubscribe] = React.useState({} as ISubscribeResult);
 
   const signals: ISignal[] = [];
 
-  const subscribeSignal = (signal: ISignal) => {
-    signals.push(signal)
+  const registerSignal = (signal: ISignal) => {
+    signals.push(signal);
+
+    return {
+      subscribe
+    }
   };
 
   const emitSignal = (value: IEmitSignal) => {
     signals.forEach((signal) => {
-      if (value.id === signal.id) {
-        value.cb({
-          id: value.id,
+      if (value.signalId === signal.signalId) {
+        const result = {
+          signalId: value.signalId,
           key: value.key
-        });
+        };
+
+        setSubscribe({ result });
       }
     });
   };
 
   const context = {
-    subscribeSignal,
+    registerSignal,
     emitSignal
   };
 
