@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FeedItemFragment } from '@csmets/generated-types/generated/types';
+import { FeedItemFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedImage } from './feed-image';
 import { FeedCaption } from './feed-caption';
 import styles from '../../../../styles/feed/FeedItem.module.css';

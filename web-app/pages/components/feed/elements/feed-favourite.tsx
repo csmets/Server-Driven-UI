@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { FeedFavouriteFragment, SaveItemDocument, StateKey } from '@csmets/generated-types/generated/types';
+import { FeedFavouriteFragment, SaveItemDocument, StateKey } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 import { resultKeyNameFromField } from '@apollo/client/utilities';

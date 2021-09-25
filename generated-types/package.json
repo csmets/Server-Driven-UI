@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate-react": "graphql-codegen --config ./config/codegen-react.yml",
+    "generate-android": "bash ./scripts/android-script.sh",
+    "generate-schema": "graphql-codegen --config ./config/codegen.yml"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.4.12",
+    "@graphql-codegen/java-apollo-android": "^2.1.4",
     "react": "^17.0.2"
   },
   "devDependencies": {

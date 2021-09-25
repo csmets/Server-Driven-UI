@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { FeedImageFragment } from '@csmets/generated-types/generated/types';
+import { FeedImageFragment } from '@csmets/typescript-apollo-sdui-types/types';
 
 const FeedImage = (props: { data: FeedImageFragment }) => {
   const { data } = props

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useQuery } from "@apollo/client";
-import { GetFeedQuery, GetFeedDocument } from '@csmets/generated-types/generated/types';
+import { GetFeedQuery, GetFeedDocument } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedView } from './elements/feed-view';
 
 const Feed = (): JSX.Element => {

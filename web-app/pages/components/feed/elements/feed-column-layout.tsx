@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ColumnLayoutFragment } from '@csmets/generated-types/generated/types';
+import { ColumnLayoutFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedFavourite } from './feed-favourite';
 import { FeedFavouriteCount } from './feed-favourite-count';
 

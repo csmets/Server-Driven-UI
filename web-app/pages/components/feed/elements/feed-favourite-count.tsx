@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FeedFavouriteCountFragment } from '@csmets/generated-types/generated/types';
+import { FeedFavouriteCountFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import { SignalContext } from '../../../provider/signal';
 
 const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.Element => {

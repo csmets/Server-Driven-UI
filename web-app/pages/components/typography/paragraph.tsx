@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ParagraphFragment } from '@csmets/generated-types/generated/types';
+import { ParagraphFragment } from '@csmets/typescript-apollo-sdui-types/types';
 
 const Paragraph = (props: { data: ParagraphFragment }) => {
   const { data } = props;
