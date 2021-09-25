@@ -2,3 +2,7 @@ generated-types/node_modules/
 tokens/node_modules/
 web-app/node_modules/
 graphql-server/node_modules/
+.DS_Store
+.idea
+build/
+.gradle/
