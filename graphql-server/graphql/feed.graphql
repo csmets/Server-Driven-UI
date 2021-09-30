@@ -17,8 +17,8 @@ type FeedFavouriteCount implements Column {
 
 type FeedFavourite implements Column {
     align: ColumnAlignment!
-    icon: String
-    action: FavouriteAction
+    icon: String!
+    action: FavouriteAction!
 }
 
 type FeedCaption {
