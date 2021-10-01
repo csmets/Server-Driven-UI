@@ -22,7 +22,7 @@ class FeedViewModel(context: Context): ViewModel() {
         getResponse()
     }
 
-    fun getResponse() {
+    private fun getResponse() {
         viewModelScope.launch {
             val response = RemoteDataSource().getFeed()
             if (response != null) {
