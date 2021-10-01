@@ -1,37 +1,36 @@
 package com.example.androidapp.components.feed
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.toDeferred
-import com.apollographql.apollo.exception.ApolloException
-import com.example.androidapp.GRAPHQL_ENDPOINT
-import com.example.sduigeneratetypes.GetFeedQuery
+import android.content.Context
+import androidx.lifecycle.*
+import com.example.androidapp.data.Feed
+import com.example.androidapp.data.FeedDatabase
+import com.example.androidapp.data.FeedRepo
+import com.example.androidapp.services.RemoteDataSource
 import kotlinx.coroutines.launch
 
-class FeedViewModel(): ViewModel() {
+class FeedViewModel(context: Context): ViewModel() {
+
+    private val _feed = MutableLiveData<Feed>()
+    val feed: LiveData<Feed> = _feed
+
+    private val repo: FeedRepo
+
+    init {
+        val feedDao = FeedDatabase.getDatabase(context).feedDao()
+        repo = FeedRepo(feedDao)
+        _feed.value = repo.readAllData.value
+        getResponse()
+    }
 
     fun getResponse() {
-        val apolloClient = ApolloClient.builder()
-            .serverUrl(GRAPHQL_ENDPOINT)
-            .build()
-
         viewModelScope.launch {
-            val response = try {
-                apolloClient.query(GetFeedQuery()).toDeferred().await()
-            } catch (e: ApolloException) {
-                // handle protocol errors
-                return@launch
+            val response = RemoteDataSource().getFeed()
+            if (response != null) {
+                val feedResponse = Feed(0, response)
+                _feed.value = feedResponse
+                repo.deleteFeed()
+                repo.addFeed(feedResponse)
             }
-
-            val feed = response.data?.feed
-            if (feed == null || response.hasErrors()) {
-                // handle application errors
-                return@launch
-            }
-
-            // launch now contains a typesafe model of your data
-            println("Response data: ${feed}")
         }
     }
 }
