@@ -8,9 +8,10 @@ fun interface FeedResponseFactory {
 }
 
 val feedResponseFactory = FeedResponseFactory {
-    val elements = it.elements?.map { item ->
+    val elements = it.elements?.mapNotNull { item ->
         feedViewElementFactory.create(item)
     }
+
     return@FeedResponseFactory if (elements != null) {
         FeedResponse(elements)
     } else {

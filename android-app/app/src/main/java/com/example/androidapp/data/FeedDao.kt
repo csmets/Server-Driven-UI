@@ -7,11 +7,11 @@ import androidx.room.*
 interface FeedDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addGFeed(feed: Feed)
+    suspend fun addFeed(feed: Feed)
 
     @Query("SELECT * FROM feed_table")
-    fun readAllData(): LiveData<Feed>
+    fun readData(): LiveData<Feed>
 
-    @Delete
-    suspend fun deleteFeed(feed: Feed)
+    @Query("DELETE FROM feed_table")
+    suspend fun deleteFeed()
 }

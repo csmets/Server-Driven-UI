@@ -32,20 +32,6 @@ sealed class FeedElement {
 }
 
 @Serializable
-data class FeedFavouriteCount(
-    override val align: ColumnAlignment,
-    val count: String,
-    val signal: Signal?
-): Column
-
-@Serializable
-data class FeedFavourite(
-    override val align: ColumnAlignment,
-    val icon: String,
-    val action: FavouriteAction
-): Column
-
-@Serializable
 data class FavouriteAction(
     val feedId: String,
     val signal: Signal?

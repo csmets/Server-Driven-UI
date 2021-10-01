@@ -15,7 +15,7 @@ val columnLayoutFactory = ColumnLayoutFactory {
 
         return@map when {
             feedFavourite != null -> feedFavouriteFactory.create(feedFavourite, align)
-            feedFavouriteCount != null -> FeedFavouriteCount(
+            feedFavouriteCount != null -> Column.FeedFavouriteCount(
                 align,
                 feedFavouriteCount.count,
                 signalFactory.create(feedFavouriteCount.signal?.fragments?.signal)

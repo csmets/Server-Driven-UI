@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 
 class FeedRepo(private val feedDao: FeedDao) {
 
-    val readAllData: LiveData<Feed> = feedDao.readAllData()
+    val readAllData: LiveData<Feed> = feedDao.readData()
 
     suspend fun addFeed(feed: Feed) {
-        feedDao.addGFeed(feed)
+        feedDao.addFeed(feed)
     }
 
-    suspend fun deleteFeed(feed: Feed) {
-        feedDao.deleteFeed(feed)
+    suspend fun deleteFeed() {
+        feedDao.deleteFeed()
     }
 }

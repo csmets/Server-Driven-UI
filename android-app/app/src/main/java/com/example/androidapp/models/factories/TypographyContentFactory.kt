@@ -8,9 +8,9 @@ fun interface TypographyContentFactory {
 }
 
 val typographyContentFactory = TypographyContentFactory {
-    val paragraphs = it.paragraph?.map { paragraphs ->
+    val paragraphs = it.paragraph?.mapNotNull { paragraphs ->
         paragraphFactory.create(paragraphs)
-    }?.filterNotNull()
+    }
 
     if (paragraphs != null) {
         return@TypographyContentFactory FeedViewElement.TypographyContent(paragraphs)
