@@ -1,18 +1,19 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { FeedFavouriteFragment, SaveItemDocument, StateKey } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedFavouriteFragment, SaveItemDocument, StateKey, UnsaveItemDocument } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
-import { resultKeyNameFromField } from '@apollo/client/utilities';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, action } = props.data;
-  const [saveItemMutation, { data, loading, error }] = useMutation(SaveItemDocument);
+  const { icon, saveAction, unsaveAction } = props.data;
+  const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
+  const [unsaveItemMutation, unsaveResponse] = useMutation(UnsaveItemDocument);
   const signalContext = React.useContext(SignalContext);
   const { registerSignal, emitSignal } = signalContext;
   let [svg, setSvg] = React.useState(icon);
-  const signalId = action?.signal?.signalId || "";
+  const signalId = saveAction?.signal?.signalId || "";
   const { subscribe } = registerSignal({ signalId });
+  const [save, setSave] = React.useState(true)
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
@@ -26,35 +27,63 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   }, [subscribe]);
 
   React.useEffect(() => {
-    if (data && data.save) {
-      const { signals } = data.save;
+    if (saveResponse.data && saveResponse.data.save) {
+      const { signals } = saveResponse.data.save;
       emitSignal({
         signalId: signals[0].signalId,
         key: signals[0].key
       });
     }
-  }, [data]);
+  }, [saveResponse.data]);
+
+  React.useEffect(() => {
+    if (unsaveResponse.data && unsaveResponse.data.unsave) {
+      const { signals } = unsaveResponse.data.unsave;
+      emitSignal({
+        signalId: signals[0].signalId,
+        key: signals[0].key
+      });
+    }
+  }, [unsaveResponse.data]);
 
   const onClick = () => {
-    const feedId = action?.feedId || "";
-    saveItemMutation({
-      variables: {
-        feedId
-      }
-    });
+    const feedId = saveAction?.feedId || "";
+    if (save) {
+      saveItemMutation({
+        variables: {
+          feedId
+        }
+      });
 
-    action?.signal?.states?.map((state) => {
-      if (state.key == StateKey.Ok) {
-        setSvg(state.value);
-      }
-    });
+      saveAction?.signal?.states?.map((state) => {
+        if (state.key == StateKey.Saved && state.value) {
+          setSvg(state.value);
+        }
+      });
+
+      setSave(false);
+    } else {
+      unsaveItemMutation({
+        variables: {
+          feedId
+        }
+      });
+
+      unsaveAction?.signal?.states?.map((state) => {
+        if (state.key == StateKey.Unsaved && state.value) {
+          setSvg(state.value);
+        }
+      });
+
+      setSave(true);
+    }
   }
 
-  if (error) {
-    console.error(error);
+  if (saveResponse.error || unsaveResponse.error) {
+    console.error(saveResponse.error || unsaveResponse.error);
   }
 
-  if (loading) {
+  if (saveResponse.loading || unsaveResponse.loading) {
     console.log('waiting on mutation response');
   }
 

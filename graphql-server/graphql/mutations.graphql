@@ -2,6 +2,10 @@ type Mutation {
     save(feedId: String): SaveResponse
 }
 
+type Mutation {
+    unsave(feedId: String): SaveResponse
+}
+
 type SaveResponse {
     signals: [EmitSignal!]
 }

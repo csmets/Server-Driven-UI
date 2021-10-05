@@ -1,4 +1,4 @@
-const { signal } = require('./signal');
+const { signal, state, stateKeyEnum } = require('./signal');
 const mockResponseData = require('./mock/mockRemoteDataResponse.json');
 
 const favouriteAction = (feedId, signal) => {
@@ -22,12 +22,23 @@ const feedCaption = (text) => {
 };
 
 const feedFavourite = (feedId) => {
-  const ok = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
+  const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
+  const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   const error = "Failed! Something went wrong";
   return {
     align: 'LEFT',
-    icon: 'https://cdn-icons-png.flaticon.com/512/1077/1077035.png',
-    action: favouriteAction(feedId, signal(`signal-${feedId}`, ok, error))
+    icon: heart_empty,
+    saveAction: favouriteAction(feedId, signal(`signal-${feedId}`, heart_full, error)),
+    unsaveAction: {
+      feedId,
+      signal: {
+        signalId: `signal-${feedId}`,
+        states: [
+          state(stateKeyEnum.UNSAVED, heart_empty),
+          state(stateKeyEnum.ERROR, heart_full)
+        ]
+      },
+    }
   }
 };
 
@@ -35,7 +46,14 @@ const feedFavouriteCount = (count, feedId) => {
   return {
     align: 'RIGHT',
     count,
-    signal: signal(`signal-${feedId}`, count + 1, count)
+    signal: {
+      signalId: `signal-${feedId}`,
+      states: [
+        state(stateKeyEnum.SAVED, count + 1),
+        state(stateKeyEnum.UNSAVED, count),
+        state(stateKeyEnum.ERROR, count)
+      ]
+    }
   };
 };
 

@@ -9,7 +9,8 @@ type State {
 }
 
 enum StateKey {
-    OK
+    SAVED
+    UNSAVED
     ERROR
 }
 

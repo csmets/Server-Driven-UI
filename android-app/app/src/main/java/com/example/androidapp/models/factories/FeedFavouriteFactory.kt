@@ -14,9 +14,9 @@ val feedFavouriteFactory = FeedFavouriteFactory { feedFavourite, alignment ->
         align = alignment,
         icon = feedFavourite.icon,
         action = FavouriteAction(
-            feedFavourite.action.fragments.favouriteAction.feedId,
+            feedFavourite.saveAction.fragments.favouriteAction.feedId,
             signalFactory.create(
-                feedFavourite.action.fragments.favouriteAction.signal?.fragments?.signal
+                feedFavourite.saveAction.fragments.favouriteAction.signal?.fragments?.signal
             )
         )
     )

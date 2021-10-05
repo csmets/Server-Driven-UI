@@ -5,6 +5,6 @@ module.exports = {
     externalDir: true,
   },
   images: {
-    domains: ['picsum.photos'],
+    domains: ['picsum.photos', 'cdn-icons-png.flaticon.com'],
   },
 }

@@ -76,7 +76,17 @@ var resolvers = {
         signals: [
           {
             signalId: `signal-${feedId}`,
-            key: 'OK'
+            key: 'SAVED'
+          }
+        ]
+      }
+    },
+    unsave: (_, { feedId }) => {
+      return {
+        signals: [
+          {
+            signalId: `signal-${feedId}`,
+            key: 'UNSAVED'
           }
         ]
       }

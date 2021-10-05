@@ -23,8 +23,11 @@ fragment columnLayout on ColumnLayout {
 
 fragment feedFavourite on FeedFavourite {
     icon
-    action {
+    saveAction {
         ...favouriteAction
+    }
+    unsaveAction {
+        ...unfavouriteAction
     }
 }
 
@@ -36,6 +39,13 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 }
 
 fragment favouriteAction on FavouriteAction {
+    feedId
+    signal {
+        ...signal
+    }
+}
+
+fragment unfavouriteAction on UnfavouriteAction {
     feedId
     signal {
         ...signal

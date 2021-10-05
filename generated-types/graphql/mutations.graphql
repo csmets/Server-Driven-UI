@@ -6,3 +6,12 @@ mutation saveItem($feedId: String) {
         }
     }
 }
+
+mutation unsaveItem($feedId: String) {
+    unsave(feedId: $feedId) {
+        signals {
+            signalId
+            key
+        }
+    }
+}

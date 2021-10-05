@@ -1,5 +1,6 @@
 const stateKeyEnum = {
-  OK: "OK",
+  SAVED: "SAVED",
+  UNSAVED: "UNSAVED",
   ERROR: "ERROR"
 };
 
@@ -10,16 +11,18 @@ const state = (key, value) => {
   }
 }
 
-const signal = (signalId, ok, error) => {
+const signal = (signalId, ...values) => {
   return {
     signalId,
     states: [
-      state(stateKeyEnum.OK, ok),
-      state(stateKeyEnum.ERROR, error)
+      state(stateKeyEnum.SAVED, values[0]),
+      state(stateKeyEnum.ERROR, values[1])
     ]
   }
 }
 
 module.exports = {
-  signal
+  signal,
+  state,
+  stateKeyEnum
 }
