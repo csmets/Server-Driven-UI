@@ -7,3 +7,4 @@ graphql-server/node_modules/
 build/
 .gradle/
 GraphQLEndpoint.kt
+local.properties
