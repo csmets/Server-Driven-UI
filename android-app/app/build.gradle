@@ -65,7 +65,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
     implementation 'com.example.sdui-generate-types:sdui-generate-types:1.0.0'
+
     // The core runtime dependencies
     implementation 'com.apollographql.apollo:apollo-runtime:2.5.9'
     // Coroutines extensions for easier asynchronicity handling
