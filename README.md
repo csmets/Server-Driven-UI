@@ -2,6 +2,8 @@
 
 **Currently this is a work in progress. Expect things to not work and change.**
 
+[Read documentation here](docs/README.md)
+
 ## Overview
 
 Server Driven User Interface (SDUI) is a new design paradigm that's being used by companies like [AirBnB](https://medium.com/airbnb-engineering/a-deep-dive-into-airbnbs-server-driven-ui-system-842244c5f5), [Expedia](https://www.apollographql.com/customers/expediagroup/), and [Lyft](https://lyftmobilepodcast.libsyn.com/server-driven-ui-with-kevin-fang-jeff-hurray). [_sources are linked_]
@@ -38,7 +40,6 @@ A react web app that showcases the SDUI design put together.
 
 An Android jetpack compose app that showcases SDUI.
 
+## Documentation
 
-## Guiding Principle
-
-> The server should always dictate the presentation, but should never control the design.
+[Read documentation here](docs/README.md)
