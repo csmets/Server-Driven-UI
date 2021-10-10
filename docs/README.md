@@ -3,7 +3,7 @@
 This documentation is to house the standards that should be in placed when working in a SDUI paradigm.
 
 ## Table of contents
-1. _[TODO]_ Architecture fundamentals
+1. [Architecture fundamentals](./architecture-fundamentals.md)
 2. _[TODO]_ Writing a schema
 3. _[TODO]_ Typenames, interfaces and unions
 4. _[TODO]_ Writing queries
