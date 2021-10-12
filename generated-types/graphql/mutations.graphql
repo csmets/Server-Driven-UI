@@ -15,3 +15,13 @@ mutation unsaveItem($feedId: String) {
         }
     }
 }
+
+mutation updateHeading($heading: String) {
+    updateHeading(heading: $heading) {
+        signals {
+            signalId
+            key
+            value
+        }
+    }
+}

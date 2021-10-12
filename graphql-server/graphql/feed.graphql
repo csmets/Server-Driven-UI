@@ -2,6 +2,7 @@ union FeedViewElement = FeedItem | TypographyContent
 union FeedElement = ColumnLayout | FeedCaption | FeedImage
 
 type FeedView {
+    heading: TypographyHeading
     elements: [FeedViewElement]
 }
 

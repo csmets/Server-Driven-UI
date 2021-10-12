@@ -11,10 +11,12 @@ type State {
 enum StateKey {
     SAVED
     UNSAVED
+    UPDATED
     ERROR
 }
 
 type EmitSignal {
     signalId: String
     key: StateKey
+    value: String
 }

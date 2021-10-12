@@ -12,6 +12,7 @@ interface Signal {
 interface EmitSignal {
   signalId: string
   key: string
+  value?: string
 }
 
 interface Subscribe {
@@ -47,7 +48,8 @@ const SignalProvider = (props: any) => {
       if (value.signalId === signal.signalId) {
         const result = {
           signalId: value.signalId,
-          key: value.key
+          key: value.key,
+          value: value.value
         };
 
         setSubscribe({ result });
@@ -59,10 +61,11 @@ const SignalProvider = (props: any) => {
     React.useEffect(() => {
       if (response?.signals) {
         response.signals.forEach((signal: any) => {
-          const { signalId, key } = signal
+          const { signalId, key, value } = signal
           emitSignal({
             signalId,
-            key
+            key,
+            value
           })
         });
       }

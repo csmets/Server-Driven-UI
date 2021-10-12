@@ -1,4 +1,10 @@
 fragment feedView on FeedView {
+    heading {
+        text
+        signal {
+            ...signal
+        }
+    }
     elements {
         ...feedItem
         ...typographyContent

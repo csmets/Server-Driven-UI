@@ -33,6 +33,7 @@ export type EmitSignal = {
   __typename?: 'EmitSignal';
   key?: Maybe<StateKey>;
   signalId?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type FavouriteAction = {
@@ -77,14 +78,16 @@ export type FeedItem = {
 export type FeedView = {
   __typename?: 'FeedView';
   elements?: Maybe<Array<Maybe<FeedViewElement>>>;
+  heading?: Maybe<TypographyHeading>;
 };
 
 export type FeedViewElement = FeedItem | TypographyContent;
 
 export type Mutation = {
   __typename?: 'Mutation';
-  save?: Maybe<SaveResponse>;
-  unsave?: Maybe<SaveResponse>;
+  save?: Maybe<MutationResponse>;
+  unsave?: Maybe<MutationResponse>;
+  updateHeading?: Maybe<MutationResponse>;
 };
 
 
@@ -97,6 +100,16 @@ export type MutationUnsaveArgs = {
   feedId?: Maybe<Scalars['String']>;
 };
 
+
+export type MutationUpdateHeadingArgs = {
+  heading?: Maybe<Scalars['String']>;
+};
+
+export type MutationResponse = {
+  __typename?: 'MutationResponse';
+  signals?: Maybe<Array<EmitSignal>>;
+};
+
 export type Paragraph = {
   __typename?: 'Paragraph';
   text?: Maybe<Scalars['String']>;
@@ -105,11 +118,6 @@ export type Paragraph = {
 export type Query = {
   __typename?: 'Query';
   feed?: Maybe<FeedView>;
-};
-
-export type SaveResponse = {
-  __typename?: 'SaveResponse';
-  signals?: Maybe<Array<EmitSignal>>;
 };
 
 export type Signal = {
@@ -127,12 +135,19 @@ export type State = {
 export enum StateKey {
   Error = 'ERROR',
   Saved = 'SAVED',
-  Unsaved = 'UNSAVED'
+  Unsaved = 'UNSAVED',
+  Updated = 'UPDATED'
 }
 
 export type TypographyContent = {
   __typename?: 'TypographyContent';
   paragraph?: Maybe<Array<Maybe<Paragraph>>>;
+};
+
+export type TypographyHeading = {
+  __typename?: 'TypographyHeading';
+  signal?: Maybe<Signal>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type UnfavouriteAction = {
@@ -141,7 +156,7 @@ export type UnfavouriteAction = {
   signal?: Maybe<Signal>;
 };
 
-export type FeedViewFragment = { __typename?: 'FeedView', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon: string, saveAction: { __typename?: 'FavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }, unsaveAction: { __typename?: 'UnfavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> };
+export type FeedViewFragment = { __typename?: 'FeedView', heading?: Maybe<{ __typename?: 'TypographyHeading', text?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>, elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon: string, saveAction: { __typename?: 'FavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }, unsaveAction: { __typename?: 'UnfavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> };
 
 export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon: string, saveAction: { __typename?: 'FavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }, unsaveAction: { __typename?: 'UnfavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> };
 
@@ -172,19 +187,26 @@ export type SaveItemMutationVariables = Exact<{
 }>;
 
 
-export type SaveItemMutation = { __typename?: 'Mutation', save?: Maybe<{ __typename?: 'SaveResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', signalId?: Maybe<string>, key?: Maybe<StateKey> }>> }> };
+export type SaveItemMutation = { __typename?: 'Mutation', save?: Maybe<{ __typename?: 'MutationResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', signalId?: Maybe<string>, key?: Maybe<StateKey> }>> }> };
 
 export type UnsaveItemMutationVariables = Exact<{
   feedId?: Maybe<Scalars['String']>;
 }>;
 
 
-export type UnsaveItemMutation = { __typename?: 'Mutation', unsave?: Maybe<{ __typename?: 'SaveResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', signalId?: Maybe<string>, key?: Maybe<StateKey> }>> }> };
+export type UnsaveItemMutation = { __typename?: 'Mutation', unsave?: Maybe<{ __typename?: 'MutationResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', signalId?: Maybe<string>, key?: Maybe<StateKey> }>> }> };
+
+export type UpdateHeadingMutationVariables = Exact<{
+  heading?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateHeadingMutation = { __typename?: 'Mutation', updateHeading?: Maybe<{ __typename?: 'MutationResponse', signals?: Maybe<Array<{ __typename?: 'EmitSignal', signalId?: Maybe<string>, key?: Maybe<StateKey>, value?: Maybe<string> }>> }> };
 
 export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedView', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon: string, saveAction: { __typename?: 'FavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }, unsaveAction: { __typename?: 'UnfavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> }> };
+export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedView', heading?: Maybe<{ __typename?: 'TypographyHeading', text?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>, elements?: Maybe<Array<Maybe<{ __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, icon: string, saveAction: { __typename?: 'FavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }, unsaveAction: { __typename?: 'UnfavouriteAction', feedId: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, count: string, signal?: Maybe<{ __typename?: 'Signal', signalId?: Maybe<string>, states?: Maybe<Array<{ __typename?: 'State', key: StateKey, value?: Maybe<string> }>> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', text?: Maybe<string> }>>> }>>> }> };
 
 export const StateFragmentDoc = gql`
     fragment state on State {
@@ -282,12 +304,19 @@ export const TypographyContentFragmentDoc = gql`
     ${ParagraphFragmentDoc}`;
 export const FeedViewFragmentDoc = gql`
     fragment feedView on FeedView {
+  heading {
+    text
+    signal {
+      ...signal
+    }
+  }
   elements {
     ...feedItem
     ...typographyContent
   }
 }
-    ${FeedItemFragmentDoc}
+    ${SignalFragmentDoc}
+${FeedItemFragmentDoc}
 ${TypographyContentFragmentDoc}`;
 export const SaveItemDocument = gql`
     mutation saveItem($feedId: String) {
@@ -361,6 +390,43 @@ export function useUnsaveItemMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UnsaveItemMutationHookResult = ReturnType<typeof useUnsaveItemMutation>;
 export type UnsaveItemMutationResult = Apollo.MutationResult<UnsaveItemMutation>;
 export type UnsaveItemMutationOptions = Apollo.BaseMutationOptions<UnsaveItemMutation, UnsaveItemMutationVariables>;
+export const UpdateHeadingDocument = gql`
+    mutation updateHeading($heading: String) {
+  updateHeading(heading: $heading) {
+    signals {
+      signalId
+      key
+      value
+    }
+  }
+}
+    `;
+export type UpdateHeadingMutationFn = Apollo.MutationFunction<UpdateHeadingMutation, UpdateHeadingMutationVariables>;
+
+/**
+ * __useUpdateHeadingMutation__
+ *
+ * To run a mutation, you first call `useUpdateHeadingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHeadingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHeadingMutation, { data, loading, error }] = useUpdateHeadingMutation({
+ *   variables: {
+ *      heading: // value for 'heading'
+ *   },
+ * });
+ */
+export function useUpdateHeadingMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHeadingMutation, UpdateHeadingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHeadingMutation, UpdateHeadingMutationVariables>(UpdateHeadingDocument, options);
+      }
+export type UpdateHeadingMutationHookResult = ReturnType<typeof useUpdateHeadingMutation>;
+export type UpdateHeadingMutationResult = Apollo.MutationResult<UpdateHeadingMutation>;
+export type UpdateHeadingMutationOptions = Apollo.BaseMutationOptions<UpdateHeadingMutation, UpdateHeadingMutationVariables>;
 export const GetFeedDocument = gql`
     query getFeed {
   feed {

@@ -4,6 +4,7 @@ const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
 const { fetchFeed } = require('./feed');
+const { stateKeyEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
 let schema = "";
@@ -59,6 +60,16 @@ var resolvers = {
   Query: {
     feed: () => {
       return {
+        heading: {
+          text: 'Example list of feed items',
+          signal: {
+            signalId: 'heading-signal',
+            states: [{
+              key: stateKeyEnum.ERROR,
+              value: 'Something went wrong updating the heading.'
+            }]
+          }
+        },
         elements: [
           {
             paragraph: [{
@@ -76,7 +87,7 @@ var resolvers = {
         signals: [
           {
             signalId: `signal-${feedId}`,
-            key: 'SAVED'
+            key: stateKeyEnum.SAVED
           }
         ]
       }
@@ -86,9 +97,18 @@ var resolvers = {
         signals: [
           {
             signalId: `signal-${feedId}`,
-            key: 'UNSAVED'
+            key: stateKeyEnum.UNSAVED
           }
         ]
+      }
+    },
+    updateHeading: (_, { heading }) => {
+      return {
+        signals: [{
+          signalId: `heading-signal`,
+          key: stateKeyEnum.UPDATED,
+          value: heading
+        }]
       }
     }
   }

@@ -1,7 +1,8 @@
 const stateKeyEnum = {
   SAVED: "SAVED",
   UNSAVED: "UNSAVED",
-  ERROR: "ERROR"
+  ERROR: "ERROR",
+  UPDATED: "UPDATED"
 };
 
 const state = (key, value) => {

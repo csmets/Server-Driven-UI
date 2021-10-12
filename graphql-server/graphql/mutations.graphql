@@ -1,11 +1,15 @@
 type Mutation {
-    save(feedId: String): SaveResponse
+    save(feedId: String): MutationResponse
 }
 
 type Mutation {
-    unsave(feedId: String): SaveResponse
+    unsave(feedId: String): MutationResponse
 }
 
-type SaveResponse {
+type Mutation {
+    updateHeading(heading: String): MutationResponse
+}
+
+type MutationResponse {
     signals: [EmitSignal!]
 }

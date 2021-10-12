@@ -5,3 +5,8 @@ type TypographyContent {
 type Paragraph {
     text: String
 }
+
+type TypographyHeading {
+    text: String
+    signal: Signal
+}

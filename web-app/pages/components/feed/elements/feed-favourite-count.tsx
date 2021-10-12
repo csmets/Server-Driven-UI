@@ -9,6 +9,7 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
   const [count, setCount] = React.useState(data.count);
   const signalId = data.signal?.signalId || "";
 
+  // Self invoking function that returns the values upfront for each signal condition.
   const { saved, unsaved, error } = (() => {
     let saved = "";
     let unsaved = "";
@@ -39,15 +40,15 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
       if (subscribe.result?.signalId === signalId) {
         switch (subscribe.result.key) {
           case 'SAVED':
-            console.log('saved!');
+            // Count is incremented
             setCount(saved);
             break;
           case 'UNSAVED':
-            console.log('unsaved!');
+            // Count is decremented
             setCount(unsaved);
             break;
           case 'ERROR':
-            console.log('error!');
+            // Count is returned to original value
             setCount(error)
             break;
           default:
