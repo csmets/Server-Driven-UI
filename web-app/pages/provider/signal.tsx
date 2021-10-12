@@ -1,35 +1,40 @@
 import * as React from 'react';
-interface ISignalContext {
-  registerSignal: (sub: ISignal) => ISubscribe
-  emitSignal: (receivedSignal: IEmitSignal) => void
+interface SignalContext {
+  registerSignal: (sub: Signal) => Subscribe
+  emitSignal: (receivedSignal: EmitSignal) => void
+  useResponseSignals: (response: EmitSignals) => void
 }
 
-interface ISignal {
+interface Signal {
   signalId: string
 }
 
-interface IEmitSignal {
+interface EmitSignal {
   signalId: string
   key: string
 }
 
-interface ISubscribe {
-  subscribe: ISubscribeResult
+interface Subscribe {
+  subscribe: SubscribeResult
 }
 
-interface ISubscribeResult {
+interface SubscribeResult {
   result: any
 }
 
-const SignalContext = React.createContext({} as ISignalContext);
+interface EmitSignals {
+  signals: EmitSignal[]
+}
+
+const SignalContext = React.createContext({} as SignalContext);
 
 const SignalProvider = (props: any) => {
   const { children } = props;
-  const [subscribe, setSubscribe] = React.useState({} as ISubscribeResult);
+  const [subscribe, setSubscribe] = React.useState({} as SubscribeResult);
 
-  const signals: ISignal[] = [];
+  const signals: Signal[] = [];
 
-  const registerSignal = (signal: ISignal) => {
+  const registerSignal = (signal: Signal) => {
     signals.push(signal);
 
     return {
@@ -37,7 +42,7 @@ const SignalProvider = (props: any) => {
     }
   };
 
-  const emitSignal = (value: IEmitSignal) => {
+  const emitSignal = (value: EmitSignal) => {
     signals.forEach((signal) => {
       if (value.signalId === signal.signalId) {
         const result = {
@@ -50,9 +55,24 @@ const SignalProvider = (props: any) => {
     });
   };
 
+  const useResponseSignals = (response: EmitSignals) => {
+    React.useEffect(() => {
+      if (response?.signals) {
+        response.signals.forEach((signal: any) => {
+          const { signalId, key } = signal
+          emitSignal({
+            signalId,
+            key
+          })
+        });
+      }
+    }, [response])
+  }
+
   const context = {
     registerSignal,
-    emitSignal
+    emitSignal,
+    useResponseSignals
   };
 
   return (
