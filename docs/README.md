@@ -4,7 +4,7 @@ This documentation is to house the standards that should be in placed when worki
 
 ## Table of contents
 1. [Architecture fundamentals](./architecture-fundamentals.md)
-2. _[TODO]_ Writing a schema
+2. [Writing a schema](./schema.md)
 3. _[TODO]_ Typenames, interfaces and unions
 4. _[TODO]_ Writing queries
 5. _[TODO]_ Writing mutations
