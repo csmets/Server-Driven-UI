@@ -73,3 +73,44 @@ Let's take a look at the breakdown one last time.
 ![Example card breakdown 2](images/component-card-breakdown-2.png)
 
 To make the card become composable, we'll need have all elements be contains in a list of possible types that may be returned.
+
+```graphql
+type NewsCard {
+  elements: [NewsCardElement]
+}
+
+type Button {
+  text: String
+  url: String
+}
+
+type Image {
+  url: String
+  description: String
+}
+
+type NewsCardMeta {
+  author: String
+  publishDate: String
+}
+
+interface Typography {
+  text: String
+}
+
+type Heading implements Typography {
+  text: String
+}
+
+type Paragraph implements Typography {
+  text: String
+}
+
+type Paragraphs {
+  paragraph: [Paragraph!]
+}
+
+union NewsCardElement = Button | Image | NewsCardMeta | Heading | Paragraphs
+```
+
+When breaking up each atom from the design we can then have a list of elements that may get rendered in any order. This schema provides us with a lot of flexibility. We can now make updates on how we want to order our elements on the server and the client will get the updates without users having to update.
