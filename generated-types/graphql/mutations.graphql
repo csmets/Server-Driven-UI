@@ -1,8 +1,7 @@
 mutation saveItem($feedId: String) {
     save(feedId: $feedId) {
         signals {
-            signalId
-            key
+            ...emitSignal
         }
     }
 }
@@ -10,8 +9,7 @@ mutation saveItem($feedId: String) {
 mutation unsaveItem($feedId: String) {
     unsave(feedId: $feedId) {
         signals {
-            signalId
-            key
+            ...emitSignal
         }
     }
 }
@@ -19,9 +17,7 @@ mutation unsaveItem($feedId: String) {
 mutation updateHeading($heading: String) {
     updateHeading(heading: $heading) {
         signals {
-            signalId
-            key
-            value
+            ...emitSignal
         }
     }
 }

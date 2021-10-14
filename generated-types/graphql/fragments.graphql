@@ -1,9 +1,7 @@
 fragment feedView on FeedView {
     heading {
         text
-        signal {
-            ...signal
-        }
+        signal
     }
     elements {
         ...feedItem
@@ -29,6 +27,7 @@ fragment columnLayout on ColumnLayout {
 
 fragment feedFavourite on FeedFavourite {
     icon
+    signal
     saveAction {
         ...favouriteAction
     }
@@ -39,35 +38,32 @@ fragment feedFavourite on FeedFavourite {
 
 fragment feedFavouriteCount on FeedFavouriteCount {
     count
-    signal {
-        ...signal
-    }
+    signal
 }
 
 fragment favouriteAction on FavouriteAction {
     feedId
-    signal {
-        ...signal
+    emitSignal {
+        ...emitSignal
     }
 }
 
 fragment unfavouriteAction on UnfavouriteAction {
     feedId
-    signal {
-        ...signal
+    emitSignal {
+        ...emitSignal
     }
 }
 
-fragment signal on Signal {
-    signalId
-    states {
-        ...state
+fragment emitSignal on EmitSignal {
+    signal
+    value {
+        ...signalStringValue
     }
 }
 
-fragment state on State {
-    key
-    value
+fragment signalStringValue on SignalStringValue {
+    text
 }
 
 fragment feedCaption on FeedCaption {

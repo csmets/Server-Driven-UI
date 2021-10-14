@@ -4,7 +4,7 @@ const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
 const { fetchFeed } = require('./feed');
-const { stateKeyEnum } = require('./signal');
+const { signalEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
 let schema = "";
@@ -62,13 +62,7 @@ var resolvers = {
       return {
         heading: {
           text: 'Example list of feed items',
-          signal: {
-            signalId: 'heading-signal',
-            states: [{
-              key: stateKeyEnum.ERROR,
-              value: 'Something went wrong updating the heading.'
-            }]
-          }
+          signal: signalEnum.TITLE
         },
         elements: [
           {
@@ -86,8 +80,8 @@ var resolvers = {
       return {
         signals: [
           {
-            signalId: `signal-${feedId}`,
-            key: stateKeyEnum.SAVED
+            signal: signalEnum.FAVOURITE,
+            value: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
           }
         ]
       }
@@ -96,8 +90,8 @@ var resolvers = {
       return {
         signals: [
           {
-            signalId: `signal-${feedId}`,
-            key: stateKeyEnum.UNSAVED
+            signal: signalEnum.FAVOURITE,
+            value: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
           }
         ]
       }
@@ -105,8 +99,7 @@ var resolvers = {
     updateHeading: (_, { heading }) => {
       return {
         signals: [{
-          signalId: `heading-signal`,
-          key: stateKeyEnum.UPDATED,
+          signal: signalEnum.TITLE,
           value: heading
         }]
       }

@@ -1,22 +1,16 @@
-type Signal {
-    signalId: String
-    states: [State!]
+type EmitSignal {
+    signal: Signal
+    value: SignalValue
 }
 
-type State {
-    key: StateKey!
-    value: String
-}
-
-enum StateKey {
-    SAVED
-    UNSAVED
-    UPDATED
+enum Signal {
+    FAVOURITE
+    TITLE
     ERROR
 }
 
-type EmitSignal {
-    signalId: String
-    key: StateKey
-    value: String
+type SignalStringValue {
+    text: String
 }
+
+union SignalValue = SignalStringValue
