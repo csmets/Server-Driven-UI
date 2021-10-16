@@ -11,24 +11,15 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const signalContext = React.useContext(SignalContext);
   const { registerSignal } = signalContext;
 
-  const headingSignalId = heading?.signal?.signalId || ""
-  const { subscribe } = registerSignal( { signalId: headingSignalId })
+  const headingSignalId = heading?.signal || ""
+  const { subscribe } = registerSignal(headingSignalId)
 
   const [headingText, setHeadingText] = React.useState(heading?.text || "");
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
-      if (subscribe.result?.signalId === headingSignalId) {
-        switch (subscribe.result.key) {
-          case 'UPDATED':
-            setHeadingText(subscribe.result.value);
-            break;
-          case 'ERROR':
-            setHeadingText(heading?.text || "")
-            break;
-          default:
-            break;
-        }
+      if (subscribe.result?.signal === headingSignalId) {
+        setHeadingText(subscribe.result.value.text);
       }
     }
   }, [subscribe]);

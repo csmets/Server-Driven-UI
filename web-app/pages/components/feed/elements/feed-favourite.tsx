@@ -3,14 +3,13 @@ import Image from 'next/image';
 import {
   FeedFavouriteFragment,
   SaveItemDocument,
-  StateKey,
   UnsaveItemDocument
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, saveAction, unsaveAction } = props.data;
+  const { icon, saveAction, unsaveAction, signal } = props.data;
 
   /*
     Mutations here are to save or unsave a feed item. These mutations will always
@@ -22,15 +21,14 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const [unsaveItemMutation, unsaveResponse] = useMutation(UnsaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal, useResponseSignals } = signalContext;
-  const signalId = saveAction?.signal?.signalId || "";
+  const { registerSignal, useResponseSignals, emitSignal } = signalContext;
 
   /*
     To be able to use values that get emited, a signal must be registered. When
     registring a signal, a subscriber is returned. The subscribe is a listener
     that will return values that get emited.
   */
-  const { subscribe } = registerSignal({ signalId });
+  const { subscribe } = registerSignal(signal || "");
 
   /*
     Supply the mutation's response to these handlers which will look through the
@@ -47,16 +45,12 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 
   React.useEffect(() => {
     /*
-      When the subscribe gets a result returned it must be handled. We don't care
-      about it's successful result as it's optimistically handled. Only error
-      must be handled.
+      When an event has been emitted to a signal you've subscribed to a result
+      will be returned.
     */
     if (subscribe && subscribe.result) {
-      switch (subscribe.result?.key) {
-        case StateKey.Error:
-          setSvg(icon);
-        default:
-          break;
+      if (subscribe.result.signal === signal) {
+        setSvg(subscribe.result.value.text);
       }
     }
   }, [subscribe]);
@@ -70,11 +64,11 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         }
       });
 
-      saveAction?.signal?.states?.map((state) => {
-        if (state.key == StateKey.Saved && state.value) {
-          setSvg(state.value);
-        }
-      });
+      const { signal, value } = saveAction.emitSignal || {}
+
+      if (signal && value) {
+        emitSignal({ signal, value : value })
+      }
 
       setSave(false);
     } else {
@@ -84,11 +78,11 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         }
       });
 
-      unsaveAction?.signal?.states?.map((state) => {
-        if (state.key == StateKey.Unsaved && state.value) {
-          setSvg(state.value);
-        }
-      });
+      const { signal, value } = unsaveAction.emitSignal || {}
+
+      if (signal && value) {
+        emitSignal({ signal, value : value })
+      }
 
       setSave(true);
     }

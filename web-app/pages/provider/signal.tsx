@@ -1,18 +1,13 @@
 import * as React from 'react';
 interface SignalContext {
-  registerSignal: (sub: Signal) => Subscribe
+  registerSignal: (sub: String) => Subscribe
   emitSignal: (receivedSignal: EmitSignal) => void
   useResponseSignals: (response: EmitSignals) => void
 }
 
-interface Signal {
-  signalId: string
-}
-
 interface EmitSignal {
-  signalId: string
-  key: string
-  value?: string
+  signal: string
+  value: any
 }
 
 interface Subscribe {
@@ -33,9 +28,9 @@ const SignalProvider = (props: any) => {
   const { children } = props;
   const [subscribe, setSubscribe] = React.useState({} as SubscribeResult);
 
-  const signals: Signal[] = [];
+  const signals: String[] = [];
 
-  const registerSignal = (signal: Signal) => {
+  const registerSignal = (signal: String) => {
     signals.push(signal);
 
     return {
@@ -45,10 +40,9 @@ const SignalProvider = (props: any) => {
 
   const emitSignal = (value: EmitSignal) => {
     signals.forEach((signal) => {
-      if (value.signalId === signal.signalId) {
+      if (value.signal === signal) {
         const result = {
-          signalId: value.signalId,
-          key: value.key,
+          signal: value.signal,
           value: value.value
         };
 
@@ -60,11 +54,10 @@ const SignalProvider = (props: any) => {
   const useResponseSignals = (response: EmitSignals) => {
     React.useEffect(() => {
       if (response?.signals) {
-        response.signals.forEach((signal: any) => {
-          const { signalId, key, value } = signal
+        response.signals.forEach((signalObj: any) => {
+          const { signal, value } = signalObj
           emitSignal({
-            signalId,
-            key,
+            signal,
             value
           })
         });

@@ -53,8 +53,17 @@ var resolvers = {
         return 'FeedFavouriteCount';
       }
       if (obj.icon) {
-        return 'FeedFavourite'
+        return 'FeedFavourite';
       }
+    }
+  },
+  SignalValue: {
+    __resolveType(obj) {
+      if (obj.text) {
+        return 'SignalStringValue';
+      }
+
+      return null;
     }
   },
   Query: {
@@ -81,7 +90,9 @@ var resolvers = {
         signals: [
           {
             signal: signalEnum.FAVOURITE,
-            value: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
+            value: {
+              text: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
+            }
           }
         ]
       }
@@ -91,7 +102,9 @@ var resolvers = {
         signals: [
           {
             signal: signalEnum.FAVOURITE,
-            value: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
+            value: {
+              text: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
+            }
           }
         ]
       }
@@ -100,7 +113,9 @@ var resolvers = {
       return {
         signals: [{
           signal: signalEnum.TITLE,
-          value: heading
+          value: {
+            text: heading
+          }
         }]
       }
     }

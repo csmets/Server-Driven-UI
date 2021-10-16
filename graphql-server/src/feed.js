@@ -24,14 +24,18 @@ const feedFavourite = (feedId) => {
       feedId,
       emitSignal: {
         signal: signalEnum.FAVOURITE,
-        value: heart_full
+        value: {
+          text: heart_full
+        }
       }
     },
     unsaveAction: {
       feedId,
       emitSignal: {
         signal: signalEnum.FAVOURITE,
-        value: heart_empty
+        value: {
+          text: heart_empty
+        }
       }
     }
   }
