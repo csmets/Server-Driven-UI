@@ -1,14 +1,14 @@
-mutation saveItem($feedId: String) {
-    save(feedId: $feedId) {
-        signals {
+mutation saveItem($feedId: String, $signals: [SignalInput]) {
+    save(feedId: $feedId, signals: $signals) {
+        emitSignals {
             ...emitSignal
         }
     }
 }
 
-mutation unsaveItem($feedId: String) {
-    unsave(feedId: $feedId) {
-        signals {
+mutation unsaveItem($feedId: String, $signals: [SignalInput]) {
+    unsave(feedId: $feedId, signals: $signals) {
+        emitSignals {
             ...emitSignal
         }
     }
@@ -16,7 +16,7 @@ mutation unsaveItem($feedId: String) {
 
 mutation updateHeading($heading: String) {
     updateHeading(heading: $heading) {
-        signals {
+        emitSignals {
             ...emitSignal
         }
     }

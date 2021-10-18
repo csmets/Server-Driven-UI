@@ -28,14 +28,14 @@ type FeedCaption {
     text: String
 }
 
-type FavouriteAction {
+type FavouriteAction implements EmitSignals {
     feedId: String!
-    emitSignal: EmitSignal
+    emitSignals: [EmitSignal!]
 }
 
-type UnfavouriteAction {
+type UnfavouriteAction implements EmitSignals {
     feedId: String!
-    emitSignal: EmitSignal
+    emitSignals: [EmitSignal!]
 }
 
 type FeedImage {

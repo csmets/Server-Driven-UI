@@ -3,7 +3,7 @@ const fs = require('fs')
 const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const { fetchFeed } = require('./feed');
+const { fetchFeed, feedCount } = require('./feed');
 const { signalEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
@@ -71,7 +71,10 @@ var resolvers = {
       return {
         heading: {
           text: 'Example list of feed items',
-          signal: signalEnum.TITLE
+          signal: {
+            type: signalEnum.TITLE,
+            reference: null
+          }
         },
         elements: [
           {
@@ -85,34 +88,75 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: (_, { feedId }) => {
+    save: (_, { feedId, signals }) => {
+      const emitSignals = signals.map((signal) => {
+        switch (signal.type) {
+          case signalEnum.FAVOURITE:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE,
+                reference: signal.reference
+              },
+              value: {
+                text: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
+              }
+            };
+          case signalEnum.FAVOURITE_COUNT:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE_COUNT,
+                reference: signal.reference
+              },
+              value: {
+                text: feedCount(feedId) + 1
+              }
+            };
+          default:
+            return null;
+        }
+      })
       return {
-        signals: [
-          {
-            signal: signalEnum.FAVOURITE,
-            value: {
-              text: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
-            }
-          }
-        ]
+        emitSignals
       }
     },
-    unsave: (_, { feedId }) => {
+    unsave: (_, { feedId, signals }) => {
+      const emitSignals = signals.map((signal) => {
+        switch (signal.type) {
+          case signalEnum.FAVOURITE:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE,
+                reference: signal.reference
+              },
+              value: {
+                text: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
+              }
+            };
+          case signalEnum.FAVOURITE_COUNT:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE_COUNT,
+                reference: signal.reference
+              },
+              value: {
+                text: feedCount(feedId) - 1
+              }
+            };
+          default:
+            return null;
+        }
+      })
       return {
-        signals: [
-          {
-            signal: signalEnum.FAVOURITE,
-            value: {
-              text: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
-            }
-          }
-        ]
+        emitSignals
       }
     },
     updateHeading: (_, { heading }) => {
       return {
         signals: [{
-          signal: signalEnum.TITLE,
+          signal: {
+            type: signalEnum.TITLE,
+            reference: null
+          },
           value: {
             text: heading
           }

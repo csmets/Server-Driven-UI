@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FeedViewFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedViewFragment, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedItem } from './feed-item';
 import { TypographyContent } from '../../typography/typography-content';
-import { SignalContext } from '../../../provider/signal';
+import { Signal, SignalContext } from '../../../provider/signal';
 
 const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const { data } = props;
@@ -11,14 +11,18 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const signalContext = React.useContext(SignalContext);
   const { registerSignal } = signalContext;
 
-  const headingSignalId = heading?.signal || ""
-  const { subscribe } = registerSignal(headingSignalId)
+  const signal = heading?.signal
+  const signalRef: Signal = {
+    signal: signal?.type || SignalType.Error,
+    reference: signal?.reference || ''
+  }
+  const { subscribe } = registerSignal(signalRef)
 
   const [headingText, setHeadingText] = React.useState(heading?.text || "");
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
-      if (subscribe.result?.signal === headingSignalId) {
+      if (subscribe.result?.reference === signal?.reference) {
         setHeadingText(subscribe.result.value.text);
       }
     }

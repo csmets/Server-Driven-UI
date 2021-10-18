@@ -14,29 +14,61 @@ const feedCaption = (text) => {
   }
 };
 
-const feedFavourite = (feedId) => {
+const feedFavourite = (count, feedId) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   return {
     align: 'LEFT',
     icon: heart_empty,
+    signal: {
+      type: signalEnum.FAVOURITE,
+      reference: `ref-${feedId}`
+    },
     saveAction: {
       feedId,
-      emitSignal: {
-        signal: signalEnum.FAVOURITE,
-        value: {
-          text: heart_full
+      emitSignals: [
+        {
+          signal: {
+            type: signalEnum.FAVOURITE,
+            reference: `ref-${feedId}`
+          },
+          value: {
+            text: heart_full
+          }
+        },
+        {
+          signal: {
+            type: signalEnum.FAVOURITE_COUNT,
+            reference: `ref-${feedId}-count`
+          },
+          value: {
+            text: count + 1
+          }
         }
-      }
+      ]
     },
     unsaveAction: {
       feedId,
-      emitSignal: {
-        signal: signalEnum.FAVOURITE,
-        value: {
-          text: heart_empty
+      emitSignals: [
+        {
+          signal: {
+            type: signalEnum.FAVOURITE,
+            reference: `ref-${feedId}`
+          },
+          value: {
+            text: heart_empty
+          }
+        },
+        {
+          signal: {
+            type: signalEnum.FAVOURITE_COUNT,
+            reference: `ref-${feedId}-count`
+          },
+          value: {
+            text: count
+          }
         }
-      }
+      ]
     }
   }
 };
@@ -45,14 +77,17 @@ const feedFavouriteCount = (count, feedId) => {
   return {
     align: 'RIGHT',
     count,
-    signal: signalEnum.FAVOURITE
+    signal: {
+      type: signalEnum.FAVOURITE_COUNT,
+      reference: `ref-${feedId}-count`
+    }
   };
 };
 
 const feedColumn = (count, feedId) => {
   return {
     columns: [
-      feedFavourite(feedId),
+      feedFavourite(count, feedId),
       feedFavouriteCount(count, feedId)
     ]
   }
@@ -76,6 +111,23 @@ const fetchFeed = () => {
   return feedList
 };
 
+const feedCount = (feedId) => {
+  const data = mockResponseData
+
+  const feedList = data.filter(({id, count}) => {
+    if (id === feedId) {
+      return count;
+    }
+  });
+
+  if (feedList && feedList.length) {
+    return feedList[0].count;
+  }
+
+  return null;
+}
+
 module.exports = {
-  fetchFeed
+  fetchFeed,
+  feedCount
 };

@@ -1,10 +1,25 @@
+interface EmitSignals {
+    emitSignals: [EmitSignal!]
+}
+
 type EmitSignal {
     signal: Signal
     value: SignalValue
 }
 
-enum Signal {
+type Signal {
+    type: SignalType!
+    reference: String
+}
+
+input SignalInput {
+    type: SignalType!
+    reference: String
+}
+
+enum SignalType {
     FAVOURITE
+    FAVOURITE_COUNT
     TITLE
     ERROR
 }

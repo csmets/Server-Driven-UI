@@ -1,12 +1,18 @@
+import { SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
-  registerSignal: (sub: String) => Subscribe
+  registerSignal: (sub: Signal) => Subscribe
   emitSignal: (receivedSignal: EmitSignal) => void
   useResponseSignals: (response: EmitSignals) => void
 }
 
+export interface Signal {
+  type: SignalType
+  reference: string
+}
+
 interface EmitSignal {
-  signal: string
+  signal: Signal
   value: any
 }
 
@@ -14,12 +20,17 @@ interface Subscribe {
   subscribe: SubscribeResult
 }
 
+interface Result {
+  reference: string
+  value: any
+}
+
 interface SubscribeResult {
-  result: any
+  result: Result
 }
 
 interface EmitSignals {
-  signals: EmitSignal[]
+  emitSignals: EmitSignal[]
 }
 
 const SignalContext = React.createContext({} as SignalContext);
@@ -28,9 +39,9 @@ const SignalProvider = (props: any) => {
   const { children } = props;
   const [subscribe, setSubscribe] = React.useState({} as SubscribeResult);
 
-  const signals: String[] = [];
+  const signals: Signal[] = [];
 
-  const registerSignal = (signal: String) => {
+  const registerSignal = (signal: Signal) => {
     signals.push(signal);
 
     return {
@@ -40,9 +51,9 @@ const SignalProvider = (props: any) => {
 
   const emitSignal = (value: EmitSignal) => {
     signals.forEach((signal) => {
-      if (value.signal === signal) {
+      if (value.signal.type === signal.type) {
         const result = {
-          signal: value.signal,
+          reference: value.signal.reference,
           value: value.value
         };
 
@@ -53,13 +64,9 @@ const SignalProvider = (props: any) => {
 
   const useResponseSignals = (response: EmitSignals) => {
     React.useEffect(() => {
-      if (response?.signals) {
-        response.signals.forEach((signalObj: any) => {
-          const { signal, value } = signalObj
-          emitSignal({
-            signal,
-            value
-          })
+      if (response?.emitSignals) {
+        response.emitSignals.forEach((signalObj: EmitSignal) => {
+          emitSignal(signalObj);
         });
       }
     }, [response])

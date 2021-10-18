@@ -3,10 +3,11 @@ import Image from 'next/image';
 import {
   FeedFavouriteFragment,
   SaveItemDocument,
+  SignalType,
   UnsaveItemDocument
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
-import { SignalContext } from '../../../provider/signal';
+import { Signal, SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const { icon, saveAction, unsaveAction, signal } = props.data;
@@ -22,13 +23,16 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 
   const signalContext = React.useContext(SignalContext);
   const { registerSignal, useResponseSignals, emitSignal } = signalContext;
-
+  const signalRef: Signal = {
+    type: signal?.type || SignalType.Error,
+    reference: signal?.reference || ''
+  }
   /*
     To be able to use values that get emited, a signal must be registered. When
     registring a signal, a subscriber is returned. The subscribe is a listener
     that will return values that get emited.
   */
-  const { subscribe } = registerSignal(signal || "");
+  const { subscribe } = registerSignal(signalRef);
 
   /*
     Supply the mutation's response to these handlers which will look through the
@@ -49,7 +53,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
       will be returned.
     */
     if (subscribe && subscribe.result) {
-      if (subscribe.result.signal === signal) {
+      if (subscribe.result.reference === signal?.reference) {
         setSvg(subscribe.result.value.text);
       }
     }
@@ -58,30 +62,70 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const onClick = () => {
     const feedId = saveAction?.feedId || "";
     if (save) {
+      const signalsInput = saveAction?.emitSignals?.map((s) => {
+        return {
+          type: s?.signal?.type,
+          reference: s?.signal?.reference
+        }
+      });
       saveItemMutation({
         variables: {
-          feedId
+          feedId,
+          signals: signalsInput
         }
       });
 
-      const { signal, value } = saveAction.emitSignal || {}
+      const signals = saveAction.emitSignals
 
-      if (signal && value) {
-        emitSignal({ signal, value : value })
+      if (signals) {
+        signals.forEach((s) => {
+          const type = s?.signal?.type;
+          if (type) {
+            emitSignal(
+              {
+                signal: {
+                  type,
+                  reference: s?.signal?.reference || ''
+                },
+                value: s?.value
+              }
+            )
+          }
+        });
       }
 
       setSave(false);
     } else {
+      const signalsInput = saveAction?.emitSignals?.map((s) => {
+        return {
+          type: s?.signal?.type,
+          reference: s?.signal?.reference
+        }
+      });
       unsaveItemMutation({
         variables: {
-          feedId
+          feedId,
+          signals: signalsInput
         }
       });
 
-      const { signal, value } = unsaveAction.emitSignal || {}
+      const signals = unsaveAction.emitSignals
 
-      if (signal && value) {
-        emitSignal({ signal, value : value })
+      if (signals) {
+        signals.forEach((s) => {
+          const type = s?.signal?.type;
+          if (type) {
+            emitSignal(
+              {
+                signal: {
+                  type,
+                  reference: s?.signal?.reference || ''
+                },
+                value: s?.value
+              }
+            )
+          }
+        });
       }
 
       setSave(true);

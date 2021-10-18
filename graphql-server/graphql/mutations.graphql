@@ -1,9 +1,9 @@
 type Mutation {
-    save(feedId: String): MutationResponse
+    save(feedId: String, signals: [SignalInput]): MutationResponse
 }
 
 type Mutation {
-    unsave(feedId: String): MutationResponse
+    unsave(feedId: String, signals: [SignalInput]): MutationResponse
 }
 
 type Mutation {
@@ -11,5 +11,5 @@ type Mutation {
 }
 
 type MutationResponse {
-    signals: [EmitSignal!]
+    emitSignals: [EmitSignal!]
 }
