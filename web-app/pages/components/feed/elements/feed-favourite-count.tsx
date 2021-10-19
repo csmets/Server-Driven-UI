@@ -17,6 +17,7 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
+      console.log(subscribe.result)
       if (subscribe.result.reference === signal?.reference) {
         setCount(subscribe.result.value.text)
       }

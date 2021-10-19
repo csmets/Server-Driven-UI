@@ -53,9 +53,8 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
       will be returned.
     */
     if (subscribe && subscribe.result) {
-      if (subscribe.result.reference === signal?.reference) {
-        setSvg(subscribe.result.value.text);
-      }
+      console.log(subscribe.result)
+      setSvg(subscribe.result.value.text);
     }
   }, [subscribe]);
 

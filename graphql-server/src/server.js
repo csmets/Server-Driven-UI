@@ -139,7 +139,7 @@ var resolvers = {
                 reference: signal.reference
               },
               value: {
-                text: feedCount(feedId) - 1
+                text: feedCount(feedId)
               }
             };
           default:

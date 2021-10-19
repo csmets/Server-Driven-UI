@@ -37,7 +37,7 @@ const SignalContext = React.createContext({} as SignalContext);
 
 const SignalProvider = (props: any) => {
   const { children } = props;
-  const [subscribe, setSubscribe] = React.useState({} as SubscribeResult);
+  const [subscribe, setSubscribe] = React.useState([] as SubscribeResult[]);
 
   const signals: Signal[] = [];
 
@@ -45,29 +45,50 @@ const SignalProvider = (props: any) => {
     signals.push(signal);
 
     return {
-      subscribe
+      subscribe: subscribe.filter((s) => s.result.reference === signal.reference)[0]
     }
   };
 
   const emitSignal = (value: EmitSignal) => {
+    const result = [] as SubscribeResult[];
+
     signals.forEach((signal) => {
       if (value.signal.type === signal.type) {
-        const result = {
-          reference: value.signal.reference,
-          value: value.value
-        };
-
-        setSubscribe({ result });
+        result.push({
+          result: {
+            reference: value.signal.reference,
+            value: value.value
+          }
+        });
       }
     });
+
+    setSubscribe(result);
   };
+
+  const emitSignals = (value: EmitSignal[]) => {
+    const result = [] as SubscribeResult[];
+
+    value.forEach((emitSignal) => {
+      signals.forEach((signal) => {
+        if (emitSignal.signal.type === signal.type) {
+          result.push({
+            result: {
+              reference: emitSignal.signal.reference,
+              value: emitSignal.value
+            }
+          });
+        }
+      })
+    });
+
+    setSubscribe(result);
+  }
 
   const useResponseSignals = (response: EmitSignals) => {
     React.useEffect(() => {
       if (response?.emitSignals) {
-        response.emitSignals.forEach((signalObj: EmitSignal) => {
-          emitSignal(signalObj);
-        });
+        emitSignals(response.emitSignals)
       }
     }, [response])
   }
