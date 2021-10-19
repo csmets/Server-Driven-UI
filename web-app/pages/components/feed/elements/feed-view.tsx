@@ -13,7 +13,7 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
 
   const signal = heading?.signal
   const signalRef: Signal = {
-    signal: signal?.type || SignalType.Error,
+    type: signal?.type || SignalType.Error,
     reference: signal?.reference || ''
   }
   const { subscribe } = registerSignal(signalRef)
@@ -22,9 +22,7 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
-      if (subscribe.result?.reference === signal?.reference) {
-        setHeadingText(subscribe.result.value.text);
-      }
+      setHeadingText(subscribe.result.value.text);
     }
   }, [subscribe]);
 
@@ -38,7 +36,7 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
       case 'FeedItem':
         return <FeedItem key={`feedItem-${index}`} data={element} />
       case 'TypographyContent':
-        return <TypographyContent key={`feedTypograph-${index}`} data={element} />
+        return <TypographyContent key={`feedTypography-${index}`} data={element} />
       default:
         return <></>
     }

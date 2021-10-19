@@ -152,7 +152,7 @@ var resolvers = {
     },
     updateHeading: (_, { heading }) => {
       return {
-        signals: [{
+        emitSignals: [{
           signal: {
             type: signalEnum.TITLE,
             reference: null

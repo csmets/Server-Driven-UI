@@ -21,6 +21,7 @@ interface Subscribe {
 }
 
 interface Result {
+  type: SignalType
   reference: string
   value: any
 }
@@ -44,9 +45,16 @@ const SignalProvider = (props: any) => {
   const registerSignal = (signal: Signal) => {
     signals.push(signal);
 
-    return {
-      subscribe: subscribe.filter((s) => s.result.reference === signal.reference)[0]
+    if (signal.reference) {
+      return {
+        subscribe: subscribe.filter((s) => s.result.reference === signal.reference)[0]
+      }
     }
+
+    return {
+      subscribe: subscribe.filter((s) => s.result.type === signal.type)[0]
+    }
+
   };
 
   const emitSignal = (value: EmitSignal) => {
@@ -56,6 +64,7 @@ const SignalProvider = (props: any) => {
       if (value.signal.type === signal.type) {
         result.push({
           result: {
+            type: value.signal.type,
             reference: value.signal.reference,
             value: value.value
           }
@@ -74,6 +83,7 @@ const SignalProvider = (props: any) => {
         if (emitSignal.signal.type === signal.type) {
           result.push({
             result: {
+              type: emitSignal.signal.type,
               reference: emitSignal.signal.reference,
               value: emitSignal.value
             }
