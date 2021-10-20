@@ -22,10 +22,11 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const [unsaveItemMutation, unsaveResponse] = useMutation(UnsaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal, useResponseSignals, emitSignal } = signalContext;
+  const { registerSignal, useResponseSignals, emitSignals } = signalContext;
   const signalRef: Signal = {
     type: signal?.type || SignalType.Error,
-    reference: signal?.reference || ''
+    reference: signal?.reference || '',
+    fallback: signal?.fallback
   }
   /*
     To be able to use values that get emited, a signal must be registered. When
@@ -80,14 +81,14 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         signals.forEach((s) => {
           const type = s?.signal?.type;
           if (type) {
-            emitSignal(
-              {
+            emitSignals(
+              [{
                 signal: {
                   type,
                   reference: s?.signal?.reference || ''
                 },
                 value: s?.value
-              }
+              }]
             )
           }
         });
@@ -114,14 +115,14 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         signals.forEach((s) => {
           const type = s?.signal?.type;
           if (type) {
-            emitSignal(
-              {
+            emitSignals(
+              [{
                 signal: {
                   type,
                   reference: s?.signal?.reference || ''
                 },
                 value: s?.value
-              }
+              }]
             )
           }
         });

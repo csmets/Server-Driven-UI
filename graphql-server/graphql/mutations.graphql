@@ -11,5 +11,11 @@ type Mutation {
 }
 
 type MutationResponse {
+    error: Error
     emitSignals: [EmitSignal!]
+}
+
+type Error {
+    signals: [Signal!]
+    message: String
 }

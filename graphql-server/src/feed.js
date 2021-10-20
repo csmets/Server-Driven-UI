@@ -22,7 +22,10 @@ const feedFavourite = (count, feedId) => {
     icon: heart_empty,
     signal: {
       type: signalEnum.FAVOURITE,
-      reference: `ref-${feedId}`
+      reference: `ref-${feedId}`,
+      fallback: {
+        text: heart_empty
+      }
     },
     saveAction: {
       feedId,
@@ -79,7 +82,10 @@ const feedFavouriteCount = (count, feedId) => {
     count,
     signal: {
       type: signalEnum.FAVOURITE_COUNT,
-      reference: `ref-${feedId}-count`
+      reference: `ref-${feedId}-count`,
+      fallback: {
+        text: count
+      }
     }
   };
 };

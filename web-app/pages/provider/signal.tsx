@@ -1,14 +1,15 @@
-import { SignalType } from '@csmets/typescript-apollo-sdui-types/types';
+import { Error, SignalType, SignalValue } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
   registerSignal: (sub: Signal) => Subscribe
-  emitSignal: (receivedSignal: EmitSignal) => void
-  useResponseSignals: (response: EmitSignals) => void
+  emitSignals: (emitSignals: EmitSignal[]) => void
+  useResponseSignals: (response: ResponseSignals) => void
 }
 
 export interface Signal {
   type: SignalType
   reference: string
+  fallback?: any
 }
 
 interface EmitSignal {
@@ -30,7 +31,8 @@ interface SubscribeResult {
   result: Result
 }
 
-interface EmitSignals {
+interface ResponseSignals {
+  error: Error
   emitSignals: EmitSignal[]
 }
 
@@ -57,28 +59,10 @@ const SignalProvider = (props: any) => {
 
   };
 
-  const emitSignal = (value: EmitSignal) => {
+  const emitSignals = (emitSignals: EmitSignal[]) => {
     const result = [] as SubscribeResult[];
 
-    signals.forEach((signal) => {
-      if (value.signal.type === signal.type) {
-        result.push({
-          result: {
-            type: value.signal.type,
-            reference: value.signal.reference,
-            value: value.value
-          }
-        });
-      }
-    });
-
-    setSubscribe(result);
-  };
-
-  const emitSignals = (value: EmitSignal[]) => {
-    const result = [] as SubscribeResult[];
-
-    value.forEach((emitSignal) => {
+    emitSignals.forEach((emitSignal) => {
       signals.forEach((signal) => {
         if (emitSignal.signal.type === signal.type) {
           result.push({
@@ -95,9 +79,28 @@ const SignalProvider = (props: any) => {
     setSubscribe(result);
   }
 
-  const useResponseSignals = (response: EmitSignals) => {
+  const emitFallback = (fallbackSignals: Signal[]) => {
+    fallbackSignals.forEach((fallback) => {
+      signals.forEach((signal) => {
+        if (fallback.reference === signal.reference) {
+          emitSignals([{signal, value: signal.fallback}])
+        }
+      })
+    })
+  }
+
+  const useResponseSignals = (response: ResponseSignals) => {
     React.useEffect(() => {
-      if (response?.emitSignals) {
+      if (response.error && response.error.signals) {
+        const fallbackSignals = response.error.signals.map((sig) => {
+          return {
+            type: sig.type,
+            reference: sig.reference
+          } as Signal
+        })
+        emitFallback(fallbackSignals)
+      }
+      else if (response?.emitSignals) {
         emitSignals(response.emitSignals)
       }
     }, [response])
@@ -105,7 +108,7 @@ const SignalProvider = (props: any) => {
 
   const context = {
     registerSignal,
-    emitSignal,
+    emitSignals,
     useResponseSignals
   };
 
