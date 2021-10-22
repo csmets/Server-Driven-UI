@@ -3,8 +3,8 @@ const fs = require('fs')
 const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const { fetchFeed } = require('./feed');
-const { stateKeyEnum } = require('./signal');
+const { fetchFeed, feedCount } = require('./feed');
+const { signalEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
 let schema = "";
@@ -53,8 +53,17 @@ var resolvers = {
         return 'FeedFavouriteCount';
       }
       if (obj.icon) {
-        return 'FeedFavourite'
+        return 'FeedFavourite';
       }
+    }
+  },
+  SignalValue: {
+    __resolveType(obj) {
+      if (obj.text) {
+        return 'SignalStringValue';
+      }
+
+      return null;
     }
   },
   Query: {
@@ -63,11 +72,8 @@ var resolvers = {
         heading: {
           text: 'Example list of feed items',
           signal: {
-            signalId: 'heading-signal',
-            states: [{
-              key: stateKeyEnum.ERROR,
-              value: 'Something went wrong updating the heading.'
-            }]
+            type: signalEnum.TITLE,
+            reference: null
           }
         },
         elements: [
@@ -82,37 +88,106 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: (_, { feedId }) => {
+    save: async (_, { feedId, signals }) => {
+      await sleep(2000)
+      const emitSignals = signals.map((signal) => {
+        switch (signal.type) {
+          case signalEnum.FAVOURITE:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE,
+                reference: signal.reference
+              },
+              value: {
+                text: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
+              }
+            };
+          case signalEnum.FAVOURITE_COUNT:
+            return {
+              signal: {
+                type: signalEnum.ERROR,
+                reference: signal.reference
+              },
+              value: {
+                text: feedCount(feedId) + 1
+              }
+            };
+          default:
+            return null;
+        }
+      })
+
+      const errorSignals = signals.map((sig) => {
+        return {
+          type: sig.type,
+          reference: sig.reference
+        }
+      });
+
+      const error = {
+        message: 'Something went wrong!',
+        signals: errorSignals
+      };
+
       return {
-        signals: [
-          {
-            signalId: `signal-${feedId}`,
-            key: stateKeyEnum.SAVED
-          }
-        ]
+        emitSignals
       }
     },
-    unsave: (_, { feedId }) => {
+    unsave: async (_, { feedId, signals }) => {
+      await sleep(2000)
+      const emitSignals = signals.map((signal) => {
+        switch (signal.type) {
+          case signalEnum.FAVOURITE:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE,
+                reference: signal.reference
+              },
+              value: {
+                text: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
+              }
+            };
+          case signalEnum.FAVOURITE_COUNT:
+            return {
+              signal: {
+                type: signalEnum.FAVOURITE_COUNT,
+                reference: signal.reference
+              },
+              value: {
+                text: feedCount(feedId)
+              }
+            };
+          default:
+            return null;
+        }
+      })
       return {
-        signals: [
-          {
-            signalId: `signal-${feedId}`,
-            key: stateKeyEnum.UNSAVED
-          }
-        ]
+        emitSignals
       }
     },
-    updateHeading: (_, { heading }) => {
+    updateHeading: async (_, { heading }) => {
+      await sleep(2000)
       return {
-        signals: [{
-          signalId: `heading-signal`,
-          key: stateKeyEnum.UPDATED,
-          value: heading
+        emitSignals: [{
+          signal: {
+            type: signalEnum.TITLE,
+            reference: null
+          },
+          value: {
+            text: heading
+          }
         }]
       }
     }
   }
 };
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 
 async function startApolloServer(typeDefs, resolvers) {
   const app = express();

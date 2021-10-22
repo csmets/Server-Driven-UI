@@ -21,20 +21,21 @@ type FeedFavourite implements Column {
     icon: String!
     saveAction: FavouriteAction!
     unsaveAction: UnfavouriteAction!
+    signal: Signal
 }
 
 type FeedCaption {
     text: String
 }
 
-type FavouriteAction {
+type FavouriteAction implements EmitSignals {
     feedId: String!
-    signal: Signal
+    emitSignals: [EmitSignal!]
 }
 
-type UnfavouriteAction {
+type UnfavouriteAction implements EmitSignals {
     feedId: String!
-    signal: Signal
+    emitSignals: [EmitSignal!]
 }
 
 type FeedImage {

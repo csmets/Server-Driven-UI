@@ -29,6 +29,9 @@ fragment columnLayout on ColumnLayout {
 
 fragment feedFavourite on FeedFavourite {
     icon
+    signal {
+        ...signal
+    }
     saveAction {
         ...favouriteAction
     }
@@ -46,28 +49,29 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 
 fragment favouriteAction on FavouriteAction {
     feedId
-    signal {
-        ...signal
+    emitSignals {
+        ...emitSignal
     }
 }
 
 fragment unfavouriteAction on UnfavouriteAction {
     feedId
+    emitSignals {
+        ...emitSignal
+    }
+}
+
+fragment emitSignal on EmitSignal {
     signal {
         ...signal
     }
-}
-
-fragment signal on Signal {
-    signalId
-    states {
-        ...state
+    value {
+        ...signalStringValue
     }
 }
 
-fragment state on State {
-    key
-    value
+fragment signalStringValue on SignalStringValue {
+    text
 }
 
 fragment feedCaption on FeedCaption {
@@ -87,4 +91,28 @@ fragment typographyContent on TypographyContent {
 
 fragment paragraph on Paragraph {
     text
+}
+
+fragment signal on Signal {
+    type
+    reference
+    fallback {
+        ...signalStringValue
+    }
+}
+
+fragment error on Error {
+    message
+    signals {
+        ...signal
+    }
+}
+
+fragment mutationResponse on MutationResponse {
+    error {
+        ...error
+    }
+    emitSignals {
+        ...emitSignal
+    }
 }

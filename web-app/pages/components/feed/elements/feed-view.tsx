@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FeedViewFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedViewFragment, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedItem } from './feed-item';
 import { TypographyContent } from '../../typography/typography-content';
 import { SignalContext } from '../../../provider/signal';
@@ -11,25 +11,13 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const signalContext = React.useContext(SignalContext);
   const { registerSignal } = signalContext;
 
-  const headingSignalId = heading?.signal?.signalId || ""
-  const { subscribe } = registerSignal( { signalId: headingSignalId })
+  const { subscribe } = registerSignal(heading?.signal)
 
   const [headingText, setHeadingText] = React.useState(heading?.text || "");
 
   React.useEffect(() => {
     if (subscribe && subscribe.result) {
-      if (subscribe.result?.signalId === headingSignalId) {
-        switch (subscribe.result.key) {
-          case 'UPDATED':
-            setHeadingText(subscribe.result.value);
-            break;
-          case 'ERROR':
-            setHeadingText(heading?.text || "")
-            break;
-          default:
-            break;
-        }
-      }
+      setHeadingText(subscribe.result.value.text);
     }
   }, [subscribe]);
 
@@ -43,7 +31,7 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
       case 'FeedItem':
         return <FeedItem key={`feedItem-${index}`} data={element} />
       case 'TypographyContent':
-        return <TypographyContent key={`feedTypograph-${index}`} data={element} />
+        return <TypographyContent key={`feedTypography-${index}`} data={element} />
       default:
         return <></>
     }

@@ -1,12 +1,5 @@
-const { signal, state, stateKeyEnum } = require('./signal');
+const { signalEnum } = require('./signal');
 const mockResponseData = require('./mock/mockRemoteDataResponse.json');
-
-const favouriteAction = (feedId, signal) => {
-  return {
-    feedId,
-    signal
-  };
-};
 
 const feedImage = (src, alt) => {
   return {
@@ -21,23 +14,64 @@ const feedCaption = (text) => {
   }
 };
 
-const feedFavourite = (feedId) => {
+const feedFavourite = (count, feedId) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
-  const error = "Failed! Something went wrong";
   return {
     align: 'LEFT',
     icon: heart_empty,
-    saveAction: favouriteAction(feedId, signal(`signal-${feedId}`, heart_full, error)),
+    signal: {
+      type: signalEnum.FAVOURITE,
+      reference: `ref-${feedId}`,
+      fallback: {
+        text: heart_empty
+      }
+    },
+    saveAction: {
+      feedId,
+      emitSignals: [
+        {
+          signal: {
+            type: signalEnum.FAVOURITE,
+            reference: `ref-${feedId}`
+          },
+          value: {
+            text: heart_full
+          }
+        },
+        {
+          signal: {
+            type: signalEnum.FAVOURITE_COUNT,
+            reference: `ref-${feedId}-count`
+          },
+          value: {
+            text: count + 1
+          }
+        }
+      ]
+    },
     unsaveAction: {
       feedId,
-      signal: {
-        signalId: `signal-${feedId}`,
-        states: [
-          state(stateKeyEnum.UNSAVED, heart_empty),
-          state(stateKeyEnum.ERROR, heart_full)
-        ]
-      },
+      emitSignals: [
+        {
+          signal: {
+            type: signalEnum.FAVOURITE,
+            reference: `ref-${feedId}`
+          },
+          value: {
+            text: heart_empty
+          }
+        },
+        {
+          signal: {
+            type: signalEnum.FAVOURITE_COUNT,
+            reference: `ref-${feedId}-count`
+          },
+          value: {
+            text: count
+          }
+        }
+      ]
     }
   }
 };
@@ -47,12 +81,11 @@ const feedFavouriteCount = (count, feedId) => {
     align: 'RIGHT',
     count,
     signal: {
-      signalId: `signal-${feedId}`,
-      states: [
-        state(stateKeyEnum.SAVED, count + 1),
-        state(stateKeyEnum.UNSAVED, count),
-        state(stateKeyEnum.ERROR, count)
-      ]
+      type: signalEnum.FAVOURITE_COUNT,
+      reference: `ref-${feedId}-count`,
+      fallback: {
+        text: count
+      }
     }
   };
 };
@@ -60,7 +93,7 @@ const feedFavouriteCount = (count, feedId) => {
 const feedColumn = (count, feedId) => {
   return {
     columns: [
-      feedFavourite(feedId),
+      feedFavourite(count, feedId),
       feedFavouriteCount(count, feedId)
     ]
   }
@@ -84,6 +117,23 @@ const fetchFeed = () => {
   return feedList
 };
 
+const feedCount = (feedId) => {
+  const data = mockResponseData
+
+  const feedList = data.filter(({id, count}) => {
+    if (id === feedId) {
+      return count;
+    }
+  });
+
+  if (feedList && feedList.length) {
+    return feedList[0].count;
+  }
+
+  return null;
+}
+
 module.exports = {
-  fetchFeed
+  fetchFeed,
+  feedCount
 };
