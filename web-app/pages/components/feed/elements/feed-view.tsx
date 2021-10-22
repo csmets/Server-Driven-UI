@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FeedViewFragment, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedItem } from './feed-item';
 import { TypographyContent } from '../../typography/typography-content';
-import { Signal, SignalContext } from '../../../provider/signal';
+import { SignalContext } from '../../../provider/signal';
 
 const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const { data } = props;
@@ -11,12 +11,7 @@ const FeedView = (props: { data: FeedViewFragment }): JSX.Element => {
   const signalContext = React.useContext(SignalContext);
   const { registerSignal } = signalContext;
 
-  const signal = heading?.signal
-  const signalRef: Signal = {
-    type: signal?.type || SignalType.Error,
-    reference: signal?.reference || ''
-  }
-  const { subscribe } = registerSignal(signalRef)
+  const { subscribe } = registerSignal(heading?.signal)
 
   const [headingText, setHeadingText] = React.useState(heading?.text || "");
 

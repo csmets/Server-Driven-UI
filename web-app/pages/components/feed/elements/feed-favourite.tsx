@@ -3,11 +3,10 @@ import Image from 'next/image';
 import {
   FeedFavouriteFragment,
   SaveItemDocument,
-  SignalType,
   UnsaveItemDocument
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
-import { Signal, SignalContext } from '../../../provider/signal';
+import { SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const { icon, saveAction, unsaveAction, signal } = props.data;
@@ -23,17 +22,13 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 
   const signalContext = React.useContext(SignalContext);
   const { registerSignal, useResponseSignals, emitSignals } = signalContext;
-  const signalRef: Signal = {
-    type: signal?.type || SignalType.Error,
-    reference: signal?.reference || '',
-    fallback: signal?.fallback
-  }
+
   /*
-    To be able to use values that get emited, a signal must be registered. When
-    registring a signal, a subscriber is returned. The subscribe is a listener
-    that will return values that get emited.
+    To be able to use values that get emitted, a signal must be registered. When
+    registering a signal, a subscriber is returned. The subscribe is a listener
+    that will return values that get emitted.
   */
-  const { subscribe } = registerSignal(signalRef);
+  const { subscribe } = registerSignal(signal);
 
   /*
     Supply the mutation's response to these handlers which will look through the
@@ -54,7 +49,6 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
       will be returned.
     */
     if (subscribe && subscribe.result) {
-      console.log(subscribe.result)
       setSvg(subscribe.result.value.text);
     }
   }, [subscribe]);
@@ -75,28 +69,11 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         }
       });
 
-      const signals = saveAction.emitSignals
-
-      if (signals) {
-        signals.forEach((s) => {
-          const type = s?.signal?.type;
-          if (type) {
-            emitSignals(
-              [{
-                signal: {
-                  type,
-                  reference: s?.signal?.reference || ''
-                },
-                value: s?.value
-              }]
-            )
-          }
-        });
-      }
+      emitSignals(saveAction?.emitSignals)
 
       setSave(false);
     } else {
-      const signalsInput = saveAction?.emitSignals?.map((s) => {
+      const signalsInput = unsaveAction?.emitSignals?.map((s) => {
         return {
           type: s?.signal?.type,
           reference: s?.signal?.reference
@@ -109,24 +86,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         }
       });
 
-      const signals = unsaveAction.emitSignals
-
-      if (signals) {
-        signals.forEach((s) => {
-          const type = s?.signal?.type;
-          if (type) {
-            emitSignals(
-              [{
-                signal: {
-                  type,
-                  reference: s?.signal?.reference || ''
-                },
-                value: s?.value
-              }]
-            )
-          }
-        });
-      }
+      emitSignals(unsaveAction.emitSignals)
 
       setSave(true);
     }

@@ -88,7 +88,8 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: (_, { feedId, signals }) => {
+    save: async (_, { feedId, signals }) => {
+      await sleep(2000)
       const emitSignals = signals.map((signal) => {
         switch (signal.type) {
           case signalEnum.FAVOURITE:
@@ -119,7 +120,8 @@ var resolvers = {
         emitSignals
       }
     },
-    unsave: (_, { feedId, signals }) => {
+    unsave: async (_, { feedId, signals }) => {
+      await sleep(2000)
       const emitSignals = signals.map((signal) => {
         switch (signal.type) {
           case signalEnum.FAVOURITE:
@@ -150,7 +152,8 @@ var resolvers = {
         emitSignals
       }
     },
-    updateHeading: (_, { heading }) => {
+    updateHeading: async (_, { heading }) => {
+      await sleep(2000)
       return {
         emitSignals: [{
           signal: {
@@ -165,6 +168,13 @@ var resolvers = {
     }
   }
 };
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 
 async function startApolloServer(typeDefs, resolvers) {
   const app = express();

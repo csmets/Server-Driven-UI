@@ -1,29 +1,18 @@
-import { Error, SignalType, SignalValue } from '@csmets/typescript-apollo-sdui-types/types';
+import { EmitSignal, Error, Signal, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
-  registerSignal: (sub: Signal) => Subscribe
-  emitSignals: (emitSignals: EmitSignal[]) => void
+  registerSignal: (signal?: Signal | null) => Subscribe
+  emitSignals: (emitSignals?: EmitSignal[] | null) => void
   useResponseSignals: (response: ResponseSignals) => void
 }
 
-export interface Signal {
-  type: SignalType
-  reference: string
-  fallback?: any
-}
-
-interface EmitSignal {
-  signal: Signal
-  value: any
-}
-
 interface Subscribe {
-  subscribe: SubscribeResult
+  subscribe: SubscribeResult | null
 }
 
 interface Result {
   type: SignalType
-  reference: string
+  reference?: string
   value: any
 }
 
@@ -44,7 +33,13 @@ const SignalProvider = (props: any) => {
 
   const signals: Signal[] = [];
 
-  const registerSignal = (signal: Signal) => {
+  const registerSignal = (signal?: Signal | null) => {
+    if (!signal) {
+      return {
+        subscribe: null
+      }
+    }
+
     signals.push(signal);
 
     if (signal.reference) {
@@ -59,16 +54,16 @@ const SignalProvider = (props: any) => {
 
   };
 
-  const emitSignals = (emitSignals: EmitSignal[]) => {
+  const emitSignals = (emitSignals?: EmitSignal[] | null) => {
     const result = [] as SubscribeResult[];
 
-    emitSignals.forEach((emitSignal) => {
+    emitSignals?.forEach((emitSignal) => {
       signals.forEach((signal) => {
-        if (emitSignal.signal.type === signal.type) {
+        if (emitSignal?.signal?.type === signal.type) {
           result.push({
             result: {
               type: emitSignal.signal.type,
-              reference: emitSignal.signal.reference,
+              reference: emitSignal.signal.reference || undefined,
               value: emitSignal.value
             }
           });
@@ -91,7 +86,7 @@ const SignalProvider = (props: any) => {
 
   const useResponseSignals = (response: ResponseSignals) => {
     React.useEffect(() => {
-      if (response.error && response.error.signals) {
+      if (response && response.error && response.error.signals) {
         const fallbackSignals = response.error.signals.map((sig) => {
           return {
             type: sig.type,
