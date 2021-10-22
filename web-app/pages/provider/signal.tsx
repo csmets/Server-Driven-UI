@@ -75,13 +75,19 @@ const SignalProvider = (props: any) => {
   }
 
   const emitFallback = (fallbackSignals: Signal[]) => {
+    const fallbacks = [] as EmitSignal[];
     fallbackSignals.forEach((fallback) => {
       signals.forEach((signal) => {
         if (fallback.reference === signal.reference) {
-          emitSignals([{signal, value: signal.fallback}])
+          fallbacks.push({
+            signal,
+            value: signal.fallback
+          })
         }
       })
     })
+
+    emitSignals(fallbacks)
   }
 
   const useResponseSignals = (response: ResponseSignals) => {

@@ -105,7 +105,7 @@ var resolvers = {
           case signalEnum.FAVOURITE_COUNT:
             return {
               signal: {
-                type: signalEnum.FAVOURITE_COUNT,
+                type: signalEnum.ERROR,
                 reference: signal.reference
               },
               value: {
@@ -116,6 +116,19 @@ var resolvers = {
             return null;
         }
       })
+
+      const errorSignals = signals.map((sig) => {
+        return {
+          type: sig.type,
+          reference: sig.reference
+        }
+      });
+
+      const error = {
+        message: 'Something went wrong!',
+        signals: errorSignals
+      };
+
       return {
         emitSignals
       }
