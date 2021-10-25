@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, saveAction, unsaveAction, signal } = props.data;
+  const { icon, saveAction, unsaveAction, signal, id } = props.data;
 
   /*
     Mutations here are to save or unsave a feed item. These mutations will always
@@ -21,7 +21,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const [unsaveItemMutation, unsaveResponse] = useMutation(UnsaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal, useResponseSignals, emitSignals } = signalContext;
+  const { registerSignal, emitSignals } = signalContext;
 
   /*
     To be able to use values that get emitted, a signal must be registered. When
@@ -29,13 +29,6 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     that will return values that get emitted.
   */
   const { subscribe } = registerSignal(signal);
-
-  /*
-    Supply the mutation's response to these handlers which will look through the
-    signal response and emit them.
-  */
-  useResponseSignals(saveResponse?.data?.save);
-  useResponseSignals(unsaveResponse?.data?.unsave);
 
   // This is to set the feed favourite icon.
   const [svg, setSvg] = React.useState(icon);
@@ -56,16 +49,10 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const onClick = () => {
     const feedId = saveAction?.feedId || "";
     if (save) {
-      const signalsInput = saveAction?.emitSignals?.map((s) => {
-        return {
-          type: s?.signal?.type,
-          reference: s?.signal?.reference
-        }
-      });
       saveItemMutation({
         variables: {
           feedId,
-          signals: signalsInput
+          cacheId: id
         }
       });
 
@@ -73,16 +60,10 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 
       setSave(false);
     } else {
-      const signalsInput = unsaveAction?.emitSignals?.map((s) => {
-        return {
-          type: s?.signal?.type,
-          reference: s?.signal?.reference
-        }
-      });
       unsaveItemMutation({
         variables: {
           feedId,
-          signals: signalsInput
+          cacheId: id
         }
       });
 

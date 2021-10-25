@@ -3,7 +3,7 @@ const fs = require('fs')
 const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const { fetchFeed, feedCount } = require('./feed');
+const { fetchFeed, feedCount, feedFavouriteCount, feedFavourite } = require('./feed');
 const { signalEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
@@ -70,6 +70,7 @@ var resolvers = {
     feed: () => {
       return {
         heading: {
+          id: `heading`,
           text: 'Example list of feed items',
           signal: {
             type: signalEnum.TITLE,
@@ -88,95 +89,31 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: async (_, { feedId, signals }) => {
+    save: async (_, { feedId, cacheId }) => {
       await sleep(2000)
-      const emitSignals = signals.map((signal) => {
-        switch (signal.type) {
-          case signalEnum.FAVOURITE:
-            return {
-              signal: {
-                type: signalEnum.FAVOURITE,
-                reference: signal.reference
-              },
-              value: {
-                text: "https://cdn-icons-png.flaticon.com/512/1076/1076984.png"
-              }
-            };
-          case signalEnum.FAVOURITE_COUNT:
-            return {
-              signal: {
-                type: signalEnum.ERROR,
-                reference: signal.reference
-              },
-              value: {
-                text: feedCount(feedId) + 1
-              }
-            };
-          default:
-            return null;
-        }
-      })
-
-      const errorSignals = signals.map((sig) => {
-        return {
-          type: sig.type,
-          reference: sig.reference
-        }
-      });
-
-      const error = {
-        message: 'Something went wrong!',
-        signals: errorSignals
-      };
-
       return {
-        emitSignals
+        feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, true),
+        feedFavourite: feedFavourite(feedCount(feedId), feedId, true)
       }
     },
-    unsave: async (_, { feedId, signals }) => {
+    unsave: async (_, { feedId, cacheId }) => {
       await sleep(2000)
-      const emitSignals = signals.map((signal) => {
-        switch (signal.type) {
-          case signalEnum.FAVOURITE:
-            return {
-              signal: {
-                type: signalEnum.FAVOURITE,
-                reference: signal.reference
-              },
-              value: {
-                text: "https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
-              }
-            };
-          case signalEnum.FAVOURITE_COUNT:
-            return {
-              signal: {
-                type: signalEnum.FAVOURITE_COUNT,
-                reference: signal.reference
-              },
-              value: {
-                text: feedCount(feedId)
-              }
-            };
-          default:
-            return null;
-        }
-      })
       return {
-        emitSignals
+        feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, false),
+        feedFavourite: feedFavourite(feedCount(feedId), feedId, false)
       }
     },
-    updateHeading: async (_, { heading }) => {
+    updateHeading: async (_, { heading, cacheId }) => {
       await sleep(2000)
       return {
-        emitSignals: [{
+        heading: {
+          id: cacheId,
+          text: heading,
           signal: {
             type: signalEnum.TITLE,
             reference: null
-          },
-          value: {
-            text: heading
           }
-        }]
+        }
       }
     }
   }

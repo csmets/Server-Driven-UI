@@ -11,12 +11,14 @@ type FeedItem {
 }
 
 type FeedFavouriteCount implements Column {
+    id: String!
     align: ColumnAlignment!
     count: String!
     signal: Signal
 }
 
 type FeedFavourite implements Column {
+    id: String!
     align: ColumnAlignment!
     icon: String!
     saveAction: FavouriteAction!

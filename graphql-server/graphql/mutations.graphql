@@ -1,21 +1,26 @@
 type Mutation {
-    save(feedId: String, signals: [SignalInput]): MutationResponse
+    save(feedId: String!, cacheId: String!): FavouriteMutationResponse
 }
 
 type Mutation {
-    unsave(feedId: String, signals: [SignalInput]): MutationResponse
+    unsave(feedId: String!, cacheId: String!): FavouriteMutationResponse
 }
 
 type Mutation {
-    updateHeading(heading: String): MutationResponse
+    updateHeading(heading: String, cacheId: String!): HeadingMutationResponse
 }
 
-type MutationResponse {
+type FavouriteMutationResponse {
     error: Error
-    emitSignals: [EmitSignal!]
+    feedFavouriteCount: FeedFavouriteCount
+    feedFavourite: FeedFavourite
+}
+
+type HeadingMutationResponse {
+    error: Error
+    heading: TypographyHeading
 }
 
 type Error {
-    signals: [Signal!]
     message: String
 }

@@ -14,13 +14,12 @@ const EditHeadingTitle = () => {
     if (inputValue) {
       updateHeadingMutation({
         variables: {
-          heading: inputValue
+          heading: inputValue,
+          cacheId: 'heading'
         }
       })
     }
   }
-
-  useResponseSignals(updateHeadingResponse?.data?.updateHeading)
 
   return (
     <div>

@@ -1,17 +1,17 @@
-mutation saveItem($feedId: String, $signals: [SignalInput]) {
-    save(feedId: $feedId, signals: $signals) {
-        ...mutationResponse
+mutation saveItem($feedId: String!, $cacheId: String!) {
+    save(feedId: $feedId, cacheId: $cacheId) {
+        ...favouriteMutationResponse
     }
 }
 
-mutation unsaveItem($feedId: String, $signals: [SignalInput]) {
-    unsave(feedId: $feedId, signals: $signals) {
-        ...mutationResponse
+mutation unsaveItem($feedId: String!, $cacheId: String!) {
+    unsave(feedId: $feedId, cacheId: $cacheId) {
+        ...favouriteMutationResponse
     }
 }
 
-mutation updateHeading($heading: String) {
-    updateHeading(heading: $heading) {
-        ...mutationResponse
+mutation updateHeading($heading: String!, $cacheId: String!) {
+    updateHeading(heading: $heading, cacheId: $cacheId) {
+        ...headingMutationResponse
     }
 }

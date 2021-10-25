@@ -1,13 +1,18 @@
 fragment feedView on FeedView {
     heading {
-        text
-        signal {
-            ...signal
-        }
+        ...typographyHeading
     }
     elements {
         ...feedItem
         ...typographyContent
+    }
+}
+
+fragment typographyHeading on TypographyHeading {
+    id
+    text
+    signal {
+        ...signal
     }
 }
 
@@ -28,6 +33,7 @@ fragment columnLayout on ColumnLayout {
 }
 
 fragment feedFavourite on FeedFavourite {
+    id
     icon
     signal {
         ...signal
@@ -41,6 +47,7 @@ fragment feedFavourite on FeedFavourite {
 }
 
 fragment feedFavouriteCount on FeedFavouriteCount {
+    id
     count
     signal {
         ...signal
@@ -103,16 +110,25 @@ fragment signal on Signal {
 
 fragment error on Error {
     message
-    signals {
-        ...signal
-    }
 }
 
-fragment mutationResponse on MutationResponse {
+fragment favouriteMutationResponse on FavouriteMutationResponse {
     error {
         ...error
     }
-    emitSignals {
-        ...emitSignal
+    feedFavourite {
+        ...feedFavourite
+    }
+    feedFavouriteCount {
+        ...feedFavouriteCount
+    }
+}
+
+fragment headingMutationResponse on HeadingMutationResponse {
+    error {
+        ...error
+    }
+    heading {
+        ...typographyHeading
     }
 }

@@ -6,6 +6,7 @@ import {
   InMemoryCache,
   ApolloProvider
 } from "@apollo/client";
+import Link from 'next/link'
 
 import styles from '../styles/Home.module.css';
 import { Feed } from './components/feed/feed';
@@ -32,6 +33,12 @@ const Home: NextPage = () => {
             <div>
               <Feed />
               <EditHeadingTitle />
+              <p>
+                Read{' '}
+                <Link href="/about">
+                  <a>about page!</a>
+                </Link>
+              </p>
             </div>
           </main>
 
