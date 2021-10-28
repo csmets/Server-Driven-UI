@@ -4,12 +4,6 @@ mutation saveItem($feedId: String!, $cacheId: String!) {
     }
 }
 
-mutation unsaveItem($feedId: String!, $cacheId: String!) {
-    unsave(feedId: $feedId, cacheId: $cacheId) {
-        ...favouriteMutationResponse
-    }
-}
-
 mutation updateHeading($heading: String!, $cacheId: String!) {
     updateHeading(heading: $heading, cacheId: $cacheId) {
         ...headingMutationResponse

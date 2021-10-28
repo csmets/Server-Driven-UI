@@ -14,12 +14,11 @@ const feedCaption = (text) => {
   }
 };
 
-const feedFavourite = (count, feedId, saved = false, actions = true) => {
+const feedFavourite = (count, feedId, saved = false) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   const originalImage = saved ? heart_full : heart_empty;
   const nextImage = saved ? heart_empty : heart_full;
-  const originalCount = saved ? count + 1 : count;
   const nextCount = saved ? count : count + 1;
   return {
     id: `feedFourite-${feedId}`,
@@ -32,7 +31,7 @@ const feedFavourite = (count, feedId, saved = false, actions = true) => {
         text: originalImage
       }
     },
-    saveAction: {
+    action: {
       feedId,
       emitSignals: [
         {
@@ -41,7 +40,7 @@ const feedFavourite = (count, feedId, saved = false, actions = true) => {
             reference: `ref-${feedId}`
           },
           value: {
-            text: heart_full
+            text: nextImage
           }
         },
         {
@@ -50,34 +49,11 @@ const feedFavourite = (count, feedId, saved = false, actions = true) => {
             reference: `ref-${feedId}-count`
           },
           value: {
-            text: count + 1
+            text: nextCount
           }
         }
       ]
     },
-    unsaveAction: {
-      feedId,
-      emitSignals: [
-        {
-          signal: {
-            type: signalEnum.FAVOURITE,
-            reference: `ref-${feedId}`
-          },
-          value: {
-            text: heart_empty
-          }
-        },
-        {
-          signal: {
-            type: signalEnum.FAVOURITE_COUNT,
-            reference: `ref-${feedId}-count`
-          },
-          value: {
-            text: count
-          }
-        }
-      ]
-    }
   }
 };
 

@@ -38,11 +38,8 @@ fragment feedFavourite on FeedFavourite {
     signal {
         ...signal
     }
-    saveAction {
+    action {
         ...favouriteAction
-    }
-    unsaveAction {
-        ...unfavouriteAction
     }
 }
 
@@ -55,13 +52,6 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 }
 
 fragment favouriteAction on FavouriteAction {
-    feedId
-    emitSignals {
-        ...emitSignal
-    }
-}
-
-fragment unfavouriteAction on UnfavouriteAction {
     feedId
     emitSignals {
         ...emitSignal

@@ -21,8 +21,7 @@ type FeedFavourite implements Column {
     id: String!
     align: ColumnAlignment!
     icon: String!
-    saveAction: FavouriteAction!
-    unsaveAction: UnfavouriteAction!
+    action: FavouriteAction!
     signal: Signal
 }
 
@@ -31,11 +30,6 @@ type FeedCaption {
 }
 
 type FavouriteAction implements EmitSignals {
-    feedId: String!
-    emitSignals: [EmitSignal!]
-}
-
-type UnfavouriteAction implements EmitSignals {
     feedId: String!
     emitSignals: [EmitSignal!]
 }

@@ -3,10 +3,6 @@ type Mutation {
 }
 
 type Mutation {
-    unsave(feedId: String!, cacheId: String!): FavouriteMutationResponse
-}
-
-type Mutation {
     updateHeading(heading: String, cacheId: String!): HeadingMutationResponse
 }
 

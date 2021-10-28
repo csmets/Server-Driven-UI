@@ -91,17 +91,35 @@ var resolvers = {
   Mutation: {
     save: async (_, { feedId, cacheId }) => {
       await sleep(2000)
-      return {
-        feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, true),
-        feedFavourite: feedFavourite(feedCount(feedId), feedId, true)
+
+      if (inMemoryFavouriteFeeds.savedItems) {
+        const found = inMemoryFavouriteFeeds.savedItems?.filter(item => item.feedId === feedId)
+
+        if (found && found.length > 0) {
+          // unsaving
+
+          const remove = inMemoryFavouriteFeeds.savedItems?.filter(item => item.feedId !== feedId);
+          inMemoryFavouriteFeeds.savedItems = remove
+
+          return {
+            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, false),
+            feedFavourite: feedFavourite(feedCount(feedId), feedId, false)
+          }
+        } else {
+          // saving
+
+          const writeFeed = {
+            feedId
+          };
+          inMemoryFavouriteFeeds.savedItems.push(writeFeed);
+
+          return {
+            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, true),
+            feedFavourite: feedFavourite(feedCount(feedId), feedId, true)
+          }
+        }
       }
-    },
-    unsave: async (_, { feedId, cacheId }) => {
-      await sleep(2000)
-      return {
-        feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, false),
-        feedFavourite: feedFavourite(feedCount(feedId), feedId, false)
-      }
+      return {};
     },
     updateHeading: async (_, { heading, cacheId }) => {
       await sleep(2000)
@@ -125,6 +143,9 @@ function sleep(ms) {
   });
 }
 
+const inMemoryFavouriteFeeds = {
+  savedItems: []
+}
 
 async function startApolloServer(typeDefs, resolvers) {
   const app = express();

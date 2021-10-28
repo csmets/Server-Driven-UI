@@ -2,14 +2,13 @@ import * as React from 'react';
 import Image from 'next/image';
 import {
   FeedFavouriteFragment,
-  SaveItemDocument,
-  UnsaveItemDocument
+  SaveItemDocument
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, saveAction, unsaveAction, signal, id } = props.data;
+  const { icon, action, signal, id } = props.data;
 
   /*
     Mutations here are to save or unsave a feed item. These mutations will always
@@ -18,7 +17,6 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     intially.
   */
   const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
-  const [unsaveItemMutation, unsaveResponse] = useMutation(UnsaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
   const { registerSignal, emitSignals } = signalContext;
@@ -33,9 +31,6 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   // This is to set the feed favourite icon.
   const [svg, setSvg] = React.useState(icon);
 
-  // Used to determine the state whether or not action should be save or unsave.
-  const [save, setSave] = React.useState(true)
-
   React.useEffect(() => {
     /*
       When an event has been emitted to a signal you've subscribed to a result
@@ -47,37 +42,22 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   }, [subscribe]);
 
   const onClick = () => {
-    const feedId = saveAction?.feedId || "";
-    if (save) {
-      saveItemMutation({
-        variables: {
-          feedId,
-          cacheId: id
-        }
-      });
+    const feedId = action?.feedId || "";
+    saveItemMutation({
+      variables: {
+        feedId,
+        cacheId: id
+      }
+    });
 
-      emitSignals(saveAction?.emitSignals)
-
-      setSave(false);
-    } else {
-      unsaveItemMutation({
-        variables: {
-          feedId,
-          cacheId: id
-        }
-      });
-
-      emitSignals(unsaveAction.emitSignals)
-
-      setSave(true);
-    }
+    emitSignals(action?.emitSignals)
   }
 
-  if (saveResponse.error || unsaveResponse.error) {
-    console.error(saveResponse.error || unsaveResponse.error);
+  if (saveResponse.error) {
+    console.error(saveResponse.error);
   }
 
-  if (saveResponse.loading || unsaveResponse.loading) {
+  if (saveResponse.loading) {
     console.log('waiting on mutation response');
   }
 
