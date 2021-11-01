@@ -5,11 +5,12 @@ This documentation is to house the standards that should be in placed when worki
 ## Table of contents
 1. [Architecture fundamentals](./architecture-fundamentals.md)
 2. [Writing a schema](./schema.md)
-3. _[TODO]_ Typenames, interfaces and unions
-4. _[TODO]_ Writing queries
-5. _[TODO]_ Writing mutations
-6. _[TODO]_ Modular design first
-7. _[TODO]_ Signals
+3. [Composable design system](./composable-design.md)
+4. _[TODO]_ Typenames, interfaces and unions
+5. _[TODO]_ Writing queries
+6. _[TODO]_ Writing mutations
+7. _[TODO]_ Modular design first
+8. _[TODO]_ Signals
 
 ## Preface
 
