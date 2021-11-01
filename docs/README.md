@@ -4,13 +4,12 @@ This documentation is to house the standards that should be in placed when worki
 
 ## Table of contents
 1. [Architecture fundamentals](./architecture-fundamentals.md)
-2. [Writing a schema](./schema.md)
-3. [Composable design system](./composable-design.md)
-4. _[TODO]_ Typenames, interfaces and unions
+2. [Typenames, interfaces and unions](./graphql-types.md)
+3. [Writing a schema](./schema.md)
+4. [Composable design system](./composable-design.md)
 5. _[TODO]_ Writing queries
 6. _[TODO]_ Writing mutations
-7. _[TODO]_ Modular design first
-8. _[TODO]_ Signals
+7. _[TODO]_ Signals
 
 ## Preface
 
@@ -19,6 +18,8 @@ SDUI can be defined in various different ways. It can be as simple a providing c
 All of which the client **should** be dumb, and should not drive business logic from the response given by the server.
 
 This project is opinionated to how SDUI should be done in a specific way following the [guiding principle](#guiding-principle). Ideally, this project will help provide a path to solve SDUI problems in a large scale.
+
+Examples and opinions are driven from using GraphQL. If you are using a technology other than GraphQL, it may not work for you but it still may provide useful concepts on your own approach.
 
 ## Pro and Cons of SDUI
 
