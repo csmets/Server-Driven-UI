@@ -43,6 +43,9 @@ var resolvers = {
       if (obj.items) {
         return 'FeedItem';
       }
+      if (obj.primary) {
+        return 'FeedHeading';
+      }
 
       return null;
     }
@@ -69,18 +72,18 @@ var resolvers = {
   Query: {
     feed: () => {
       return {
-        heading: {
-          id: `heading`,
-          text: 'Example list of feed items',
-          signal: {
-            type: signalEnum.TITLE,
-            reference: null
-          }
-        },
         elements: [
           {
+            id: `heading`,
+            primary: 'Example list of feed items',
+            signal: {
+              type: signalEnum.TITLE,
+              reference: null
+            }
+          },
+          {
             paragraph: [{
-              text: "This is a description"
+              value: "This is a description"
             }]
           },
           ...fetchFeed()
@@ -126,7 +129,7 @@ var resolvers = {
       return {
         heading: {
           id: cacheId,
-          text: heading,
+          primary: heading,
           signal: {
             type: signalEnum.TITLE,
             reference: null

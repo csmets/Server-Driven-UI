@@ -3,11 +3,5 @@ type TypographyContent {
 }
 
 type Paragraph {
-    text: String
-}
-
-type TypographyHeading {
-    id: String!
-    text: String
-    signal: Signal
+    value: String
 }

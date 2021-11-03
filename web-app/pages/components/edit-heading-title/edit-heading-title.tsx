@@ -2,12 +2,13 @@ import { useMutation } from '@apollo/client';
 import * as React from 'react';
 import { UpdateHeadingDocument } from '../../../../generated-types/react/types';
 import { SignalContext } from '../../provider/signal';
+import { SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 
 const EditHeadingTitle = () => {
   const [updateHeadingMutation, updateHeadingResponse] = useMutation(UpdateHeadingDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { useResponseSignals } = signalContext;
+  const { emitSignals } = signalContext;
 
   const onClick = () => {
     const inputValue = document.getElementById('headingValue')?.value;
@@ -18,6 +19,16 @@ const EditHeadingTitle = () => {
           cacheId: 'heading'
         }
       })
+
+      emitSignals([{
+        signal: {
+          type: SignalType.Title,
+          reference: ''
+        },
+        value: {
+          text: inputValue
+        }
+      }])
     }
   }
 

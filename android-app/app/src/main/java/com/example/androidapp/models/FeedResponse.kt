@@ -13,6 +13,9 @@ sealed class FeedViewElement {
 
     @Serializable
     data class TypographyContent(val paragraphs: List<Paragraph>): FeedViewElement()
+
+    @Serializable
+    data class FeedHeading(val primary: String, val signal: Signal?): FeedViewElement()
 }
 
 @Serializable

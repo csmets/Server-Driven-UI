@@ -1,5 +1,5 @@
 query getFeed {
     feed {
-        ...feedView
+        ...feedContainer
     }
 }

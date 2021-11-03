@@ -28,6 +28,6 @@ class RemoteDataSource {
             return null
         }
 
-        return feedResponseFactory.create(feed.fragments.feedView)
+        return feedResponseFactory.create(feed.fragments.feedContainer)
     }
 }

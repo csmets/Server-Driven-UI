@@ -1,13 +1,33 @@
-union FeedViewElement = FeedItem | TypographyContent
+union FeedViewElement = FeedItem | FeedHeading | TypographyContent
 union FeedElement = ColumnLayout | FeedCaption | FeedImage
 
-type FeedView {
-    heading: TypographyHeading
+# Container for the feed view
+type FeedContainer {
     elements: [FeedViewElement]
 }
 
 type FeedItem {
     items: [FeedElement]
+}
+
+type FeedHeading {
+    id: String!
+    primary: String
+    signal: Signal
+}
+
+type FeedCaption {
+    text: String
+}
+
+type FeedImage {
+    src: String!
+    alt: String
+}
+
+type FavouriteAction implements EmitSignals {
+    feedId: String!
+    emitSignals: [EmitSignal!]
 }
 
 type FeedFavouriteCount implements Column {
@@ -23,18 +43,4 @@ type FeedFavourite implements Column {
     icon: String!
     action: FavouriteAction!
     signal: Signal
-}
-
-type FeedCaption {
-    text: String
-}
-
-type FavouriteAction implements EmitSignals {
-    feedId: String!
-    emitSignals: [EmitSignal!]
-}
-
-type FeedImage {
-    src: String!
-    alt: String
 }

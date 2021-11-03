@@ -1,10 +1,10 @@
 package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.FeedResponse
-import fragment.FeedView
+import fragment.FeedContainer
 
 fun interface FeedResponseFactory {
-    fun create(elements: FeedView): FeedResponse?
+    fun create(elements: FeedContainer): FeedResponse?
 }
 
 val feedResponseFactory = FeedResponseFactory {

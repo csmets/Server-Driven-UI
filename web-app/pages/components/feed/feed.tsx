@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useQuery } from "@apollo/client";
 import { GetFeedQuery, GetFeedDocument } from '@csmets/typescript-apollo-sdui-types/types';
-import { FeedView } from './elements/feed-view';
+import { FeedContainer } from './elements/feed-container';
 
 const Feed = (): JSX.Element => {
   const { loading, error, data } = useQuery<GetFeedQuery>(GetFeedDocument);
@@ -12,7 +12,7 @@ const Feed = (): JSX.Element => {
     return <></>;
   }
 
-  return <FeedView data={data.feed} />
+  return <FeedContainer data={data.feed} />
 }
 
 export {

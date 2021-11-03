@@ -8,7 +8,7 @@ fun interface ParagraphyFactory {
 }
 
 val paragraphFactory = ParagraphyFactory {
-    val paragraph = it?.fragments?.paragraph?.text
+    val paragraph = it?.fragments?.paragraph?.value
 
     when {
         paragraph != null -> return@ParagraphyFactory Paragraph(paragraph)

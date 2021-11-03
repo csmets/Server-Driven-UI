@@ -1,16 +1,14 @@
-fragment feedView on FeedView {
-    heading {
-        ...typographyHeading
-    }
+fragment feedContainer on FeedContainer {
     elements {
+        ...feedHeading
         ...feedItem
         ...typographyContent
     }
 }
 
-fragment typographyHeading on TypographyHeading {
+fragment feedHeading on FeedHeading {
     id
-    text
+    primary
     signal {
         ...signal
     }
@@ -87,7 +85,7 @@ fragment typographyContent on TypographyContent {
 }
 
 fragment paragraph on Paragraph {
-    text
+    value
 }
 
 fragment signal on Signal {
@@ -119,6 +117,6 @@ fragment headingMutationResponse on HeadingMutationResponse {
         ...error
     }
     heading {
-        ...typographyHeading
+        ...feedHeading
     }
 }

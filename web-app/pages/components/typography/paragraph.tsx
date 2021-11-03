@@ -4,11 +4,11 @@ import { ParagraphFragment } from '@csmets/typescript-apollo-sdui-types/types';
 const Paragraph = (props: { data: ParagraphFragment }) => {
   const { data } = props;
 
-  if (!data || !data?.text) {
+  if (!data || !data?.value) {
     return <></>;
   }
 
-  return <p>{ data.text }</p>
+  return <p>{ data.value }</p>
 };
 
 export {

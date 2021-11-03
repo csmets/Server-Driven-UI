@@ -14,7 +14,7 @@ type FavouriteMutationResponse {
 
 type HeadingMutationResponse {
     error: Error
-    heading: TypographyHeading
+    heading: FeedHeading
 }
 
 type Error {

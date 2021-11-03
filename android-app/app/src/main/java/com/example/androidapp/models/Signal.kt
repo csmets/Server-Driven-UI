@@ -3,16 +3,23 @@ package com.example.androidapp.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Signal(val signalId: String, val states: List<State>)
+data class Signal(val type: SignalType, val reference: String?, val fallback: SignalValue?)
 
-enum class StateKey {
-    OK,
-    ERROR,
-    NULL
+enum class SignalType {
+    FAVOURITE,
+    FAVOURITE_COUNT,
+    TITLE,
+    ERROR
 }
 
 @Serializable
-data class State(val key: StateKey, val value: String?)
+data class EmitSignal(val signal: Signal, val value: SignalValue)
 
 @Serializable
-data class EmitSignal(val signalId: String, val key: StateKey)
+sealed class SignalValue {
+
+    @Serializable
+    data class SignalStringValue(
+        val text: String
+    ): SignalValue()
+}
