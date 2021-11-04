@@ -13,7 +13,7 @@ enum class SignalType {
 }
 
 @Serializable
-data class EmitSignal(val signal: Signal, val value: SignalValue)
+data class EmitSignal(val signal: Signal, val value: SignalValue?)
 
 @Serializable
 sealed class SignalValue {
