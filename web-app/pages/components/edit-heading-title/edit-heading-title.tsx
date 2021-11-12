@@ -16,7 +16,12 @@ const EditHeadingTitle = () => {
       updateHeadingMutation({
         variables: {
           heading: inputValue,
-          cacheId: 'heading'
+          cacheIds: [
+            {
+              "key": "heading",
+              "value": "heading"
+            }
+          ]
         }
       })
 

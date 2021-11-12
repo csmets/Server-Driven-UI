@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, action, signal, id } = props.data;
+  const { icon, action, signal} = props.data;
 
   /*
     Mutations here are to save or unsave a feed item. These mutations will always
@@ -43,10 +43,17 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 
   const onClick = () => {
     const feedId = action?.feedId || "";
+    const cacheIds = action?.cacheIds || [];
+    const cacheInputIds = cacheIds.map((cache) => {
+      return {
+        "key": cache.key,
+        "value": cache.value
+      }
+    })
     saveItemMutation({
       variables: {
         feedId,
-        cacheId: id
+        cacheIds: cacheInputIds
       }
     });
 

@@ -51,6 +51,9 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 
 fragment favouriteAction on FavouriteAction {
     feedId
+    cacheIds {
+        ...cache
+    }
     emitSignals {
         ...emitSignal
     }
@@ -119,4 +122,9 @@ fragment headingMutationResponse on HeadingMutationResponse {
     heading {
         ...feedHeading
     }
+}
+
+fragment cache on Cache {
+    key
+    value
 }

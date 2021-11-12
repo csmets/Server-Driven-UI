@@ -14,14 +14,14 @@ const feedCaption = (text) => {
   }
 };
 
-const feedFavourite = (count, feedId, saved = false) => {
+const feedFavourite = (count, feedId, cacheId, actionCacheIds, saved = false) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   const originalImage = saved ? heart_full : heart_empty;
   const nextImage = saved ? heart_empty : heart_full;
   const nextCount = saved ? count : count + 1;
   return {
-    id: `feedFourite-${feedId}`,
+    id: cacheId,
     align: 'LEFT',
     icon: originalImage,
     signal: {
@@ -33,6 +33,7 @@ const feedFavourite = (count, feedId, saved = false) => {
     },
     action: {
       feedId,
+      cacheIds: actionCacheIds,
       emitSignals: [
         {
           signal: {
@@ -57,10 +58,10 @@ const feedFavourite = (count, feedId, saved = false) => {
   }
 };
 
-const feedFavouriteCount = (count, feedId, saved = false) => {
+const feedFavouriteCount = (count, feedId, cacheId, saved = false) => {
   const countValue = saved ? count + 1 : count;
   return {
-    id: `feedFouriteCount-${feedId}`,
+    id: cacheId,
     align: 'RIGHT',
     count: countValue,
     signal: {
@@ -74,10 +75,22 @@ const feedFavouriteCount = (count, feedId, saved = false) => {
 };
 
 const feedColumn = (count, feedId) => {
+  const feedFavouriteCache = `feedFavourite-${feedId}`;
+  const feedFavouriteCountCache = `feedFavouriteCount-${feedId}`;
+  const actionCache = [
+    {
+      "key": "feedFavourite",
+      "value": feedFavouriteCache
+    },
+    {
+      "key": "feedFavouriteCount",
+      "value": feedFavouriteCountCache
+    }
+  ];
   return {
     columns: [
-      feedFavourite(count, feedId),
-      feedFavouriteCount(count, feedId)
+      feedFavourite(count, feedId, feedFavouriteCache, actionCache),
+      feedFavouriteCount(count, feedId, feedFavouriteCountCache)
     ]
   }
 }

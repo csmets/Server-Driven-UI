@@ -27,6 +27,7 @@ type FeedImage {
 
 type FavouriteAction implements EmitSignals {
     feedId: String!
+    cacheIds: [Cache!]
     emitSignals: [EmitSignal!]
 }
 

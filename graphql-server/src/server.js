@@ -92,8 +92,22 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: async (_, { feedId, cacheId }) => {
+    save: async (_, { feedId, cacheIds }) => {
       await sleep(2000)
+
+      let feedFavouriteCountCacheId = null;
+      let feedFavouriteCacheId = null;
+
+      if (cacheIds && cacheIds.length) {
+        cacheIds.forEach((id) => {
+          if (id.key === 'feedFavourite') {
+            feedFavouriteCacheId = id.value;
+          }
+          if (id.key === 'feedFavouriteCount') {
+            feedFavouriteCountCacheId = id.value;
+          }
+        })
+      }
 
       if (inMemoryFavouriteFeeds.savedItems) {
         const found = inMemoryFavouriteFeeds.savedItems?.filter(item => item.feedId === feedId)
@@ -105,8 +119,8 @@ var resolvers = {
           inMemoryFavouriteFeeds.savedItems = remove
 
           return {
-            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, false),
-            feedFavourite: feedFavourite(feedCount(feedId), feedId, false)
+            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, feedFavouriteCountCacheId, false),
+            feedFavourite: feedFavourite(feedCount(feedId), feedId, feedFavouriteCacheId, cacheIds, false)
           }
         } else {
           // saving
@@ -117,15 +131,26 @@ var resolvers = {
           inMemoryFavouriteFeeds.savedItems.push(writeFeed);
 
           return {
-            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, true),
-            feedFavourite: feedFavourite(feedCount(feedId), feedId, true)
+            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, feedFavouriteCountCacheId, true),
+            feedFavourite: feedFavourite(feedCount(feedId), feedId, feedFavouriteCacheId, cacheIds, true)
           }
         }
       }
       return {};
     },
-    updateHeading: async (_, { heading, cacheId }) => {
+    updateHeading: async (_, { heading, cacheIds }) => {
       await sleep(2000)
+
+      let cacheId = null;
+
+      if (cacheIds && cacheIds.length) {
+        cacheIds.forEach((id) => {
+          if (id.key === 'heading') {
+            cacheId = id.value;
+          }
+        })
+      }
+
       return {
         heading: {
           id: cacheId,

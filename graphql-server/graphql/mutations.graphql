@@ -1,9 +1,9 @@
 type Mutation {
-    save(feedId: String!, cacheId: String!): FavouriteMutationResponse
+    save(feedId: String!, cacheIds: [CacheInput!]): FavouriteMutationResponse
 }
 
 type Mutation {
-    updateHeading(heading: String, cacheId: String!): HeadingMutationResponse
+    updateHeading(heading: String, cacheIds: [CacheInput!]): HeadingMutationResponse
 }
 
 type FavouriteMutationResponse {

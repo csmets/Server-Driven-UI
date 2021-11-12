@@ -1,11 +1,11 @@
-mutation saveItem($feedId: String!, $cacheId: String!) {
-    save(feedId: $feedId, cacheId: $cacheId) {
+mutation saveItem($feedId: String!, $cacheIds: [CacheInput!]) {
+    save(feedId: $feedId, cacheIds: $cacheIds) {
         ...favouriteMutationResponse
     }
 }
 
-mutation updateHeading($heading: String!, $cacheId: String!) {
-    updateHeading(heading: $heading, cacheId: $cacheId) {
+mutation updateHeading($heading: String!, $cacheIds: [CacheInput!]) {
+    updateHeading(heading: $heading, cacheIds: $cacheIds) {
         ...headingMutationResponse
     }
 }
