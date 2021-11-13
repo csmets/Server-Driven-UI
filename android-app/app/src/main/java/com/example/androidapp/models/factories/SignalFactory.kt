@@ -14,21 +14,10 @@ val signalFactory = SignalFactory {
         return@SignalFactory null
     }
 
-    val fallbackValue = getFallbackValue(it.fallback)
-
     return@SignalFactory Signal(
         type = mapSignalType(it.type),
-        reference = it.reference,
-        fallback = fallbackValue?.let { fallbackValue }
+        reference = it.reference
     )
-}
-
-fun getFallbackValue(fallback: fragment.Signal.Fallback?): SignalValue? {
-    val stringValue = fallback?.fragments?.signalStringValue
-    return when {
-        stringValue != null -> stringValue.text?.let { text -> SignalValue.SignalStringValue(text) }
-        else -> null
-    }
 }
 
 fun mapSignalType(type: type.SignalType): SignalType {

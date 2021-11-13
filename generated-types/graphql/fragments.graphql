@@ -94,9 +94,6 @@ fragment paragraph on Paragraph {
 fragment signal on Signal {
     type
     reference
-    fallback {
-        ...signalStringValue
-    }
 }
 
 fragment error on Error {

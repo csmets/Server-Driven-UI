@@ -10,7 +10,6 @@ type EmitSignal {
 type Signal {
     type: SignalType!
     reference: String
-    fallback: SignalValue
 }
 
 input SignalInput {

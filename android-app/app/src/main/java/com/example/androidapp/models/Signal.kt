@@ -3,7 +3,7 @@ package com.example.androidapp.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Signal(val type: SignalType, val reference: String?, val fallback: SignalValue?)
+data class Signal(val type: SignalType, val reference: String?)
 
 enum class SignalType {
     FAVOURITE,
