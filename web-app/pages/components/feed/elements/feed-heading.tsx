@@ -5,17 +5,12 @@ import { SignalContext } from '../../../provider/signal';
 const FeedHeading = (props: { data: FeedHeadingFragment }): JSX.Element => {
   const { signal, primary } = props.data;
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal } = signalContext;
-
-  const { subscribe } = registerSignal(signal)
-
+  const { useSignalEvent } = signalContext;
   const [headingText, setHeadingText] = React.useState(primary || "");
 
-  React.useEffect(() => {
-    if (subscribe && subscribe.result) {
-      setHeadingText(subscribe.result.value.text);
-    }
-  }, [subscribe]);
+  useSignalEvent(signal, (result) => {
+    setHeadingText(result.value.text);
+  })
 
   return (
     <h1>{headingText}</h1>

@@ -1,9 +1,8 @@
 import { EmitSignal, Error, Signal, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
-  registerSignal: (signal?: Signal | null) => Subscribe
+  useSignalEvent: (signal: Signal | null | undefined, callback: (result: any) => void) => void
   emitSignals: (emitSignals?: EmitSignal[] | null) => void
-  useResponseSignals: (response: ResponseSignals) => void
 }
 
 interface Subscribe {
@@ -20,20 +19,15 @@ interface SubscribeResult {
   result: Result
 }
 
-interface ResponseSignals {
-  error: Error
-  emitSignals: EmitSignal[]
-}
-
 const SignalContext = React.createContext({} as SignalContext);
 
 const SignalProvider = (props: any) => {
   const { children } = props;
-  const [subscribe, setSubscribe] = React.useState([] as SubscribeResult[]);
+  const [subscribers, setSubscribers] = React.useState([] as SubscribeResult[]);
 
   const signals: Signal[] = [];
 
-  const registerSignal = (signal?: Signal | null) => {
+  const registerSignal = (signal: Signal | null | undefined): Subscribe => {
     if (!signal) {
       return {
         subscribe: null
@@ -44,14 +38,35 @@ const SignalProvider = (props: any) => {
 
     if (signal.reference) {
       return {
-        subscribe: subscribe.filter((s) => s.result.reference === signal.reference)[0]
+        subscribe: subscribers.filter((s) => s.result.reference === signal.reference)[0]
       }
     }
 
     return {
-      subscribe: subscribe.filter((s) => s.result.type === signal.type)[0]
+      subscribe: subscribers.filter((s) => s.result.type === signal.type)[0]
     }
 
+  };
+
+  const useSignalEvent = (signal: Signal | null | undefined, callback: (result: any) => void) => {
+    const { subscribe } = registerSignal(signal);
+
+    React.useEffect(() => {
+      /*
+        When an event has been emitted to a signal you've subscribed to a result
+        will be returned.
+      */
+      if (subscribe && subscribe.result) {
+        if (signal?.reference && subscribe.result.reference && signal.reference === subscribe.result.reference) {
+          // If there is a reference given in the signal and is matches the result; use callback
+          callback(subscribe.result);
+        }
+        if (!signal?.reference && signal?.type === subscribe.result.type) {
+          // If no reference is provided but signal type matches subscribe type; use callback.
+          callback(subscribe.result);
+        }
+      }
+    }, [subscribe]);
   };
 
   const emitSignals = (emitSignals?: EmitSignal[] | null) => {
@@ -71,46 +86,12 @@ const SignalProvider = (props: any) => {
       })
     });
 
-    setSubscribe(result);
-  }
-
-  const emitFallback = (fallbackSignals: Signal[]) => {
-    const fallbacks = [] as EmitSignal[];
-    fallbackSignals.forEach((fallback) => {
-      signals.forEach((signal) => {
-        if (fallback.reference === signal.reference) {
-          fallbacks.push({
-            signal,
-            value: signal.fallback
-          })
-        }
-      })
-    })
-
-    emitSignals(fallbacks)
-  }
-
-  const useResponseSignals = (response: ResponseSignals) => {
-    React.useEffect(() => {
-      if (response && response.error && response.error.signals) {
-        const fallbackSignals = response.error.signals.map((sig) => {
-          return {
-            type: sig.type,
-            reference: sig.reference
-          } as Signal
-        })
-        emitFallback(fallbackSignals)
-      }
-      else if (response?.emitSignals) {
-        emitSignals(response.emitSignals)
-      }
-    }, [response])
+    setSubscribers(result);
   }
 
   const context = {
-    registerSignal,
-    emitSignals,
-    useResponseSignals
+    useSignalEvent,
+    emitSignals
   };
 
   return (

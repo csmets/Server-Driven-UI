@@ -19,27 +19,19 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal, emitSignals } = signalContext;
+  const { useSignalEvent, emitSignals } = signalContext;
+
+  // This is to set the feed favourite icon.
+  const [svg, setSvg] = React.useState(icon);
 
   /*
     To be able to use values that get emitted, a signal must be registered. When
     registering a signal, a subscriber is returned. The subscribe is a listener
     that will return values that get emitted.
   */
-  const { subscribe } = registerSignal(signal);
-
-  // This is to set the feed favourite icon.
-  const [svg, setSvg] = React.useState(icon);
-
-  React.useEffect(() => {
-    /*
-      When an event has been emitted to a signal you've subscribed to a result
-      will be returned.
-    */
-    if (subscribe && subscribe.result) {
-      setSvg(subscribe.result.value.text);
-    }
-  }, [subscribe]);
+  useSignalEvent(signal, (result) => {
+      setSvg(result.value.text);
+  });
 
   const onClick = () => {
     const feedId = action?.feedId || "";
@@ -60,9 +52,18 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     emitSignals(action?.emitSignals)
   }
 
-  if (saveResponse.error) {
-    console.error(saveResponse.error);
-  }
+  React.useEffect(() => {
+    if (saveResponse.error) {
+      console.error(saveResponse.error);
+      emitSignals([{
+        signal,
+        value: {
+          text: icon
+        }
+      }])
+    }
+  }, [saveResponse])
+
 
   if (saveResponse.loading) {
     console.log('waiting on mutation response');

@@ -6,19 +6,12 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
   const { data } = props;
   const { signal } = data;
   const signalContext = React.useContext(SignalContext);
-  const { registerSignal } = signalContext;
+  const { useSignalEvent } = signalContext;
   const [count, setCount] = React.useState(data.count);
 
-  const { subscribe } = registerSignal(signal)
-
-  React.useEffect(() => {
-    if (subscribe && subscribe.result) {
-      if (subscribe.result.reference === signal?.reference) {
-        setCount(subscribe.result.value.text)
-      }
-    }
-  }, [subscribe]);
-
+  useSignalEvent(signal, (result) => {
+    setCount(result.value.text)
+  });
 
   return <div><p>{count}</p></div>
 }
