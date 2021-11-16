@@ -104,3 +104,15 @@ Great! Now we know how powerful signal types are, what's the purpose of `referen
 First thing to do when working with signals is to register one. When registering a signal it is important to provide a callback method as it will be used to subscribe to the event. Once created it will put the signal into a registry. This registry will be looked up when a signal get emitted and return any signals that match. When the found signals it will send an event to it's subscribers to let them know that the signal has been emitted.
 
 ![registering a signal](./images/registering-signal.jpg)
+
+### Emitting a signal
+
+When you want your object that has a signal bound to it to have it's value updated, it done through emitting. Emitting a signal event is typically done through an action. The emitted signal will be sent through to the signal registry for lookup. Depending on certain conditions of the emitting signal, it can update the value of a single signal or to many signals. When it has found all the signals it needs to emit to it will trigger the callback methods that was provided when a signal is registered. The callback will handle what to do with the value it's given.
+
+![Emitting a signal](./images/emitting-signal.jpg)
+
+## Wrap up
+
+Signals provide a solution to render optimistic results without depending on the server's response. This immerses the user to experience a fluid and responsive UI without being hindered heavily on server's feedback.
+
+Signals can also work with the server's mutation response that can help emit it's results across multiple elements that have a signal registered. And forms of cross element/component communication can be done through the use of signals.
