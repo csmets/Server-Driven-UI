@@ -9,7 +9,8 @@ This documentation is to house the standards that should be in placed when worki
 4. [Composable design system](./composable-design.md)
 5. _[TODO]_ Writing queries
 6. _[TODO]_ Writing mutations
-7. _[TODO]_ Signals
+7. [Signals](./signals.md)
+8. [Cache](./cache.md)
 
 ## Preface
 

@@ -72,9 +72,7 @@ Signals act immediately, the experience will not feel any impact from server res
 
 ### What it doesn't solve
 
-Signals update the UI but doesn't change the response cache. So, if you have client side navigation you'll be rudely awakened to a response you originally had and not the modified one. However, this is solved with another trick.
-
-[TODO: WRITE ARTICLE ON MUTATION CACHE UPDATING]
+Signals update the UI but doesn't change the response cache. So, if you have client side navigation you'll be rudely awakened to a response you originally had and not the modified one. However, this is solved with another trick. [Read about handling cache](./cache.md)
 
 ## A deeper dive
 
