@@ -1,0 +1,21 @@
+union Action = EditNameSubmitAction
+union FormElement = Button | TextInput
+
+type EditNameContainer {
+    elements: [FormElement!]
+}
+
+type EditNameSubmitAction {
+    cacheIds: [Cache!]!
+    inputIds: [String!]!
+}
+
+type TextInput {
+    formId: String!
+    placeholder: String
+}
+
+type Button {
+    label: String!
+    action: Action!
+}

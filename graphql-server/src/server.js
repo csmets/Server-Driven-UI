@@ -69,6 +69,23 @@ var resolvers = {
       return null;
     }
   },
+  Action: {
+    __resolveType(obj) {
+      if (obj.cacheIds) {
+        return 'EditNameSubmitAction'
+      }
+    }
+  },
+  FormElement: {
+    __resolveType(obj) {
+      if (obj.label) {
+        return 'Button'
+      }
+      if (obj.formId) {
+        return 'TextInput'
+      }
+    }
+  },
   Query: {
     feed: () => {
       return {
@@ -87,6 +104,28 @@ var resolvers = {
             }]
           },
           ...fetchFeed()
+        ]
+      }
+    },
+    editName: () => {
+      return {
+        elements: [
+          {
+            formId: 'headingInput',
+            placeholder: 'Updating heading title'
+          },
+          {
+            label: 'Edit title',
+            action: {
+              inputIds: ['headingInput'],
+              cacheIds: [
+                {
+                  key: 'heading',
+                  value: 'heading'
+                }
+              ]
+            }
+          }
         ]
       }
     }

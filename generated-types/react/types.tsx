@@ -14,6 +14,14 @@ export type Scalars = {
   Float: number;
 };
 
+export type Action = EditNameSubmitAction;
+
+export type Button = {
+  __typename?: 'Button';
+  action: Action;
+  label: Scalars['String'];
+};
+
 export type Cache = {
   __typename?: 'Cache';
   key: Scalars['String'];
@@ -38,6 +46,17 @@ export enum ColumnAlignment {
 export type ColumnLayout = {
   __typename?: 'ColumnLayout';
   columns?: Maybe<Array<Maybe<Column>>>;
+};
+
+export type EditNameContainer = {
+  __typename?: 'EditNameContainer';
+  elements?: Maybe<Array<FormElement>>;
+};
+
+export type EditNameSubmitAction = {
+  __typename?: 'EditNameSubmitAction';
+  cacheIds: Array<Cache>;
+  inputIds: Array<Scalars['String']>;
 };
 
 export type EmitSignal = {
@@ -118,6 +137,8 @@ export type FeedItem = {
 
 export type FeedViewElement = FeedHeading | FeedItem | TypographyContent;
 
+export type FormElement = Button | TextInput;
+
 export type HeadingMutationResponse = {
   __typename?: 'HeadingMutationResponse';
   error?: Maybe<Error>;
@@ -149,6 +170,7 @@ export type Paragraph = {
 
 export type Query = {
   __typename?: 'Query';
+  editName?: Maybe<EditNameContainer>;
   feed?: Maybe<FeedContainer>;
 };
 
@@ -176,6 +198,12 @@ export enum SignalType {
 }
 
 export type SignalValue = SignalStringValue;
+
+export type TextInput = {
+  __typename?: 'TextInput';
+  formId: Scalars['String'];
+  placeholder?: Maybe<Scalars['String']>;
+};
 
 export type TypographyContent = {
   __typename?: 'TypographyContent';
@@ -218,6 +246,14 @@ export type HeadingMutationResponseFragment = { __typename?: 'HeadingMutationRes
 
 export type CacheFragment = { __typename?: 'Cache', key: string, value: string };
 
+export type EditNameContainerFragment = { __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> };
+
+export type TextInputFragment = { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> };
+
+export type ButtonFragment = { __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } };
+
+export type EditNameSubmitActionFragment = { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> };
+
 export type SaveItemMutationVariables = Exact<{
   feedId: Scalars['String'];
   cacheIds?: Maybe<Array<CacheInput> | CacheInput>;
@@ -238,6 +274,11 @@ export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedContainer', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> } | { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, cacheIds?: Maybe<Array<{ __typename?: 'Cache', key: string, value: string }>>, emitSignals?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', value?: Maybe<string> }>>> }>>> }> };
+
+export type EditNameQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EditNameQuery = { __typename?: 'Query', editName?: Maybe<{ __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> }> };
 
 export const SignalFragmentDoc = gql`
     fragment signal on Signal {
@@ -396,6 +437,37 @@ export const HeadingMutationResponseFragmentDoc = gql`
 }
     ${ErrorFragmentDoc}
 ${FeedHeadingFragmentDoc}`;
+export const TextInputFragmentDoc = gql`
+    fragment textInput on TextInput {
+  formId
+  placeholder
+}
+    `;
+export const EditNameSubmitActionFragmentDoc = gql`
+    fragment editNameSubmitAction on EditNameSubmitAction {
+  cacheIds {
+    ...cache
+  }
+  inputIds
+}
+    ${CacheFragmentDoc}`;
+export const ButtonFragmentDoc = gql`
+    fragment button on Button {
+  label
+  action {
+    ...editNameSubmitAction
+  }
+}
+    ${EditNameSubmitActionFragmentDoc}`;
+export const EditNameContainerFragmentDoc = gql`
+    fragment editNameContainer on EditNameContainer {
+  elements {
+    ...textInput
+    ...button
+  }
+}
+    ${TextInputFragmentDoc}
+${ButtonFragmentDoc}`;
 export const SaveItemDocument = gql`
     mutation saveItem($feedId: String!, $cacheIds: [CacheInput!]) {
   save(feedId: $feedId, cacheIds: $cacheIds) {
@@ -498,3 +570,37 @@ export function useGetFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetFeedQueryHookResult = ReturnType<typeof useGetFeedQuery>;
 export type GetFeedLazyQueryHookResult = ReturnType<typeof useGetFeedLazyQuery>;
 export type GetFeedQueryResult = Apollo.QueryResult<GetFeedQuery, GetFeedQueryVariables>;
+export const EditNameDocument = gql`
+    query editName {
+  editName {
+    ...editNameContainer
+  }
+}
+    ${EditNameContainerFragmentDoc}`;
+
+/**
+ * __useEditNameQuery__
+ *
+ * To run a query within a React component, call `useEditNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditNameQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEditNameQuery(baseOptions?: Apollo.QueryHookOptions<EditNameQuery, EditNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EditNameQuery, EditNameQueryVariables>(EditNameDocument, options);
+      }
+export function useEditNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EditNameQuery, EditNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EditNameQuery, EditNameQueryVariables>(EditNameDocument, options);
+        }
+export type EditNameQueryHookResult = ReturnType<typeof useEditNameQuery>;
+export type EditNameLazyQueryHookResult = ReturnType<typeof useEditNameLazyQuery>;
+export type EditNameQueryResult = Apollo.QueryResult<EditNameQuery, EditNameQueryVariables>;
