@@ -4,8 +4,8 @@ mutation saveItem($feedId: String!, $cacheIds: [CacheInput!]) {
     }
 }
 
-mutation updateHeading($heading: String!, $cacheIds: [CacheInput!]) {
-    updateHeading(heading: $heading, cacheIds: $cacheIds) {
+mutation updateHeading($formInputs: [FormInput!], $cacheIds: [CacheInput!]) {
+    updateHeading(formInputs: $formInputs, cacheIds: $cacheIds) {
         ...headingMutationResponse
     }
 }

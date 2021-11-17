@@ -56,6 +56,7 @@ export type EditNameContainer = {
 export type EditNameSubmitAction = {
   __typename?: 'EditNameSubmitAction';
   cacheIds: Array<Cache>;
+  emitSignal: EmitSignal;
   inputIds: Array<Scalars['String']>;
 };
 
@@ -139,6 +140,11 @@ export type FeedViewElement = FeedHeading | FeedItem | TypographyContent;
 
 export type FormElement = Button | TextInput;
 
+export type FormInput = {
+  key: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+};
+
 export type HeadingMutationResponse = {
   __typename?: 'HeadingMutationResponse';
   error?: Maybe<Error>;
@@ -160,7 +166,7 @@ export type MutationSaveArgs = {
 
 export type MutationUpdateHeadingArgs = {
   cacheIds?: Maybe<Array<CacheInput>>;
-  heading?: Maybe<Scalars['String']>;
+  formInputs?: Maybe<Array<FormInput>>;
 };
 
 export type Paragraph = {
@@ -246,13 +252,13 @@ export type HeadingMutationResponseFragment = { __typename?: 'HeadingMutationRes
 
 export type CacheFragment = { __typename?: 'Cache', key: string, value: string };
 
-export type EditNameContainerFragment = { __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> };
+export type EditNameContainerFragment = { __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> };
 
 export type TextInputFragment = { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> };
 
-export type ButtonFragment = { __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } };
+export type ButtonFragment = { __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } };
 
-export type EditNameSubmitActionFragment = { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> };
+export type EditNameSubmitActionFragment = { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } };
 
 export type SaveItemMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -263,7 +269,7 @@ export type SaveItemMutationVariables = Exact<{
 export type SaveItemMutation = { __typename?: 'Mutation', save?: Maybe<{ __typename?: 'FavouriteMutationResponse', error?: Maybe<{ __typename?: 'Error', message?: Maybe<string> }>, feedFavourite?: Maybe<{ __typename?: 'FeedFavourite', id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, cacheIds?: Maybe<Array<{ __typename?: 'Cache', key: string, value: string }>>, emitSignals?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } }>, feedFavouriteCount?: Maybe<{ __typename?: 'FeedFavouriteCount', id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }> }> };
 
 export type UpdateHeadingMutationVariables = Exact<{
-  heading: Scalars['String'];
+  formInputs?: Maybe<Array<FormInput> | FormInput>;
   cacheIds?: Maybe<Array<CacheInput> | CacheInput>;
 }>;
 
@@ -278,7 +284,7 @@ export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: '
 export type EditNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EditNameQuery = { __typename?: 'Query', editName?: Maybe<{ __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }> } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> }> };
+export type EditNameQuery = { __typename?: 'Query', editName?: Maybe<{ __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, cacheIds: Array<{ __typename?: 'Cache', key: string, value: string }>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> }> };
 
 export const SignalFragmentDoc = gql`
     fragment signal on Signal {
@@ -449,8 +455,12 @@ export const EditNameSubmitActionFragmentDoc = gql`
     ...cache
   }
   inputIds
+  emitSignal {
+    ...emitSignal
+  }
 }
-    ${CacheFragmentDoc}`;
+    ${CacheFragmentDoc}
+${EmitSignalFragmentDoc}`;
 export const ButtonFragmentDoc = gql`
     fragment button on Button {
   label
@@ -503,8 +513,8 @@ export type SaveItemMutationHookResult = ReturnType<typeof useSaveItemMutation>;
 export type SaveItemMutationResult = Apollo.MutationResult<SaveItemMutation>;
 export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutation, SaveItemMutationVariables>;
 export const UpdateHeadingDocument = gql`
-    mutation updateHeading($heading: String!, $cacheIds: [CacheInput!]) {
-  updateHeading(heading: $heading, cacheIds: $cacheIds) {
+    mutation updateHeading($formInputs: [FormInput!], $cacheIds: [CacheInput!]) {
+  updateHeading(formInputs: $formInputs, cacheIds: $cacheIds) {
     ...headingMutationResponse
   }
 }
@@ -524,7 +534,7 @@ export type UpdateHeadingMutationFn = Apollo.MutationFunction<UpdateHeadingMutat
  * @example
  * const [updateHeadingMutation, { data, loading, error }] = useUpdateHeadingMutation({
  *   variables: {
- *      heading: // value for 'heading'
+ *      formInputs: // value for 'formInputs'
  *      cacheIds: // value for 'cacheIds'
  *   },
  * });

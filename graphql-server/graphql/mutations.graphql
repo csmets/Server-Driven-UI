@@ -3,7 +3,7 @@ type Mutation {
 }
 
 type Mutation {
-    updateHeading(heading: String, cacheIds: [CacheInput!]): HeadingMutationResponse
+    updateHeading(formInputs: [FormInput!], cacheIds: [CacheInput!]): HeadingMutationResponse
 }
 
 type FavouriteMutationResponse {
@@ -19,4 +19,9 @@ type HeadingMutationResponse {
 
 type Error {
     message: String
+}
+
+input FormInput {
+    key: String!
+    value: String
 }
