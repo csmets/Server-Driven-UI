@@ -1,46 +1,26 @@
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import * as React from 'react';
-import { UpdateHeadingDocument } from '../../../../generated-types/react/types';
-import { SignalContext } from '../../provider/signal';
-import { SignalType } from '@csmets/typescript-apollo-sdui-types/types';
+import { EditNameDocument, EditNameQuery } from '../../../../generated-types/react/types';
+import { EditNameContainer } from './edit-name-container';
 
 const EditHeadingTitle = () => {
-  const [updateHeadingMutation, updateHeadingResponse] = useMutation(UpdateHeadingDocument);
+  const { data, loading, error } = useQuery<EditNameQuery>(EditNameDocument);
 
-  const signalContext = React.useContext(SignalContext);
-  const { emitSignals } = signalContext;
+  if (loading) {
+    console.log('loading editName query');
+  }
 
-  const onClick = () => {
-    const inputValue = document.getElementById('headingValue')?.value;
-    if (inputValue) {
-      updateHeadingMutation({
-        variables: {
-          heading: inputValue,
-          cacheIds: [
-            {
-              "key": "heading",
-              "value": "heading"
-            }
-          ]
-        }
-      })
+  if (error) {
+    console.log('something went wrong with editName query');
+  }
 
-      emitSignals([{
-        signal: {
-          type: SignalType.Title,
-          reference: ''
-        },
-        value: {
-          text: inputValue
-        }
-      }])
-    }
+  if (!data || !data.editName) {
+    return <></>;
   }
 
   return (
     <div>
-      <input id="headingValue" type="text" placeholder="Updating heading title"/>
-      <button onClick={onClick}>Submit</button>
+      <EditNameContainer data={data.editName} />
     </div>
   )
 };

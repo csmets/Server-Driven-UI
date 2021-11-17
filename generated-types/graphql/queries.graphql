@@ -3,3 +3,9 @@ query getFeed {
         ...feedContainer
     }
 }
+
+query editName {
+    editName {
+       ...editNameContainer
+    }
+}

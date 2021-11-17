@@ -125,3 +125,32 @@ fragment cache on Cache {
     key
     value
 }
+
+fragment editNameContainer on EditNameContainer {
+    elements {
+        ...textInput
+        ...button
+    }
+}
+
+fragment textInput on TextInput {
+    formId
+    placeholder
+}
+
+fragment button on Button {
+    label
+    action {
+        ...editNameSubmitAction
+    }
+}
+
+fragment editNameSubmitAction on EditNameSubmitAction {
+    cacheIds {
+        ...cache
+    }
+    inputIds
+    emitSignal {
+        ...emitSignal
+    }
+}

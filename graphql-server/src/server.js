@@ -69,6 +69,23 @@ var resolvers = {
       return null;
     }
   },
+  Action: {
+    __resolveType(obj) {
+      if (obj.cacheIds) {
+        return 'EditNameSubmitAction'
+      }
+    }
+  },
+  FormElement: {
+    __resolveType(obj) {
+      if (obj.label) {
+        return 'Button'
+      }
+      if (obj.formId) {
+        return 'TextInput'
+      }
+    }
+  },
   Query: {
     feed: () => {
       return {
@@ -87,6 +104,35 @@ var resolvers = {
             }]
           },
           ...fetchFeed()
+        ]
+      }
+    },
+    editName: () => {
+      return {
+        elements: [
+          {
+            formId: 'headingInput',
+            placeholder: 'Updating heading title'
+          },
+          {
+            label: 'Edit title',
+            action: {
+              inputIds: ['headingInput'],
+              cacheIds: [
+                {
+                  key: 'heading',
+                  value: 'heading'
+                }
+              ],
+              emitSignal: {
+                signal: {
+                  type: signalEnum.TITLE,
+                  reference: null
+                },
+                value: null
+              }
+            }
+          }
         ]
       }
     }
@@ -138,15 +184,24 @@ var resolvers = {
       }
       return {};
     },
-    updateHeading: async (_, { heading, cacheIds }) => {
+    updateHeading: async (_, { formInputs, cacheIds }) => {
       await sleep(2000)
 
       let cacheId = null;
+      let heading = null
 
       if (cacheIds && cacheIds.length) {
         cacheIds.forEach((id) => {
           if (id.key === 'heading') {
             cacheId = id.value;
+          }
+        })
+      }
+
+      if (formInputs && formInputs.length) {
+        formInputs.forEach((input) => {
+          if (input.key === 'headingInput') {
+            heading = input.value;
           }
         })
       }
