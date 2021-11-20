@@ -8,9 +8,22 @@ const FeedHeading = (props: { data: FeedHeadingFragment }): JSX.Element => {
   const { useSignalEvent } = signalContext;
   const [headingText, setHeadingText] = React.useState(primary || "");
 
-  useSignalEvent(signal, (result) => {
+  const signalCallback = ({ result }: any) => {
     setHeadingText(result.value.text);
-  })
+  };
+
+  const cacheCallback = ({ result, cache }: any) => {
+    cache?.modify({
+      id: cache.identify(props.data),
+      fields: {
+        primary() {
+          return result.value.text;
+        }
+      }
+    });
+  };
+
+  useSignalEvent(signal, signalCallback, cacheCallback)
 
   return (
     <h1>{headingText}</h1>

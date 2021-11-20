@@ -51,10 +51,10 @@ fragment feedFavouriteCount on FeedFavouriteCount {
 
 fragment favouriteAction on FavouriteAction {
     feedId
-    cacheIds {
-        ...cache
+    save {
+        ...emitSignal
     }
-    emitSignals {
+    unsave {
         ...emitSignal
     }
 }
@@ -100,30 +100,11 @@ fragment error on Error {
     message
 }
 
-fragment favouriteMutationResponse on FavouriteMutationResponse {
+fragment mutationResponse on MutationResponse {
+    success
     error {
         ...error
     }
-    feedFavourite {
-        ...feedFavourite
-    }
-    feedFavouriteCount {
-        ...feedFavouriteCount
-    }
-}
-
-fragment headingMutationResponse on HeadingMutationResponse {
-    error {
-        ...error
-    }
-    heading {
-        ...feedHeading
-    }
-}
-
-fragment cache on Cache {
-    key
-    value
 }
 
 fragment editNameContainer on EditNameContainer {
@@ -146,9 +127,6 @@ fragment button on Button {
 }
 
 fragment editNameSubmitAction on EditNameSubmitAction {
-    cacheIds {
-        ...cache
-    }
     inputIds
     emitSignal {
         ...emitSignal

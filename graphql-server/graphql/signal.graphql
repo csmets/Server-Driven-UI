@@ -18,6 +18,7 @@ input SignalInput {
 }
 
 enum SignalType {
+    TOGGLE
     FAVOURITE
     FAVOURITE_COUNT
     TITLE

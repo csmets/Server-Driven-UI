@@ -25,10 +25,10 @@ type FeedImage {
     alt: String
 }
 
-type FavouriteAction implements EmitSignals {
+type FavouriteAction {
     feedId: String!
-    cacheIds: [Cache!]
-    emitSignals: [EmitSignal!]
+    save: [EmitSignal!]
+    unsave: [EmitSignal!]
 }
 
 type FeedFavouriteCount implements Column {
