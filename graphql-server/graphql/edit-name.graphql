@@ -6,7 +6,6 @@ type EditNameContainer {
 }
 
 type EditNameSubmitAction {
-    cacheIds: [Cache!]!
     inputIds: [String!]!
     emitSignal: EmitSignal!
 }

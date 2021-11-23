@@ -9,9 +9,22 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
   const { useSignalEvent } = signalContext;
   const [count, setCount] = React.useState(data.count);
 
-  useSignalEvent(signal, (result) => {
-    setCount(result.value.text)
-  });
+  const signalCallback = ({ result, cache }: any) => {
+    if (cache) {
+      cache?.modify({
+        id: cache.identify(props.data),
+        fields: {
+          count() {
+            return result.value.text
+          }
+        },
+      })
+    } else {
+      setCount(result.value.text)
+    }
+  };
+
+  useSignalEvent(signal, signalCallback);
 
   return <div><p>{count}</p></div>
 }

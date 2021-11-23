@@ -24,32 +24,49 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   // This is to set the feed favourite icon.
   const [svg, setSvg] = React.useState(icon);
 
+  const [isFav, setIsFav] = React.useState(false);
+
   /*
     To be able to use values that get emitted, a signal must be registered. When
     registering a signal, a subscriber is returned. The subscribe is a listener
     that will return values that get emitted.
   */
-  useSignalEvent(signal, (result) => {
+  const signalCallback = ({ result, cache }: any): void => {
+    if (cache) {
+      cache?.modify({
+        id: cache.identify(props.data),
+        fields: {
+          icon() {
+            return result.value.text
+          }
+        },
+      })
+    } else {
       setSvg(result.value.text);
-  });
+    }
+  };
+  useSignalEvent(signal, signalCallback);
 
   const onClick = () => {
     const feedId = action?.feedId || "";
-    const cacheIds = action?.cacheIds || [];
-    const cacheInputIds = cacheIds.map((cache) => {
-      return {
-        "key": cache.key,
-        "value": cache.value
-      }
-    })
     saveItemMutation({
-      variables: {
-        feedId,
-        cacheIds: cacheInputIds
+      variables: { feedId },
+      update(cache, _ ) {
+        if (isFav) {
+          action?.unsave && emitSignals(action.unsave, cache)
+        } else {
+          action?.save && emitSignals(action?.save, cache)
+        }
       }
     });
 
-    emitSignals(action?.emitSignals)
+    if (isFav) {
+      action?.unsave && emitSignals(action.unsave)
+    } else {
+      action?.save && emitSignals(action?.save)
+    }
+
+    setIsFav(!isFav);
   }
 
   React.useEffect(() => {

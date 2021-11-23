@@ -1,9 +1,0 @@
-type Cache {
-    key: String!
-    value: String!
-}
-
-input CacheInput {
-    key: String!,
-    value: String!
-}

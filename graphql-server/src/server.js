@@ -3,7 +3,7 @@ const fs = require('fs')
 const glob = require('glob');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const { fetchFeed, feedCount, feedFavouriteCount, feedFavourite } = require('./feed');
+const { fetchFeed } = require('./feed');
 const { signalEnum } = require('./signal');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
@@ -71,7 +71,7 @@ var resolvers = {
   },
   Action: {
     __resolveType(obj) {
-      if (obj.cacheIds) {
+      if (obj.inputIds) {
         return 'EditNameSubmitAction'
       }
     }
@@ -91,7 +91,7 @@ var resolvers = {
       return {
         elements: [
           {
-            id: `heading`,
+            id: 'heading',
             primary: 'Example list of feed items',
             signal: {
               type: signalEnum.TITLE,
@@ -118,12 +118,6 @@ var resolvers = {
             label: 'Edit title',
             action: {
               inputIds: ['headingInput'],
-              cacheIds: [
-                {
-                  key: 'heading',
-                  value: 'heading'
-                }
-              ],
               emitSignal: {
                 signal: {
                   type: signalEnum.TITLE,
@@ -138,83 +132,18 @@ var resolvers = {
     }
   },
   Mutation: {
-    save: async (_, { feedId, cacheIds }) => {
+    save: async (_, { feedId }) => {
       await sleep(2000)
-
-      let feedFavouriteCountCacheId = null;
-      let feedFavouriteCacheId = null;
-
-      if (cacheIds && cacheIds.length) {
-        cacheIds.forEach((id) => {
-          if (id.key === 'feedFavourite') {
-            feedFavouriteCacheId = id.value;
-          }
-          if (id.key === 'feedFavouriteCount') {
-            feedFavouriteCountCacheId = id.value;
-          }
-        })
-      }
-
-      if (inMemoryFavouriteFeeds.savedItems) {
-        const found = inMemoryFavouriteFeeds.savedItems?.filter(item => item.feedId === feedId)
-
-        if (found && found.length > 0) {
-          // unsaving
-
-          const remove = inMemoryFavouriteFeeds.savedItems?.filter(item => item.feedId !== feedId);
-          inMemoryFavouriteFeeds.savedItems = remove
-
-          return {
-            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, feedFavouriteCountCacheId, false),
-            feedFavourite: feedFavourite(feedCount(feedId), feedId, feedFavouriteCacheId, cacheIds, false)
-          }
-        } else {
-          // saving
-
-          const writeFeed = {
-            feedId
-          };
-          inMemoryFavouriteFeeds.savedItems.push(writeFeed);
-
-          return {
-            feedFavouriteCount: feedFavouriteCount(feedCount(feedId), feedId, feedFavouriteCountCacheId, true),
-            feedFavourite: feedFavourite(feedCount(feedId), feedId, feedFavouriteCacheId, cacheIds, true)
-          }
-        }
-      }
-      return {};
-    },
-    updateHeading: async (_, { formInputs, cacheIds }) => {
-      await sleep(2000)
-
-      let cacheId = null;
-      let heading = null
-
-      if (cacheIds && cacheIds.length) {
-        cacheIds.forEach((id) => {
-          if (id.key === 'heading') {
-            cacheId = id.value;
-          }
-        })
-      }
-
-      if (formInputs && formInputs.length) {
-        formInputs.forEach((input) => {
-          if (input.key === 'headingInput') {
-            heading = input.value;
-          }
-        })
-      }
 
       return {
-        heading: {
-          id: cacheId,
-          primary: heading,
-          signal: {
-            type: signalEnum.TITLE,
-            reference: null
-          }
-        }
+        success: true
+      };
+    },
+    updateHeading: async (_, { formInputs }) => {
+      await sleep(2000)
+
+      return {
+        success: true
       }
     }
   }
@@ -224,10 +153,6 @@ function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
-}
-
-const inMemoryFavouriteFeeds = {
-  savedItems: []
 }
 
 async function startApolloServer(typeDefs, resolvers) {

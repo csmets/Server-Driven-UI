@@ -1,20 +1,14 @@
 type Mutation {
-    save(feedId: String!, cacheIds: [CacheInput!]): FavouriteMutationResponse
+    save(feedId: String!): MutationResponse
 }
 
 type Mutation {
-    updateHeading(formInputs: [FormInput!], cacheIds: [CacheInput!]): HeadingMutationResponse
+    updateHeading(formInputs: [FormInput!]): MutationResponse
 }
 
-type FavouriteMutationResponse {
+type MutationResponse {
+    success: Boolean
     error: Error
-    feedFavouriteCount: FeedFavouriteCount
-    feedFavourite: FeedFavourite
-}
-
-type HeadingMutationResponse {
-    error: Error
-    heading: FeedHeading
 }
 
 type Error {

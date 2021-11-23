@@ -14,7 +14,7 @@ const feedCaption = (text) => {
   }
 };
 
-const feedFavourite = (count, feedId, cacheId, actionCacheIds, saved = false) => {
+const feedFavourite = (count, feedId, cacheId, saved = false) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   const originalImage = saved ? heart_full : heart_empty;
@@ -25,16 +25,15 @@ const feedFavourite = (count, feedId, cacheId, actionCacheIds, saved = false) =>
     align: 'LEFT',
     icon: originalImage,
     signal: {
-      type: signalEnum.FAVOURITE,
+      type: signalEnum.TOGGLE,
       reference: `ref-${feedId}`
     },
     action: {
       feedId,
-      cacheIds: actionCacheIds,
-      emitSignals: [
+      save: [
         {
           signal: {
-            type: signalEnum.FAVOURITE,
+            type: signalEnum.TOGGLE,
             reference: `ref-${feedId}`
           },
           value: {
@@ -43,11 +42,31 @@ const feedFavourite = (count, feedId, cacheId, actionCacheIds, saved = false) =>
         },
         {
           signal: {
-            type: signalEnum.FAVOURITE_COUNT,
+            type: signalEnum.TOGGLE,
             reference: `ref-${feedId}-count`
           },
           value: {
             text: nextCount
+          }
+        }
+      ],
+      unsave: [
+        {
+          signal: {
+            type: signalEnum.TOGGLE,
+            reference: `ref-${feedId}`
+          },
+          value: {
+            text: originalImage
+          }
+        },
+        {
+          signal: {
+            type: signalEnum.TOGGLE,
+            reference: `ref-${feedId}-count`
+          },
+          value: {
+            text: count
           }
         }
       ]
@@ -62,7 +81,7 @@ const feedFavouriteCount = (count, feedId, cacheId, saved = false) => {
     align: 'RIGHT',
     count: countValue,
     signal: {
-      type: signalEnum.FAVOURITE_COUNT,
+      type: signalEnum.TOGGLE,
       reference: `ref-${feedId}-count`
     }
   };
@@ -71,19 +90,9 @@ const feedFavouriteCount = (count, feedId, cacheId, saved = false) => {
 const feedColumn = (count, feedId) => {
   const feedFavouriteCache = `feedFavourite-${feedId}`;
   const feedFavouriteCountCache = `feedFavouriteCount-${feedId}`;
-  const actionCache = [
-    {
-      "key": "feedFavourite",
-      "value": feedFavouriteCache
-    },
-    {
-      "key": "feedFavouriteCount",
-      "value": feedFavouriteCountCache
-    }
-  ];
   return {
     columns: [
-      feedFavourite(count, feedId, feedFavouriteCache, actionCache),
+      feedFavourite(count, feedId, feedFavouriteCache),
       feedFavouriteCount(count, feedId, feedFavouriteCountCache)
     ]
   }
