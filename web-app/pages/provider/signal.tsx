@@ -2,14 +2,13 @@ import { ApolloCache, NormalizedCacheObject } from '@apollo/client';
 import { EmitSignal, Error, Signal, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
-  useSignalEvent: (signal: Signal | null | undefined, callback: (result: SubscribeResult) => void, cacheCallback: (result: SubscribeCacheResult) => void) => void
-  emitSignals: (emitSignals: EmitSignal[]) => void
-  emitSignalsCache: (emitSignals: EmitSignal[], cache: ApolloCache<NormalizedCacheObject>) => void
+  useSignalEvent: (signal: Signal | null | undefined, callback: (result: SubscribeResult) => void) => void
+  emitSignals: (emitSignals: EmitSignal[], cache?: ApolloCache<NormalizedCacheObject>) => void
 }
 
 interface Subscribe {
   subscribe: SubscribeResult | null
-  cacheSubscribe: SubscribeCacheResult | null
+  cacheSubscribe: SubscribeResult | null
 }
 
 interface Result {
@@ -20,11 +19,7 @@ interface Result {
 
 interface SubscribeResult {
   result: Result
-}
-
-interface SubscribeCacheResult {
-  result: Result
-  cache: ApolloCache<NormalizedCacheObject>
+  cache?: ApolloCache<NormalizedCacheObject>
 }
 
 const SignalContext = React.createContext({} as SignalContext);
@@ -32,9 +27,9 @@ const SignalContext = React.createContext({} as SignalContext);
 const SignalProvider = (props: any) => {
   const { children } = props;
   const [subscribers, setSubscribers] = React.useState([] as SubscribeResult[]);
-  const [cacheSubscribers, setCacheSubscribers] = React.useState([] as SubscribeCacheResult[]);
+  const [cacheSubscribers, setCacheSubscribers] = React.useState([] as SubscribeResult[]);
 
-  const signals: Signal[] = [];
+  const signalsRegistry: Signal[] = [];
 
   const registerSignal = (signal: Signal | null | undefined): Subscribe => {
     if (!signal) {
@@ -44,7 +39,7 @@ const SignalProvider = (props: any) => {
       }
     }
 
-    signals.push(signal);
+    signalsRegistry.push(signal);
 
     if (signal.reference) {
       return {
@@ -60,7 +55,7 @@ const SignalProvider = (props: any) => {
 
   };
 
-  const useSignalEvent = (signal: Signal | null | undefined, callback: (result: SubscribeResult) => void, cacheCallback: (result: SubscribeCacheResult) => void) => {
+  const useSignalEvent = (signal: Signal | null | undefined, callback: (result: SubscribeResult) => void) => {
     const { subscribe, cacheSubscribe } = registerSignal(signal);
 
     React.useEffect(() => {
@@ -85,46 +80,26 @@ const SignalProvider = (props: any) => {
         When an event has been emitted to a signal you've subscribed to a result
         will be returned.
       */
-     if (cacheCallback) {
+     if (callback) {
        if (cacheSubscribe && cacheSubscribe.result) {
          if (signal?.reference && cacheSubscribe.result.reference && signal.reference === cacheSubscribe.result.reference) {
            // If there is a reference given in the signal and is matches the result; use callback
-           cacheCallback(cacheSubscribe);
+           callback(cacheSubscribe);
          }
          if (!signal?.reference && signal?.type === cacheSubscribe.result.type) {
            // If no reference is provided but signal type matches subscribe type; use callback.
-           cacheCallback(cacheSubscribe);
+           callback(cacheSubscribe);
          }
        }
      }
     }, [cacheSubscribe]);
   };
 
-  const emitSignals = (emitSignals: EmitSignal[]) => {
+  const emitSignals = (emitSignals: EmitSignal[], cache?: ApolloCache<NormalizedCacheObject>) => {
     const result = [] as SubscribeResult[];
 
     emitSignals?.forEach((emitSignal) => {
-      signals.forEach((signal) => {
-        if (emitSignal?.signal?.type === signal.type) {
-          result.push({
-            result: {
-              type: emitSignal.signal.type,
-              reference: emitSignal.signal.reference || undefined,
-              value: emitSignal.value
-            }
-          });
-        }
-      })
-    });
-
-    setSubscribers(result);
-  }
-
-  const emitSignalsCache = (emitSignals: EmitSignal[], cache: ApolloCache<NormalizedCacheObject>) => {
-    const result = [] as SubscribeCacheResult[];
-
-    emitSignals?.forEach((emitSignal) => {
-      signals.forEach((signal) => {
+      signalsRegistry.forEach((signal) => {
         if (emitSignal?.signal?.type === signal.type) {
           result.push({
             result: {
@@ -138,13 +113,16 @@ const SignalProvider = (props: any) => {
       })
     });
 
-    setCacheSubscribers(result);
+    if (cache) {
+      setCacheSubscribers(result);
+    } else {
+      setSubscribers(result);
+    }
   }
 
   const context = {
     useSignalEvent,
-    emitSignals,
-    emitSignalsCache
+    emitSignals
   };
 
   return (

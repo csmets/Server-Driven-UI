@@ -19,7 +19,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
 
   const signalContext = React.useContext(SignalContext);
-  const { useSignalEvent, emitSignals, emitSignalsCache } = signalContext;
+  const { useSignalEvent, emitSignals } = signalContext;
 
   // This is to set the feed favourite icon.
   const [svg, setSvg] = React.useState(icon);
@@ -31,20 +31,21 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     registering a signal, a subscriber is returned. The subscribe is a listener
     that will return values that get emitted.
   */
-  const signalCallback = ({ result }: any): void => {
-    setSvg(result.value.text);
+  const signalCallback = ({ result, cache }: any): void => {
+    if (cache) {
+      cache?.modify({
+        id: cache.identify(props.data),
+        fields: {
+          icon() {
+            return result.value.text
+          }
+        },
+      })
+    } else {
+      setSvg(result.value.text);
+    }
   };
-  const cacheCallback = ({ result, cache }: any) => {
-    cache?.modify({
-      id: cache.identify(props.data),
-      fields: {
-        icon() {
-          return result.value.text
-        }
-      },
-    })
-  };
-  useSignalEvent(signal, signalCallback, cacheCallback);
+  useSignalEvent(signal, signalCallback);
 
   const onClick = () => {
     const feedId = action?.feedId || "";
@@ -52,9 +53,9 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
       variables: { feedId },
       update(cache, _ ) {
         if (isFav) {
-          action?.unsave && emitSignalsCache(action.unsave, cache)
+          action?.unsave && emitSignals(action.unsave, cache)
         } else {
-          action?.save && emitSignalsCache(action?.save, cache)
+          action?.save && emitSignals(action?.save, cache)
         }
       }
     });

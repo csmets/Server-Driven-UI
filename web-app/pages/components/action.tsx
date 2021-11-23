@@ -6,7 +6,7 @@ import { SignalContext } from '../provider/signal';
 const useAction = (action: Action) => {
   const [updateHeadingMutation] = useMutation(UpdateHeadingDocument);
   const signalContext = React.useContext(SignalContext);
-  const { emitSignals, emitSignalsCache } = signalContext;
+  const { emitSignals } = signalContext;
 
   switch (action.__typename) {
     case 'EditNameSubmitAction':
@@ -34,7 +34,7 @@ const useAction = (action: Action) => {
             },
             update(cache, _){
               // Emit signal but this time to update the cache
-              emitSignalsCache([{
+              emitSignals([{
                 signal: action.emitSignal.signal,
                 value: {
                   text: inputValues[0].value

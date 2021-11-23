@@ -70,10 +70,6 @@ Signals would update the UI without any refresh and be immediate.
 
 Signals act immediately, the experience will not feel any impact from server response times.
 
-### What it doesn't solve
-
-Signals update the UI but doesn't change the response cache. So, if you have client side navigation you'll be rudely awakened to a response you originally had and not the modified one. However, this is solved with another trick. [Read about handling cache](./cache.md)
-
 ## A deeper dive
 
 So you are now familiar with the basic idea of Signals and it's usage. Questions you may ask would possible be, 'what is `type`?' and 'what is `reference`?'.
@@ -108,6 +104,12 @@ First thing to do when working with signals is to register one. When registering
 When you want your object that has a signal bound to it to have it's value updated, it done through emitting. Emitting a signal event is typically done through an action. The emitted signal will be sent through to the signal registry for lookup. Depending on certain conditions of the emitting signal, it can update the value of a single signal or to many signals. When it has found all the signals it needs to emit to it will trigger the callback methods that was provided when a signal is registered. The callback will handle what to do with the value it's given.
 
 ![Emitting a signal](./images/emitting-signal.jpg)
+
+### Updating cache
+
+Dealing with clientside navigation or offline experience, cache plays an important role in persisting data. If you don't have any clientside navigation or offline experience you won't have to be concerned with the following. To update the cache with a new value, the process is the same as emitting a signal, however you pass in the application's cache. The application's cache will be handed through to the callback method what was given when registering a signal.
+
+![Updating cache](./images/update-cache.jpg)
 
 ## Wrap up
 
