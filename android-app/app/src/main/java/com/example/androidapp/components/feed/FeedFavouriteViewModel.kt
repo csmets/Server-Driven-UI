@@ -7,10 +7,10 @@ import com.example.androidapp.models.Column
 import com.example.androidapp.models.Signal
 import com.example.androidapp.models.SignalValue
 import com.example.androidapp.signal.SignalProvider
-import dagger.hilt.android.scopes.ViewScoped
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@ViewScoped
+@HiltViewModel
 class FeedFavouriteViewModel @Inject constructor(
     private val signalProvider: SignalProvider
 ): ViewModel() {
