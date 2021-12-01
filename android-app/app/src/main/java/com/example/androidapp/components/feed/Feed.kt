@@ -1,36 +1,39 @@
 package com.example.androidapp.components.feed
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import coil.size.Scale
 import com.example.androidapp.models.Column
 import com.example.androidapp.models.ColumnAlignment
 import com.example.androidapp.models.FeedElement
 import com.example.androidapp.models.FeedViewElement
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import androidx.compose.runtime.getValue
 
 @ExperimentalCoilApi
 @Composable
 fun Feed(viewModel: FeedViewModel = FeedViewModel(LocalContext.current)) {
-    val feed = viewModel.feed.observeAsState()
-    val feedView = feed.value?.feedView
+    val feed by viewModel.feed.observeAsState()
+    val feedView = feed?.feedView
 
-    println("response: " + Json.encodeToString(feed.value?.feedView))
+    println("response: " + Json.encodeToString(feed?.feedView))
 
     Row {
         Column(modifier = Modifier
@@ -73,7 +76,9 @@ fun FeedImage(feedImage: FeedElement.FeedImage) {
     Image(
         painter = rememberImagePainter(feedImage.src),
         contentDescription = feedImage.alt,
-        modifier = Modifier.fillMaxSize().height(200.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .height(200.dp),
         alignment = Alignment.Center,
         contentScale = ContentScale.Crop
     )
@@ -117,12 +122,23 @@ fun FeedFavouriteCount(feedFavouriteCount: Column.FeedFavouriteCount) {
 
 @ExperimentalCoilApi
 @Composable
-fun FeedFavourite(feedFavourite: Column.FeedFavourite) {
+fun FeedFavourite(
+    feedFavourite: Column.FeedFavourite,
+    viewModel: FeedFavouriteViewModel = viewModel()
+) {
+    viewModel.setup(feedFavourite)
+    val feedIcon by viewModel.icon.observeAsState("")
+
     Column(horizontalAlignment = getAlignment(feedFavourite.align)) {
-        Image(
-            painter = rememberImagePainter(feedFavourite.icon),
-            contentDescription = "",
-            modifier = Modifier.size(24.dp)
-        )
+        Button(
+            onClick = { viewModel.onClickEvent(feedFavourite) }
+        ) {
+            Image(
+                painter = rememberImagePainter(feedIcon),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp)
+            )
+        }
     }
 }

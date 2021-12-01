@@ -24,6 +24,7 @@ fun mapSignalType(type: type.SignalType): SignalType {
     return when(type.name) {
         "FAVOURITE" -> SignalType.FAVOURITE
         "FAVOURITE_COUNT" -> SignalType.FAVOURITE_COUNT
+        "TOGGLE" -> SignalType.TOGGLE
         "TITLE" -> SignalType.TITLE
         "ERROR" -> SignalType.ERROR
         else -> SignalType.ERROR

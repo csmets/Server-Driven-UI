@@ -10,15 +10,23 @@ fun interface FeedFavouriteFactory {
 }
 
 val feedFavouriteFactory = FeedFavouriteFactory { feedFavourite, alignment ->
-    val emitSignals = feedFavourite.action.fragments.favouriteAction.emitSignals?.mapNotNull {
+    val save = feedFavourite.action.fragments.favouriteAction.save?.mapNotNull {
+        emitSignalFactory.create(it.fragments.emitSignal)
+    }
+    val unsave = feedFavourite.action.fragments.favouriteAction.unsave?.mapNotNull {
         emitSignalFactory.create(it.fragments.emitSignal)
     }
     return@FeedFavouriteFactory Column.FeedFavourite(
         align = alignment,
         icon = feedFavourite.icon,
-        action = FavouriteAction(
+        signal = signalFactory.create(feedFavourite.signal?.fragments?.signal),
+        save = FavouriteAction(
             feedId = feedFavourite.action.fragments.favouriteAction.feedId,
-            emitSignals = emitSignals
-        )
+            emitSignals = save
+        ),
+        unsave = FavouriteAction(
+            feedId = feedFavourite.action.fragments.favouriteAction.feedId,
+        emitSignals = unsave
+    )
     )
 }

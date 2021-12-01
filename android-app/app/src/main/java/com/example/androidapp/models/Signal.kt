@@ -8,6 +8,7 @@ data class Signal(val type: SignalType, val reference: String?)
 enum class SignalType {
     FAVOURITE,
     FAVOURITE_COUNT,
+    TOGGLE,
     TITLE,
     ERROR
 }
