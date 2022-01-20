@@ -1,22 +1,22 @@
 # Composable design system
 
-A composable design system is to allow any elements to be shown in any order you wish to have them. An example of a non-composable design system is when you've coupled the response to the UI. When the response changes, the data may change, but the design will still look the same. A composable design is allowing the server's response to be able to change the design, for example, having the heading of a card from the top to be moved down to the bottom.
+A composable design system is to allow any elements to be shown in any order you wish to have them. An example of a non-composable design system is when you've coupled the response to the UI. When the response changes, the data may change, but the design will still look the same. A composable design is allowing the server's response to be able to change the design, for example, having the heading of a card from the top to be moved down to the bottom without making any changes within the client app.
 
 Creating a composable design system will help you build new designs with pre-existing building blocks. This is the greatest advantage of SDUI. The reward of using SDUI is to provide users with new experiences without having to update the mobile app, so it's best to design towards that.
 
 ## How do we create a composable design system?
 
-Depending on your use case, there's two different composable design systems, page level and component level. They both share the same rules, however, page level had an extra add level of complexity.
+Depending on your use case, there's two different composable design systems, page level and component level. They both share the same rules, however, page level adds an extra add level of complexity.
 
 ### Page level composable design
 
-When starting on SDUI it is important to create a distinct separation of concerns. Separating the concerns allows you to build new schemas with higher confidence and less cognitive load. Schemas are not easy to design, so it's important to create a system that helps visualize and importantly scale.
+When starting on SDUI it is important to create a distinct separation of concerns. Separating the concerns allows you to build new schemas with higher confidence and less cognitive load. Schemas are not easy to design, so it's important to create a system that helps visualize, and importantly scale.
 
 These are the rules when building for page level composable designs:
 
 - Create layout based types
 - Create element based types
-- Layouts SHOULD NOT be contained with elements.
+- Layouts SHOULD NOT be contained within elements.
 
 What you should not do is:
 
@@ -38,7 +38,7 @@ union Layout = SectionContainer | ColumnContainer | HorizontalOverflowContainer
 union Element = Button | ImageCard | ContentCard
 ```
 
-The `element` union can quickly become quite large, and it's reasonable to say that it's a poor design that can't scale. Also a particular container shouldn't be allowed to have certain elements within it, and should have different styling to a `SectionContainer`. We can break it up and allow certain elements to it.
+The `Element` union can quickly become quite large, and it's reasonable to say that it's a poor design that can't scale. Also a particular container shouldn't be allowed to have certain elements within it, and should have different styling to a `SectionContainer`. We can break it up and allow certain elements to it.
 
 ```graphql
 union Layout = SectionContainer | ColumnContainer | NavigationContainer | HorizontalOverflowContainer
@@ -70,7 +70,7 @@ type ImageCard {
 }
 ```
 
-With `elements` being able to be many different types, we can change the order of the presentation of how we want to view the image card. It allows of experimentation and flexibility having the component be purely driven by the server's response.
+With `elements` being able to be many different types, we can change the order of the presentation of how we want to view the image card. It allows experimentation and flexibility of having the component be purely driven by the server's response.
 
 ### Mixing it
 
@@ -121,3 +121,7 @@ union elements = ImageCard | ImageCarouselContainer | ContentCard
 ```
 
 Layouts should belong with other layouts, doing the above can lead into cyclic issues and also loses the role of responsibility. Will make it hard to deal with styling, such as spacing.
+
+## WARNING!
+
+If you're not careful, creating unions/interfaces that may hold a large number of types increases the number of possible types that the client will be requesting. For example, if you have a union of 10 different types for a view that only returns 2 of them, the client isn't aware of what the server will return and will always ask for the 10 possible types that may get returned. Now, what if in these 10 types there's another union within each of them that has 20 different types. The client will end up requesting a query of 10 * 20 = 200 types. The problem is that it multiplies every time you extend an end node to have further possible types. **The client doesn't know what it exactly wants, so it will ask the server for every possible case.**
