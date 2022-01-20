@@ -42,6 +42,7 @@ Before taking on SDUI, I think it's a good idea to look into the pros and cons f
 - Client heavy operations are difficult to bring over to the server to handle.
 - Un-mature design idea that isn't standardized, means that developers/designers/product have to learn and teach this paradigm.
 - Performance and cost. Responses can become taxing on the server if there is a lot of complex business logic. The server has to do all the heavy lifting which will result in higher cost to keep your servers running.
+- Creating composable components that allow many possible types to be displayed, will create very large requests from clients quickly. This also impacts performance.
 
 ## Guiding Principle
 
