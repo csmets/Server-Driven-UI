@@ -7,10 +7,11 @@ This documentation is to house the standards that should be in placed when worki
 2. [Typenames, interfaces and unions](./graphql-types.md)
 3. [Writing a schema](./schema.md)
 4. [Composable design system](./composable-design.md)
-5. _[TODO]_ Writing queries
-6. _[TODO]_ Writing mutations
-7. [Signals](./signals.md)
-8. [Cache](./cache.md)
+5. [Actions](./actions.md)
+6. [Writing queries & mutations](./queries-and-mutations.md)
+7. [Forms](./forms.md)
+8. [Signals](./signals.md)
+9. [Cache](./cache.md)
 
 ## Preface
 
