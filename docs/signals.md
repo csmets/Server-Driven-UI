@@ -91,7 +91,7 @@ enum SignalType {
 
 So, we can see that `type` is using a enum type called `SignalType`. `SignalType` is used to identify what signal this relates to, it can help visualize the use case for signal to couple it with other object that have relationships with it. When a signal gets emitted it will always check it's registry to see if there's any signals that match it's type. This allows you to setup as many signals as you want with the same `type` to receive the same value. Let's take for example a shopping cart. Let's imagine a shopping cart link on the navigation bar that has a badge with the number of items within it, also on the same page you have a table displaying all the items within the cart and a number display the total of items. This value is the same on both the table and on the link badge. Let's now assign these items with a signal that's labeled with type; `CHECKOUT_SIZE`. When we remove an item we want this number to change, we can emit a signal event to change the value of the cart size and have this event sent to all signals that are of type `CHECKOUT_SIZE`. Now, we have updated the link badge and the table with one event and one call.
 
-Great! Now we know how powerful signal types are, what's the purpose of `reference`? If you've ever programmed in C you'll be familiar with pointers. You would use your pointer to keep reference to memory. Similar to C, signal's case is using `reference` to identify which one of the signals it belongs to. Let's take a look at an example, let's say you have a feed of images and you can 'like' an image. If you 'like' an image a signal will be emitted to change it's state from 'un-liked' to 'liked', if all of these images are assigned with the signal `FAVOURITE` all of these images will now be 'liked' as the value is sent off to all signals that match the same type, uh-oh. This is where `reference` shine. You can assign a reference to the image when you are registering the signal, and when an action is fired you can refer to that reference with emitting so that the signal understands that it needs to travel to this particular type of signal that has a certain reference value. Now when you 'like' an image, only the image you've 'liked' will be 'liked' and not all images.
+Great! Now we know how powerful signal types are, what's the purpose of `reference`? If you've ever programmed in C you'll be familiar with pointers. You would use your pointer to keep reference to memory. Similar to C, signal's case is using `reference` to identify which one of the signals it belongs to. Let's take a look at an example, let's say you have a feed of images and you can 'like' an image. If you 'like' an image a signal will be emitted to change it's state from 'un-liked' to 'liked', if all of these images are assigned with the signal `FAVOURITE` all of these images will now be 'liked' as the value is sent off to all signals that match the same type, uh-oh. This is where `reference` shine. You can assign a reference to the image when you are registering the signal, and when an action is fired you can refer to that reference when emitting so that the signal understands that it needs to travel to this particular type of signal that has a certain reference value. Now when you 'like' an image, only the image you've 'liked' will be 'liked' and not all images.
 
 ### Registering a signal
 
@@ -104,6 +104,96 @@ First thing to do when working with signals is to register one. When registering
 When you want your object that has a signal bound to it to have it's value updated, it done through emitting. Emitting a signal event is typically done through an action. The emitted signal will be sent through to the signal registry for lookup. Depending on certain conditions of the emitting signal, it can update the value of a single signal or to many signals. When it has found all the signals it needs to emit to it will trigger the callback methods that was provided when a signal is registered. The callback will handle what to do with the value it's given.
 
 ![Emitting a signal](./images/emitting-signal.jpg)
+
+### Emit signal value
+
+Signals should only emit primitive values. Keeping it primitive allows for further flexibility as it's value can be emitted to the low levels of a component and won't need translations for it to work. However, emitting a single primitive value is very limiting. To allow for flexibility you need to create a `SignalValuePair`.
+
+Let's take a look at an object we want to update.
+
+```json
+{
+  "user": {
+    "name": "Bob",
+    "age": "30",
+    "phone": "0411 111 111",
+    "address": "123 Smith Street",
+    "signal": {
+      "type": "USER_DETAILS",
+      "reference": "ebgf1d7"
+    }
+  }
+}
+```
+
+Say Bob wants to update his phone and address details. Without using `SignalValuePair` we'd have to manually map the value to a field. For example:
+
+```json
+{
+  "button": {
+    "primary": "Update user details",
+    "action": {
+      "emitSignals": [
+          {
+            "type": "USER_DETAILS",
+            "reference": "ebgf1d7",
+            "value": "0422 222 222"
+          }
+      ]
+    }
+  }
+}
+```
+
+The server doesn't tell the client that it needs to update the `phone` number field, rather this would require the developer to add some basic logic to map the value to emitted to update `phone` field. For basic usage this is fine, but in our case we want to update multiple values within the `user` objects.
+
+
+```graphql
+type EmitSignal {
+  signal: Signal
+  values: [SignalValuePair]
+}
+
+enum SignalValuePairKey {
+  PHONE
+  ADDRESS
+}
+
+union SignalValuePairValue = String | Int | Float
+
+type SignalKeyValuePair {
+  key: SignalValuePairKey,
+  value: SignalValuePairValue
+}
+```
+
+```json
+{
+  "button": {
+    "primary": "Update user details",
+    "action": {
+      "emitSignals": [
+          {
+            "type": "USER_DETAILS",
+            "reference": "ebgf1d7",
+            "values": [
+              {
+                "key": "PHONE",
+                "value": "0422 222 222"
+              },
+              {
+                "key": "ADDRESS",
+                "value": "12 New Hope Street"
+              }
+            ]
+          }
+      ]
+    }
+  }
+}
+```
+
+Using `SignalValuePair` we can leverage the `key` to map to a particular field within the object that's driven by the server. Now we've taken the client logic off and handed it back to server. This allows for further flexibility without creating a contract within the client.
 
 ### Updating cache
 
