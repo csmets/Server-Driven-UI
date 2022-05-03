@@ -6,6 +6,12 @@ const signalEnum = {
   ERROR: "ERROR"
 };
 
+const signalPairValueKey = {
+  ICON: "ICON",
+  COUNT: "COUNT"
+}
+
 module.exports = {
-  signalEnum
+  signalEnum,
+  signalPairValueKey
 }

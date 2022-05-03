@@ -15,12 +15,12 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
         id: cache.identify(props.data),
         fields: {
           count() {
-            return result.value.text
+            return result.values[0].value
           }
         },
       })
     } else {
-      setCount(result.value.text)
+      setCount(result.values[0].value)
     }
   };
 

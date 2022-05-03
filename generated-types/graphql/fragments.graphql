@@ -63,13 +63,14 @@ fragment emitSignal on EmitSignal {
     signal {
         ...signal
     }
-    value {
-        ...signalStringValue
+    values {
+        ...signalValuePair
     }
 }
 
-fragment signalStringValue on SignalStringValue {
-    text
+fragment signalValuePair on SignalValuePair {
+    key
+    value
 }
 
 fragment feedCaption on FeedCaption {

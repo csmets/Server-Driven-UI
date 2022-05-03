@@ -4,7 +4,18 @@ interface EmitSignals {
 
 type EmitSignal {
     signal: Signal
-    value: SignalValue
+    values: [SignalValuePair!]!
+}
+
+enum SignalValuePairKey {
+    ICON
+    COUNT
+    PRIMARY
+}
+
+type SignalValuePair {
+    key: SignalValuePairKey!,
+    value: String!
 }
 
 type Signal {
@@ -24,9 +35,3 @@ enum SignalType {
     TITLE
     ERROR
 }
-
-type SignalStringValue {
-    text: String
-}
-
-union SignalValue = SignalStringValue

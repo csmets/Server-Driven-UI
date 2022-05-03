@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMutation } from '@apollo/client';
-import { Action, UpdateHeadingDocument } from '@csmets/typescript-apollo-sdui-types/types';
+import { Action, SignalValuePairKey, UpdateHeadingDocument } from '@csmets/typescript-apollo-sdui-types/types';
 import { SignalContext } from '../provider/signal';
 
 const useAction = (action: Action) => {
@@ -23,9 +23,10 @@ const useAction = (action: Action) => {
           // Render optimistic view
           emitSignals([{
             signal: action.emitSignal.signal,
-            value: {
-              text: inputValues[0].value
-            }
+            values: [{
+              key: SignalValuePairKey.Primary,
+              value : inputValues[0].value
+            }]
           }]);
 
           updateHeadingMutation({
@@ -36,9 +37,10 @@ const useAction = (action: Action) => {
               // Emit signal but this time to update the cache
               emitSignals([{
                 signal: action.emitSignal.signal,
-                value: {
-                  text: inputValues[0].value
-                }
+                values: [{
+                  key: SignalValuePairKey.Primary,
+                  value: inputValues[0].value
+                }]
               }], cache)
             }
           });

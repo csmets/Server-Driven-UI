@@ -1,4 +1,4 @@
-const { signalEnum } = require('./signal');
+const { signalEnum, signalPairValueKey } = require('./signal');
 const mockResponseData = require('./mock/mockRemoteDataResponse.json');
 
 const feedImage = (src, alt) => {
@@ -36,18 +36,24 @@ const feedFavourite = (count, feedId, cacheId, saved = false) => {
             type: signalEnum.TOGGLE,
             reference: `ref-${feedId}`
           },
-          value: {
-            text: nextImage
-          }
+          values: [
+            {
+              "key": signalPairValueKey.ICON,
+              "value": nextImage
+            }
+          ]
         },
         {
           signal: {
             type: signalEnum.TOGGLE,
             reference: `ref-${feedId}-count`
           },
-          value: {
-            text: nextCount
-          }
+          values: [
+            {
+              "key": signalPairValueKey.COUNT,
+              "value": nextCount
+            }
+          ]
         }
       ],
       unsave: [
@@ -56,18 +62,24 @@ const feedFavourite = (count, feedId, cacheId, saved = false) => {
             type: signalEnum.TOGGLE,
             reference: `ref-${feedId}`
           },
-          value: {
-            text: originalImage
-          }
+          values: [
+            {
+              "key": signalPairValueKey.ICON,
+              "value": originalImage
+            }
+          ]
         },
         {
           signal: {
             type: signalEnum.TOGGLE,
             reference: `ref-${feedId}-count`
           },
-          value: {
-            text: count
-          }
+          values: [
+            {
+              "key": signalPairValueKey.COUNT,
+              "value": count
+            }
+          ]
         }
       ]
     },

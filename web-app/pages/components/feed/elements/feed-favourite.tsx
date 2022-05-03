@@ -2,7 +2,8 @@ import * as React from 'react';
 import Image from 'next/image';
 import {
   FeedFavouriteFragment,
-  SaveItemDocument
+  SaveItemDocument,
+  SignalValuePairKey
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
@@ -14,7 +15,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     Mutations here are to save or unsave a feed item. These mutations will always
     only return a list of signals to emit. These mutations will only return a key
     and will contain no values. All values are given up-front from the server
-    intially.
+    initially.
   */
   const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
 
@@ -37,12 +38,12 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
         id: cache.identify(props.data),
         fields: {
           icon() {
-            return result.value.text
+            return result.values[0].value;
           }
         },
       })
     } else {
-      setSvg(result.value.text);
+      setSvg(result.values[0].value);
     }
   };
   useSignalEvent(signal, signalCallback);
@@ -70,13 +71,15 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   }
 
   React.useEffect(() => {
+    // Fallback to original value when error has occurred
     if (saveResponse.error) {
       console.error(saveResponse.error);
       emitSignals([{
         signal,
-        value: {
-          text: icon
-        }
+        values: [{
+          key: SignalValuePairKey.Icon,
+          value: icon
+        }]
       }])
     }
   }, [saveResponse])

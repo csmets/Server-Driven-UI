@@ -150,8 +150,8 @@ The server doesn't tell the client that it needs to update the `phone` number fi
 
 ```graphql
 type EmitSignal {
-  signal: Signal
-  values: [SignalValuePair]
+  signal: Signal!
+  values: [SignalValuePair!]!
 }
 
 enum SignalValuePairKey {
@@ -159,11 +159,9 @@ enum SignalValuePairKey {
   ADDRESS
 }
 
-union SignalValuePairValue = String | Int | Float
-
 type SignalKeyValuePair {
-  key: SignalValuePairKey,
-  value: SignalValuePairValue
+  key: SignalValuePairKey!
+  value: String!
 }
 ```
 

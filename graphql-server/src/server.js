@@ -60,15 +60,6 @@ var resolvers = {
       }
     }
   },
-  SignalValue: {
-    __resolveType(obj) {
-      if (obj.text) {
-        return 'SignalStringValue';
-      }
-
-      return null;
-    }
-  },
   Action: {
     __resolveType(obj) {
       if (obj.inputIds) {
@@ -123,7 +114,7 @@ var resolvers = {
                   type: signalEnum.TITLE,
                   reference: null
                 },
-                value: null
+                values: []
               }
             }
           }

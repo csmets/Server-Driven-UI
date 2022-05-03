@@ -51,7 +51,7 @@ export type EditNameSubmitAction = {
 export type EmitSignal = {
   __typename?: 'EmitSignal';
   signal?: Maybe<Signal>;
-  value?: Maybe<SignalValue>;
+  values: Array<SignalValuePair>;
 };
 
 export type EmitSignals = {
@@ -170,11 +170,6 @@ export type SignalInput = {
   type: SignalType;
 };
 
-export type SignalStringValue = {
-  __typename?: 'SignalStringValue';
-  text?: Maybe<Scalars['String']>;
-};
-
 export enum SignalType {
   Error = 'ERROR',
   Favourite = 'FAVOURITE',
@@ -183,7 +178,17 @@ export enum SignalType {
   Toggle = 'TOGGLE'
 }
 
-export type SignalValue = SignalStringValue;
+export type SignalValuePair = {
+  __typename?: 'SignalValuePair';
+  key: SignalValuePairKey;
+  value: Scalars['String'];
+};
+
+export enum SignalValuePairKey {
+  Count = 'COUNT',
+  Icon = 'ICON',
+  Primary = 'PRIMARY'
+}
 
 export type TextInput = {
   __typename?: 'TextInput';
@@ -196,23 +201,23 @@ export type TypographyContent = {
   paragraph?: Maybe<Array<Maybe<Paragraph>>>;
 };
 
-export type FeedContainerFragment = { __typename?: 'FeedContainer', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> } | { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', value?: Maybe<string> }>>> }>>> };
+export type FeedContainerFragment = { __typename?: 'FeedContainer', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> } | { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', value?: Maybe<string> }>>> }>>> };
 
 export type FeedHeadingFragment = { __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> };
 
-export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> };
+export type FeedItemFragment = { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> };
 
-export type ColumnLayoutFragment = { __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> };
+export type ColumnLayoutFragment = { __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> };
 
-export type FeedFavouriteFragment = { __typename?: 'FeedFavourite', id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } };
+export type FeedFavouriteFragment = { __typename?: 'FeedFavourite', id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> } };
 
 export type FeedFavouriteCountFragment = { __typename?: 'FeedFavouriteCount', id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> };
 
-export type FavouriteActionFragment = { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> };
+export type FavouriteActionFragment = { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> };
 
-export type EmitSignalFragment = { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> };
+export type EmitSignalFragment = { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> };
 
-export type SignalStringValueFragment = { __typename?: 'SignalStringValue', text?: Maybe<string> };
+export type SignalValuePairFragment = { __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string };
 
 export type FeedCaptionFragment = { __typename?: 'FeedCaption', text?: Maybe<string> };
 
@@ -228,13 +233,13 @@ export type ErrorFragment = { __typename?: 'Error', message?: Maybe<string> };
 
 export type MutationResponseFragment = { __typename?: 'MutationResponse', success?: Maybe<boolean>, error?: Maybe<{ __typename?: 'Error', message?: Maybe<string> }> };
 
-export type EditNameContainerFragment = { __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> };
+export type EditNameContainerFragment = { __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> };
 
 export type TextInputFragment = { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> };
 
-export type ButtonFragment = { __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } };
+export type ButtonFragment = { __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> } } };
 
-export type EditNameSubmitActionFragment = { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } };
+export type EditNameSubmitActionFragment = { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> } };
 
 export type SaveItemMutationVariables = Exact<{
   feedId: Scalars['String'];
@@ -253,12 +258,12 @@ export type UpdateHeadingMutation = { __typename?: 'Mutation', updateHeading?: M
 export type GetFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedContainer', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> } | { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', value?: Maybe<string> }>>> }>>> }> };
+export type GetFeedQuery = { __typename?: 'Query', feed?: Maybe<{ __typename?: 'FeedContainer', elements?: Maybe<Array<Maybe<{ __typename?: 'FeedHeading', id: string, primary?: Maybe<string>, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> } | { __typename?: 'FeedItem', items?: Maybe<Array<Maybe<{ __typename?: 'ColumnLayout', columns?: Maybe<Array<Maybe<{ __typename?: 'FeedFavourite', align: ColumnAlignment, id: string, icon: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, action: { __typename?: 'FavouriteAction', feedId: string, save?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>>, unsave?: Maybe<Array<{ __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> }>> } } | { __typename?: 'FeedFavouriteCount', align: ColumnAlignment, id: string, count: string, signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }> }>>> } | { __typename?: 'FeedCaption', text?: Maybe<string> } | { __typename?: 'FeedImage', src: string, alt?: Maybe<string> }>>> } | { __typename?: 'TypographyContent', paragraph?: Maybe<Array<Maybe<{ __typename?: 'Paragraph', value?: Maybe<string> }>>> }>>> }> };
 
 export type EditNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EditNameQuery = { __typename?: 'Query', editName?: Maybe<{ __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, value?: Maybe<{ __typename?: 'SignalStringValue', text?: Maybe<string> }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> }> };
+export type EditNameQuery = { __typename?: 'Query', editName?: Maybe<{ __typename?: 'EditNameContainer', elements?: Maybe<Array<{ __typename?: 'Button', label: string, action: { __typename?: 'EditNameSubmitAction', inputIds: Array<string>, emitSignal: { __typename?: 'EmitSignal', signal?: Maybe<{ __typename?: 'Signal', type: SignalType, reference?: Maybe<string> }>, values: Array<{ __typename?: 'SignalValuePair', key: SignalValuePairKey, value: string }> } } } | { __typename?: 'TextInput', formId: string, placeholder?: Maybe<string> }>> }> };
 
 export const SignalFragmentDoc = gql`
     fragment signal on Signal {
@@ -275,9 +280,10 @@ export const FeedHeadingFragmentDoc = gql`
   }
 }
     ${SignalFragmentDoc}`;
-export const SignalStringValueFragmentDoc = gql`
-    fragment signalStringValue on SignalStringValue {
-  text
+export const SignalValuePairFragmentDoc = gql`
+    fragment signalValuePair on SignalValuePair {
+  key
+  value
 }
     `;
 export const EmitSignalFragmentDoc = gql`
@@ -285,12 +291,12 @@ export const EmitSignalFragmentDoc = gql`
   signal {
     ...signal
   }
-  value {
-    ...signalStringValue
+  values {
+    ...signalValuePair
   }
 }
     ${SignalFragmentDoc}
-${SignalStringValueFragmentDoc}`;
+${SignalValuePairFragmentDoc}`;
 export const FavouriteActionFragmentDoc = gql`
     fragment favouriteAction on FavouriteAction {
   feedId

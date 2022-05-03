@@ -14,7 +14,7 @@ interface Subscribe {
 interface Result {
   type: SignalType
   reference?: string
-  value: any
+  values: any
 }
 
 interface SubscribeResult {
@@ -29,7 +29,7 @@ const SignalProvider = (props: any) => {
   const [subscribers, setSubscribers] = React.useState([] as SubscribeResult[]);
   const [cacheSubscribers, setCacheSubscribers] = React.useState([] as SubscribeResult[]);
 
-  const signalsRegistry: Signal[] = [];
+  const signalsRegistry = new Map<String, Signal>();
 
   const registerSignal = (signal: Signal | null | undefined): Subscribe => {
     if (!signal) {
@@ -39,7 +39,11 @@ const SignalProvider = (props: any) => {
       }
     }
 
-    signalsRegistry.push(signal);
+    const key = signal.type + signal.reference;
+
+    if (!signalsRegistry.get(key)) {
+      signalsRegistry.set(key, signal);
+    }
 
     if (signal.reference) {
       return {
@@ -105,7 +109,7 @@ const SignalProvider = (props: any) => {
             result: {
               type: emitSignal.signal.type,
               reference: emitSignal.signal.reference || undefined,
-              value: emitSignal.value
+              values: emitSignal.values
             },
             cache
           });

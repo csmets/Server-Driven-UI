@@ -14,12 +14,12 @@ const FeedHeading = (props: { data: FeedHeadingFragment }): JSX.Element => {
         id: cache.identify(props.data),
         fields: {
           primary() {
-            return result.value.text;
+            return result.values.value;
           }
         }
       });
     } else {
-      setHeadingText(result.value.text);
+      setHeadingText(result.values.value);
     }
   };
 
