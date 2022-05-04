@@ -1,5 +1,5 @@
 import { ApolloCache, NormalizedCacheObject } from '@apollo/client';
-import { EmitSignal, Error, Signal, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
+import { EmitSignal, Error, Signal, SignalType, SignalValuePair } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
 interface SignalContext {
   useSignalEvent: (signal: Signal | null | undefined, callback: (result: SubscribeResult) => void) => void
@@ -14,7 +14,7 @@ interface Subscribe {
 interface Result {
   type: SignalType
   reference?: string
-  values: any
+  values: SignalValuePair[]
 }
 
 interface SubscribeResult {

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { FeedHeadingFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedHeadingFragment, SignalValuePairKey } from '@csmets/typescript-apollo-sdui-types/types';
 import { SignalContext } from '../../../provider/signal';
+import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
 
 const FeedHeading = (props: { data: FeedHeadingFragment }): JSX.Element => {
   const { signal, primary } = props.data;
@@ -9,17 +10,18 @@ const FeedHeading = (props: { data: FeedHeadingFragment }): JSX.Element => {
   const [headingText, setHeadingText] = React.useState(primary || "");
 
   const signalCallback = ({ result, cache }: any) => {
+    const value = signalPairKeyValue(SignalValuePairKey.Primary, result.values)
     if (cache) {
       cache?.modify({
         id: cache.identify(props.data),
         fields: {
           primary() {
-            return result.values.value;
+            return value;
           }
         }
       });
     } else {
-      setHeadingText(result.values.value);
+      setHeadingText(value);
     }
   };
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { FeedFavouriteCountFragment, SignalType } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedFavouriteCountFragment, SignalType, SignalValuePairKey } from '@csmets/typescript-apollo-sdui-types/types';
 import { SignalContext } from '../../../provider/signal';
+import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
 
 const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.Element => {
   const { data } = props;
@@ -10,17 +11,19 @@ const FeedFavouriteCount = (props: { data: FeedFavouriteCountFragment }): JSX.El
   const [count, setCount] = React.useState(data.count);
 
   const signalCallback = ({ result, cache }: any) => {
+    const value = signalPairKeyValue(SignalValuePairKey.Count, result.values)
+
     if (cache) {
       cache?.modify({
         id: cache.identify(props.data),
         fields: {
           count() {
-            return result.values[0].value
+              return value
           }
         },
       })
     } else {
-      setCount(result.values[0].value)
+      setCount(value)
     }
   };
 

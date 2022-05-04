@@ -7,6 +7,7 @@ import {
 } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
+import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
 
 const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   const { icon, action, signal} = props.data;
@@ -33,17 +34,18 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     that will return values that get emitted.
   */
   const signalCallback = ({ result, cache }: any): void => {
+    const value = signalPairKeyValue(SignalValuePairKey.Icon, result.values)
     if (cache) {
       cache?.modify({
         id: cache.identify(props.data),
         fields: {
           icon() {
-            return result.values[0].value;
+            return value;
           }
         },
       })
     } else {
-      setSvg(result.values[0].value);
+      setSvg(value);
     }
   };
   useSignalEvent(signal, signalCallback);
