@@ -1,6 +1,7 @@
 package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.SignalValue
+import com.example.androidapp.models.SignalValuePair
 import fragment.EmitSignal
 
 fun interface EmitSignalFactory {
@@ -12,9 +13,13 @@ val emitSignalFactory = EmitSignalFactory {
         return@EmitSignalFactory null
     }
 
-    val value = it.value?.fragments?.signalStringValue?.text
+    val values = it.values
+
     return@EmitSignalFactory com.example.androidapp.models.EmitSignal(
         signal = signalFactory.create(it.signal!!.fragments.signal)!!,
-        value = value?.let { SignalValue.SignalStringValue(value) }
+        values = values.map { emitSignalValue ->
+            val pair = emitSignalValue.fragments.signalValuePair
+            SignalValuePair(key = pair.key, value =  pair.value)
+        }
     )
 }

@@ -6,7 +6,7 @@ import com.apollographql.apollo.exception.ApolloException
 import com.example.androidapp.GRAPHQL_ENDPOINT
 import com.example.androidapp.models.FeedResponse
 import com.example.androidapp.models.factories.feedResponseFactory
-import com.example.sduigeneratetypes.GetFeedQuery
+import com.example.sduigeneratetypes.graphql.GetFeedQuery
 
 class RemoteDataSource {
 

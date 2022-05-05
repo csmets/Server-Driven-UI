@@ -37,5 +37,6 @@ sealed class FeedElement {
 @Serializable
 data class FavouriteAction(
     val feedId: String,
-    val emitSignals: List<EmitSignal>?
+    val save: List<EmitSignal>?,
+    val unsave: List<EmitSignal>?
 )
