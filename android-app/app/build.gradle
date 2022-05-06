@@ -1,18 +1,18 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.apollographql.apollo' version '2.5.9'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.31'
+    id 'com.apollographql.apollo3' version '3.3.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
     id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.androidapp"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -41,25 +41,35 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion '1.6.10'
     }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    apollo {
+        useVersion2Compat()
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    // Skip apollo from generating types, as there are no graphql files kept in the project
+    if (task.name.contains("generateServiceApolloSources")) {
+        task.enabled = false
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.activity:activity-compose:1.4.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -69,13 +79,11 @@ dependencies {
     implementation 'com.example.sdui-generate-types:sdui-generate-types:1.0.0'
 
     // The core runtime dependencies
-    implementation 'com.apollographql.apollo:apollo-runtime:2.5.9'
-    // Coroutines extensions for easier asynchronicity handling
-    implementation'com.apollographql.apollo:apollo-coroutines-support:2.5.9'
+    implementation 'com.apollographql.apollo3:apollo-runtime:3.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    kapt 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-ktx:2.3.0'
-    implementation 'androidx.compose.runtime:runtime-livedata:1.0.3'
+    implementation 'androidx.room:room-runtime:2.4.2'
+    kapt 'androidx.room:room-compiler:2.4.2'
+    implementation 'androidx.room:room-ktx:2.4.2'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.1.1'
     implementation 'io.coil-kt:coil-compose:1.3.1'
 }

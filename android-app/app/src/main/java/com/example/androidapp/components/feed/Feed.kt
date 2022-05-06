@@ -42,6 +42,7 @@ fun Feed(viewModel: FeedViewModel = FeedViewModel(LocalContext.current)) {
                 when(it) {
                     is FeedViewElement.FeedItem -> FeedItem(it)
                     is FeedViewElement.TypographyContent -> TypographyContent(it)
+                    is FeedViewElement.FeedHeading -> FeedHeading(it)
                 }
             }
         }
@@ -73,7 +74,9 @@ fun FeedImage(feedImage: FeedElement.FeedImage) {
     Image(
         painter = rememberImagePainter(feedImage.src),
         contentDescription = feedImage.alt,
-        modifier = Modifier.fillMaxSize().height(200.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .height(200.dp),
         alignment = Alignment.Center,
         contentScale = ContentScale.Crop
     )
@@ -125,4 +128,9 @@ fun FeedFavourite(feedFavourite: Column.FeedFavourite) {
             modifier = Modifier.size(24.dp)
         )
     }
+}
+
+@Composable
+fun FeedHeading(heading: FeedViewElement.FeedHeading) {
+    Text(text = heading.primary)
 }
