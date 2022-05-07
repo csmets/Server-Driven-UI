@@ -7,7 +7,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.example.androidapp.components.feed.Feed
 import com.example.androidapp.ui.theme.AndroidAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

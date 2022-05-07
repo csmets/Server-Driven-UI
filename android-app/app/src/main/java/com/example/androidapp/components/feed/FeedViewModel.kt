@@ -6,9 +6,17 @@ import com.example.androidapp.data.Feed
 import com.example.androidapp.data.FeedDatabase
 import com.example.androidapp.data.FeedRepo
 import com.example.androidapp.services.RemoteDataSource
+import com.example.androidapp.signals.SignalProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FeedViewModel(context: Context): ViewModel() {
+@HiltViewModel
+class FeedViewModel @Inject constructor(
+    @ApplicationContext context: Context,
+    private val remoteDataSource: RemoteDataSource
+): ViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed> = _feed
@@ -24,7 +32,7 @@ class FeedViewModel(context: Context): ViewModel() {
 
     private fun getResponse() {
         viewModelScope.launch {
-            val response = RemoteDataSource().getFeed()
+            val response = remoteDataSource.getFeed()
             if (response != null) {
                 val feedResponse = Feed(0, response)
                 _feed.value = feedResponse

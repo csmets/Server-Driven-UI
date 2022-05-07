@@ -2,19 +2,24 @@ package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.FeedViewElement
 import fragment.TypographyContent
+import javax.inject.Inject
 
 fun interface TypographyContentFactory {
     fun create(typographyContent: TypographyContent): FeedViewElement.TypographyContent?
 }
 
-val typographyContentFactory = TypographyContentFactory {
-    val paragraphs = it.paragraph?.mapNotNull { paragraphs ->
-        paragraphFactory.create(paragraphs)
-    }
+class TypographyContentFactoryImpl @Inject constructor(
+    private val paragraphFactory: ParagraphFactory
+): TypographyContentFactory {
+    override fun create(typographyContent: TypographyContent): FeedViewElement.TypographyContent? {
+        val paragraphs = typographyContent.paragraph?.mapNotNull { paragraphs ->
+            paragraphFactory.create(paragraphs)
+        }
 
-    if (paragraphs != null) {
-        return@TypographyContentFactory FeedViewElement.TypographyContent(paragraphs)
-    }
+        if (paragraphs != null) {
+            return FeedViewElement.TypographyContent(paragraphs)
+        }
 
-    return@TypographyContentFactory null
+        return null
+    }
 }

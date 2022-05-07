@@ -8,6 +8,15 @@ enum class ColumnAlignment {
     CENTER
 }
 
+fun type.ColumnAlignment?.map(): ColumnAlignment {
+    return when (this?.name) {
+        "CENTER" -> ColumnAlignment.CENTER
+        "LEFT" -> ColumnAlignment.LEFT
+        "RIGHT" -> ColumnAlignment.RIGHT
+        else -> ColumnAlignment.LEFT
+    }
+}
+
 @Serializable
 sealed class Column {
 

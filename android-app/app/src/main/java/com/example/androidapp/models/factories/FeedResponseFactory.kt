@@ -2,19 +2,24 @@ package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.FeedResponse
 import fragment.FeedContainer
+import javax.inject.Inject
 
 fun interface FeedResponseFactory {
     fun create(elements: FeedContainer): FeedResponse?
 }
 
-val feedResponseFactory = FeedResponseFactory {
-    val elements = it.elements?.mapNotNull { item ->
-        feedViewElementFactory.create(item)
-    }
+class FeedResponseFactoryImpl @Inject constructor(
+    private val feedContainerElementFactory: FeedContainerElementFactory
+): FeedResponseFactory {
+    override fun create(elements: FeedContainer): FeedResponse? {
+        val containerElements = elements.elements?.mapNotNull { item ->
+            feedContainerElementFactory.create(item)
+        }
 
-    return@FeedResponseFactory if (elements != null) {
-        FeedResponse(elements)
-    } else {
-        null
+        return if (containerElements != null) {
+            FeedResponse(containerElements)
+        } else {
+            null
+        }
     }
 }

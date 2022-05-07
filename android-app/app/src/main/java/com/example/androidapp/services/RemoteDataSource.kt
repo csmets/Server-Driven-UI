@@ -4,15 +4,22 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloException
 import com.example.androidapp.GRAPHQL_ENDPOINT
 import com.example.androidapp.models.FeedResponse
-import com.example.androidapp.models.factories.feedResponseFactory
+import com.example.androidapp.models.factories.FeedResponseFactory
 import com.example.sduigeneratetypes.graphql.GetFeedQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
-class RemoteDataSource {
+interface RemoteDataSource {
+    suspend fun getFeed(): FeedResponse?
+}
 
-    suspend fun getFeed(): FeedResponse? {
+class RemoteDataSourceImpl @Inject constructor(
+    private val feedResponseFactory: FeedResponseFactory
+): RemoteDataSource {
+
+    override suspend fun getFeed(): FeedResponse? {
         val apolloClient = ApolloClient.builder()
             .serverUrl(GRAPHQL_ENDPOINT)
             .build()
