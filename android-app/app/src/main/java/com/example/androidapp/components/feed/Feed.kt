@@ -1,11 +1,12 @@
 package com.example.androidapp.components.feed
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import com.example.androidapp.models.FeedElement
 import com.example.androidapp.models.FeedViewElement
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import type.SignalValuePairKey
 
 @ExperimentalCoilApi
 @Composable
@@ -109,20 +111,61 @@ fun getAlignment(alignment: ColumnAlignment): Alignment.Horizontal {
 }
 
 @Composable
-fun FeedFavouriteCount(feedFavouriteCount: Column.FeedFavouriteCount) {
+fun FeedFavouriteCount(feedFavouriteCount: Column.FeedFavouriteCount, viewModel: FeedFavouriteCountViewModel = viewModel()) {
+    var count by remember {
+        mutableStateOf(feedFavouriteCount.count)
+    }
+
+    feedFavouriteCount.signal?.let {
+        viewModel.listenTo(it).subscribe { event ->
+            event.values?.forEach { value ->
+                if (value.key == SignalValuePairKey.COUNT) {
+                    count = value.value
+                }
+            }
+        }
+    }
+
     Column(horizontalAlignment = getAlignment(feedFavouriteCount.align)) {
-        Text(text = feedFavouriteCount.count)
+        Text(text = count)
     }
 }
 
 @ExperimentalCoilApi
 @Composable
-fun FeedFavourite(feedFavourite: Column.FeedFavourite) {
+fun FeedFavourite(feedFavourite: Column.FeedFavourite, viewModel: FeedFavouriteViewModel = viewModel()) {
+    var isSaved by remember {
+        mutableStateOf(false)
+    }
+    var icon by remember {
+        mutableStateOf(feedFavourite.icon)
+    }
+
+    feedFavourite.signal?.let {
+        viewModel.listenTo(it).subscribe { event ->
+            event.values?.forEach { value ->
+                if (value.key == SignalValuePairKey.ICON) {
+                    icon = value.value
+                }
+            }
+        }
+    }
+
     Column(horizontalAlignment = getAlignment(feedFavourite.align)) {
         Image(
-            painter = rememberImagePainter(feedFavourite.icon),
+            painter = rememberImagePainter(icon),
             contentDescription = "",
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
+                .clickable {
+                    if (isSaved) {
+                        feedFavourite.action.unsave?.let { viewModel.emitSignals(it) }
+                        isSaved = !isSaved
+                    } else {
+                        feedFavourite.action.save?.let { viewModel.emitSignals(it) }
+                        isSaved = !isSaved
+                    }
+                }
         )
     }
 }

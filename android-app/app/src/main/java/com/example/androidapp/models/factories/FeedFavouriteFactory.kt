@@ -12,6 +12,7 @@ fun interface FeedFavouriteFactory {
 }
 
 class FeedFavouriteFactoryImpl @Inject constructor(
+    private val signalFactory: SignalFactory,
     private val emitSignalFactory: EmitSignalFactory
 ): FeedFavouriteFactory {
 
@@ -32,7 +33,8 @@ class FeedFavouriteFactoryImpl @Inject constructor(
                 feedId = feedFavourite.action.fragments.favouriteAction.feedId,
                 save = save,
                 unsave = unsave
-            )
+            ),
+            signal = signalFactory.create(feedFavourite.signal?.fragments?.signal)
         )
     }
 }

@@ -31,6 +31,7 @@ sealed class Column {
     data class FeedFavourite(
         val align: ColumnAlignment,
         val icon: String,
-        val action: FavouriteAction
+        val action: FavouriteAction,
+        val signal: Signal?
     ): Column()
 }
