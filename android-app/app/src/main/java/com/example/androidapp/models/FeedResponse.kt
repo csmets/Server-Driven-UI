@@ -31,7 +31,7 @@ sealed class FeedElement {
     data class FeedCaption(val text: String?): FeedElement()
 
     @Serializable
-    data class ColumnLayout(val columns: List<Column>): FeedElement()
+    data class FeedColumnLayout(val feedColumns: List<FeedColumn>): FeedElement()
 }
 
 @Serializable

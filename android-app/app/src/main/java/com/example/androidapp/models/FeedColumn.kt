@@ -2,36 +2,36 @@ package com.example.androidapp.models
 
 import kotlinx.serialization.Serializable
 
-enum class ColumnAlignment {
+enum class FeedColumnAlignment {
     LEFT,
     RIGHT,
     CENTER
 }
 
-fun type.ColumnAlignment?.map(): ColumnAlignment {
+fun type.ColumnAlignment?.map(): FeedColumnAlignment {
     return when (this?.name) {
-        "CENTER" -> ColumnAlignment.CENTER
-        "LEFT" -> ColumnAlignment.LEFT
-        "RIGHT" -> ColumnAlignment.RIGHT
-        else -> ColumnAlignment.LEFT
+        "CENTER" -> FeedColumnAlignment.CENTER
+        "LEFT" -> FeedColumnAlignment.LEFT
+        "RIGHT" -> FeedColumnAlignment.RIGHT
+        else -> FeedColumnAlignment.LEFT
     }
 }
 
 @Serializable
-sealed class Column {
+sealed class FeedColumn {
 
     @Serializable
     data class FeedFavouriteCount(
-        val align: ColumnAlignment,
+        val align: FeedColumnAlignment,
         val count: String,
         val signal: Signal?
-    ): Column()
+    ): FeedColumn()
 
     @Serializable
     data class FeedFavourite(
-        val align: ColumnAlignment,
+        val align: FeedColumnAlignment,
         val icon: String,
         val action: FavouriteAction,
         val signal: Signal?
-    ): Column()
+    ): FeedColumn()
 }

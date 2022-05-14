@@ -1,14 +1,14 @@
 package com.example.androidapp.models.factories
 
-import com.example.androidapp.models.Column
-import com.example.androidapp.models.ColumnAlignment
+import com.example.androidapp.models.FeedColumn
+import com.example.androidapp.models.FeedColumnAlignment
 import com.example.androidapp.models.FavouriteAction
 import fragment.FeedFavourite
 import javax.inject.Inject
 
 
 fun interface FeedFavouriteFactory {
-    fun create(feedFavourite: fragment.FeedFavourite, alignment: ColumnAlignment): Column.FeedFavourite
+    fun create(feedFavourite: fragment.FeedFavourite, alignment: FeedColumnAlignment): FeedColumn.FeedFavourite
 }
 
 class FeedFavouriteFactoryImpl @Inject constructor(
@@ -18,15 +18,15 @@ class FeedFavouriteFactoryImpl @Inject constructor(
 
     override fun create(
         feedFavourite: FeedFavourite,
-        alignment: ColumnAlignment
-    ): Column.FeedFavourite {
+        alignment: FeedColumnAlignment
+    ): FeedColumn.FeedFavourite {
         val save = feedFavourite.action.fragments.favouriteAction.save?.mapNotNull {
             emitSignalFactory.create(it.fragments.emitSignal)
         }
         val unsave = feedFavourite.action.fragments.favouriteAction.unsave?.mapNotNull {
             emitSignalFactory.create(it.fragments.emitSignal)
         }
-        return Column.FeedFavourite(
+        return FeedColumn.FeedFavourite(
             align = alignment,
             icon = feedFavourite.icon,
             action = FavouriteAction(
