@@ -1,18 +1,4 @@
-const { signalEnum, signalPairValueKey } = require('./signal');
-const mockResponseData = require('./mock/mockRemoteDataResponse.json');
-
-const feedImage = (src, alt) => {
-  return {
-    src,
-    alt
-  };
-};
-
-const feedCaption = (text) => {
-  return {
-    text
-  }
-};
+const { signalEnum, signalPairValueKey } = require('../signal');
 
 const feedFavourite = (count, feedId, cacheId, saved = false) => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
@@ -86,67 +72,6 @@ const feedFavourite = (count, feedId, cacheId, saved = false) => {
   }
 };
 
-const feedFavouriteCount = (count, feedId, cacheId, saved = false) => {
-  const countValue = saved ? count + 1 : count;
-  return {
-    id: cacheId,
-    align: 'RIGHT',
-    count: countValue,
-    signal: {
-      type: signalEnum.TOGGLE,
-      reference: `ref-${feedId}-count`
-    }
-  };
-};
-
-const feedColumn = (count, feedId) => {
-  const feedFavouriteCache = `feedFavourite-${feedId}`;
-  const feedFavouriteCountCache = `feedFavouriteCount-${feedId}`;
-  return {
-    columns: [
-      feedFavourite(count, feedId, feedFavouriteCache),
-      feedFavouriteCount(count, feedId, feedFavouriteCountCache)
-    ]
-  }
-}
-
-const feedItemFactory = (id, caption, image, alt, count) => {
-  return {
-    items: [
-      feedImage(image, alt),
-      feedColumn(count, id),
-      feedCaption(caption)
-    ]
-  }
-};
-
-const fetchFeed = () => {
-  const data = mockResponseData
-
-  const feedList = data.map(({id, caption, image, alt, count}) => feedItemFactory(id, caption, image, alt, count));
-
-  return feedList
-};
-
-const feedCount = (feedId) => {
-  const data = mockResponseData
-
-  const feedList = data.filter(({id, count}) => {
-    if (id === feedId) {
-      return count;
-    }
-  });
-
-  if (feedList && feedList.length) {
-    return feedList[0].count;
-  }
-
-  return null;
-}
-
 module.exports = {
-  fetchFeed,
-  feedCount,
-  feedFavourite,
-  feedFavouriteCount
-};
+  feedFavourite
+}
