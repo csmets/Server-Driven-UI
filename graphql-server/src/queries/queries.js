@@ -1,4 +1,4 @@
-const { feedQuery } = require('./feed-query');
+const { feedQuery } = require('./feed/feed-query');
 const { editNameQuery } = require('./edit-name-query');
 
 const queries = {

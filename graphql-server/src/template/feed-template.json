@@ -1,0 +1,13 @@
+{
+  "elements": [
+    {
+      "type": "heading"
+    },
+    {
+      "type": "typography"
+    },
+    {
+      "type": "feed"
+    }
+  ]
+}
