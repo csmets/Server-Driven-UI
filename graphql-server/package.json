@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^3.3.0",
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",

@@ -1,19 +1,24 @@
 const { elements } = require('./elements/elements');
-const feedTemplate = require('../../template/feed-template.json');
+const axios = require('axios')
 
 const feedQuery = {
-  feed: () => {
+  feed: async () => {
 
     let template = [];
 
-    feedTemplate.elements.forEach(el => {
-      const templateElement = elements[el.type];
-      if (Array.isArray(templateElement)) {
-        template = template.concat(templateElement);
-      } else {
-        template.push(templateElement);
-      }
-    });
+    try {
+      const templateResponse = await axios.get('http://localhost:9090/feed')
+      templateResponse.data[0].queries[0].elements.forEach(el => {
+        const templateElement = elements[el.type];
+        if (Array.isArray(templateElement)) {
+          template = template.concat(templateElement);
+        } else {
+          template.push(templateElement);
+        }
+      });
+    } catch (error) {
+      console.error(error.response.body)
+    }
 
     return {
       elements: template
