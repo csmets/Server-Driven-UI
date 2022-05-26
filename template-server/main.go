@@ -1,8 +1,6 @@
 package main
 
 import (
-	appContext "context"
-
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -40,9 +38,9 @@ func getFeedTemplate(context *gin.Context) {
 func makeServiceCall(context *gin.Context) {
 	client := graphql.NewClient("http://localhost:4000/graphql", nil)
 
-	client.Query(appContext.Background(), &feedQuery, nil)
+	client.Query(context, &feedQuery, nil)
 
-	context.IndentedJSON(http.StatusOK, feedQuery)
+	context.JSON(http.StatusOK, feedQuery)
 }
 
 func main() {
