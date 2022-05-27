@@ -7,7 +7,24 @@ const port = 9090;
 
 const endpoint = "http://localhost:4000/graphql";
 
-app.get('/getFeed', async(req, res) => {
+app.get('/component/feed', (_, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({
+    "elements": [
+      {
+        "type": "heading"
+      },
+      {
+        "type": "typography"
+      },
+      {
+        "type": "feed"
+      }
+    ]
+  }));
+});
+
+app.get('/feed', async(req, res) => {
   const client = new GraphQLClient(endpoint, { headers: {} });
   const data = await client.request(feedQuery, {});
   res.setHeader('Content-Type', 'application/json');
