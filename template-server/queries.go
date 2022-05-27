@@ -1,14 +1,9 @@
 package main
 
-/*
-   query {
-       feed {
-           ...feedContainerFragment
-       }
-   }
-*/
+import "sdui/template-server/components"
+
 var feedQuery struct {
 	Feed struct {
-		FeedContainerFragment `graphql:"... on FeedContainer" json:",omitempty"`
+		components.FeedContainer `graphql:"... on FeedContainer" json:",omitempty"`
 	} `json:"feed"`
 }
