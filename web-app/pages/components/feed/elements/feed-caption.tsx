@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FeedCaptionFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedCaptionData } from '../models/feed-item-vm';
 
-const FeedCaption = (props: { data: FeedCaptionFragment }): JSX.Element => {
+const FeedCaption = (props: { data: FeedCaptionData }): JSX.Element => {
   const { data } = props;
 
   if (!data) {

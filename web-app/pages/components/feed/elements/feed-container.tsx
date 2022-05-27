@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { FeedContainerFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedItem } from './feed-item';
 import { TypographyContent } from '../../typography/typography-content';
 import { FeedHeading } from './feed-heading';
+import { TypographyContentData, TypographyContentVM } from '../models/typography-content-vm';
+import { FeedContainerData } from '../models/feed-container-vm';
+import { FeedHeadingVM } from '../models/feed-heading-vm';
+import { FeedItemVM } from '../models/feed-item-vm';
 
-const FeedContainer = (props: { data: FeedContainerFragment }): JSX.Element => {
+const FeedContainer = (props: { data: FeedContainerData }): JSX.Element => {
   const { data } = props;
   const { elements } = data;
 
@@ -13,16 +16,16 @@ const FeedContainer = (props: { data: FeedContainerFragment }): JSX.Element => {
   }
 
   const feedViewList = elements?.map((element, index) => {
-    switch (element?.__typename) {
-      case 'FeedHeading':
-        return <FeedHeading key={`feedHeading-${index}`} data={element} />
-      case 'FeedItem':
-        return <FeedItem key={`feedItem-${index}`} data={element} />
-      case 'TypographyContent':
+    if (element instanceof TypographyContentVM) {
         return <TypographyContent key={`feedTypography-${index}`} data={element} />
-      default:
-        return <></>
     }
+    if (element instanceof FeedHeadingVM) {
+        return <FeedHeading key={`feedHeading-${index}`} data={element} />
+    }
+    if (element instanceof FeedItemVM) {
+        return <FeedItem key={`feedItem-${index}`} data={element} />
+    }
+    return <></>
   });
 
   return (

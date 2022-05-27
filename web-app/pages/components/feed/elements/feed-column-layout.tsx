@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ColumnLayoutFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import { FeedColumnLayoutData, FeedFavouriteVM, FeedFavouriteCountVM } from '../models/feed-item-vm';
 import { FeedFavourite } from './feed-favourite';
 import { FeedFavouriteCount } from './feed-favourite-count';
 
-const FeedColumnLayout = (props: { data: ColumnLayoutFragment }): JSX.Element => {
+const FeedColumnLayout = (props: { data: FeedColumnLayoutData }): JSX.Element => {
   const { data } = props;
 
   if (!data || !data.columns) {
@@ -11,14 +11,13 @@ const FeedColumnLayout = (props: { data: ColumnLayoutFragment }): JSX.Element =>
   }
 
   const columns = data.columns?.map((column, index) => {
-    switch (column?.__typename) {
-      case 'FeedFavourite':
+    if (column instanceof FeedFavouriteVM) {
         return <FeedFavourite key={`feedFavourite-${index}`} data={column} />
-      case 'FeedFavouriteCount':
-        return <FeedFavouriteCount key={`feedFavouriteCount-${index}`} data={column} />
-      default:
-        return <></>
     }
+    if (column instanceof FeedFavouriteCountVM) {
+        return <FeedFavouriteCount key={`feedFavouriteCount-${index}`} data={column} />
+    }
+    return <></>
   })
 
   return <div>{columns}</div>

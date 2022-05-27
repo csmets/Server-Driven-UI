@@ -1,8 +1,10 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { feedQuery } from './queries/feed';
 import express from 'express';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 const port = 9090;
 
 const endpoint = "http://localhost:4000/graphql";

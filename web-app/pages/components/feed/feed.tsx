@@ -1,18 +1,37 @@
 import * as React from 'react';
-import { useQuery } from "@apollo/client";
-import { GetFeedQuery, GetFeedDocument } from '@csmets/typescript-apollo-sdui-types/types';
 import { FeedContainer } from './elements/feed-container';
+import { FeedContainerVM, FeedContainerData  } from './models/feed-container-vm';
 
 const Feed = (): JSX.Element => {
-  const { loading, error, data } = useQuery<GetFeedQuery>(GetFeedDocument);
-  if (loading) return <p>Loading...</p>;
+  const [error, setError] = React.useState(null);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [data, setData] = React.useState<FeedContainerData>()
+
+  React.useEffect(() => {
+    fetch("http://localhost:9090/feed")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          const r = new FeedContainerVM(result.feed);
+          console.log(r);
+          setData(r);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error)
+        }
+      )
+  }, [])
+
+  if (!isLoaded) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  if (!data || !data.feed) {
+  if (!data) {
     return <></>;
   }
 
-  return <FeedContainer data={data.feed} />
+  return <FeedContainer data={data} />
 }
 
 export {

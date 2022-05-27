@@ -1,8 +1,8 @@
-import { SignalValuePair, SignalValuePairKey } from '@csmets/typescript-apollo-sdui-types/types';
+import { SignalValuePairData, SignalValuePairKey } from "../components/feed/models/signal-vm"
 
-const signalPairKeyValue = (key: SignalValuePairKey, values: SignalValuePair[]): string => {
-  const matchedKey = values.filter((signalValuePair) => signalValuePair.key === key)
-  return matchedKey[0].value
+const signalPairKeyValue = (key: SignalValuePairKey, values: SignalValuePairData[]): string | null => {
+  const matchedKey = values?.filter((signalValuePair) => signalValuePair.key === key)
+  return matchedKey.length ? matchedKey[0].value : null;
 }
 
 export {

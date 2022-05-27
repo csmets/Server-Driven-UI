@@ -1,16 +1,14 @@
 import * as React from 'react';
 import Image from 'next/image';
-import {
-  FeedFavouriteFragment,
-  SaveItemDocument,
-  SignalValuePairKey
-} from '@csmets/typescript-apollo-sdui-types/types';
+import { SaveItemDocument } from '@csmets/typescript-apollo-sdui-types/types';
 import { useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
+import { FeedFavouriteData } from '../models/feed-item-vm';
+import { SignalValuePairKey } from '../models/signal-vm';
 
-const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
-  const { icon, action, signal} = props.data;
+const FeedFavourite = (props: { data: FeedFavouriteData }): JSX.Element => {
+  const { icon, action, signal } = props.data;
 
   /*
     Mutations here are to save or unsave a feed item. These mutations will always
@@ -35,17 +33,19 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
   */
   const signalCallback = ({ result, cache }: any): void => {
     const value = signalPairKeyValue(SignalValuePairKey.Icon, result.values)
-    if (cache) {
-      cache?.modify({
-        id: cache.identify(props.data),
-        fields: {
-          icon() {
-            return value;
-          }
-        },
-      })
-    } else {
-      setSvg(value);
+    if (value) {
+      if (cache) {
+        cache?.modify({
+          id: cache.identify(props.data),
+          fields: {
+            icon() {
+              return value;
+            }
+          },
+        })
+      } else {
+        setSvg(value);
+      }
     }
   };
   useSignalEvent(signal, signalCallback);
@@ -54,7 +54,7 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     const feedId = action?.feedId || "";
     saveItemMutation({
       variables: { feedId },
-      update(cache, _ ) {
+      update(cache, _) {
         if (isFav) {
           action?.unsave && emitSignals(action.unsave, cache)
         } else {
@@ -76,13 +76,15 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
     // Fallback to original value when error has occurred
     if (saveResponse.error) {
       console.error(saveResponse.error);
-      emitSignals([{
-        signal,
-        values: [{
-          key: SignalValuePairKey.Icon,
-          value: icon
-        }]
-      }])
+      if (signal) {
+        emitSignals([{
+          signal,
+          values: [{
+            key: SignalValuePairKey.Icon,
+            value: icon
+          }]
+        }])
+      }
     }
   }, [saveResponse])
 
@@ -101,5 +103,5 @@ const FeedFavourite = (props: { data: FeedFavouriteFragment }): JSX.Element => {
 }
 
 export {
-    FeedFavourite
+  FeedFavourite
 }
