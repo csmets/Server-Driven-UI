@@ -7,7 +7,27 @@ const feedQuery = {
     let template = [];
 
     try {
-      const templateResponse = await axios.get('http://localhost:9090/feed')
+      const templateResponse = {
+        "data": [
+          {
+            "queries": [
+              {
+                "elements": [
+                  {
+                    "type": "heading"
+                  },
+                  {
+                    "type": "typography"
+                  },
+                  {
+                    "type": "feed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
       templateResponse.data[0].queries[0].elements.forEach(el => {
         const templateElement = elements[el.type];
         if (Array.isArray(templateElement)) {

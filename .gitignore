@@ -8,3 +8,5 @@ build/
 .gradle/
 GraphQLEndpoint.kt
 local.properties
+dist/
+node_modules/

@@ -1,0 +1,20 @@
+{
+  "name": "template-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Clyde Smets",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "graphql": "^16.5.0",
+    "graphql-request": "^4.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.2"
+  }
+}
