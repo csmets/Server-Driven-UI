@@ -13,9 +13,7 @@ const Feed = (): JSX.Element => {
       .then(
         (result) => {
           setIsLoaded(true);
-          const r = new FeedContainerVM(result.feed);
-          console.log(r);
-          setData(r);
+          setData(new FeedContainerVM(result[0].data));
         },
         (error) => {
           setIsLoaded(true);
