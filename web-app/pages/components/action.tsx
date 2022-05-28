@@ -1,15 +1,26 @@
 import * as React from 'react';
-import { useMutation } from '@apollo/client';
-import { Action, SignalValuePairKey, UpdateHeadingDocument } from '@csmets/typescript-apollo-sdui-types/types';
+import { gql, useMutation } from '@apollo/client';
 import { SignalContext } from '../provider/signal';
+import { Action, EditNameSubmitActionVM } from './edit-heading-title/models/edit-heading-container-vm';
+import { SignalValuePairKey } from './feed/models/signal-vm';
+
+const updateHeadingMutationQuery = gql`
+  mutation updateHeading($formInputs: [FormInput!]) {
+    updateHeading(formInputs: $formInputs) {
+      success
+      error {
+        message
+      }
+    }
+  }
+`
 
 const useAction = (action: Action) => {
-  const [updateHeadingMutation] = useMutation(UpdateHeadingDocument);
+  const [updateHeadingMutation] = useMutation(updateHeadingMutationQuery);
   const signalContext = React.useContext(SignalContext);
   const { emitSignals } = signalContext;
 
-  switch (action.__typename) {
-    case 'EditNameSubmitAction':
+  if (action instanceof EditNameSubmitActionVM) {
       const onClick = () => {
         const inputValues = action.inputIds.map((input) => {
           const value = document.getElementById(input)?.value;
@@ -49,9 +60,8 @@ const useAction = (action: Action) => {
       return {
         onClick
       }
-    default:
-      return null;
   }
+  return null;
 }
 
 export { useAction };

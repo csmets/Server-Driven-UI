@@ -1,8 +1,8 @@
-import { ButtonFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
-import { useAction } from '../action';
+import { useAction } from '../../action';
+import { ButtonData } from '../models/edit-heading-container-vm';
 
-const Button = (props: { data: ButtonFragment }) => {
+const Button = (props: { data: ButtonData }) => {
   const { data } = props;
   const action = useAction(data.action)
 

@@ -1,26 +1,37 @@
-import { useQuery, useMutation } from '@apollo/client';
 import * as React from 'react';
-import { EditNameDocument, EditNameQuery } from '../../../../generated-types/react/types';
-import { EditNameContainer } from './edit-name-container';
+import { EditNameContainer } from './elements/edit-name-container';
+import { EditNameContainerData, EditNameContainerVM } from './models/edit-heading-container-vm';
 
 const EditHeadingTitle = () => {
-  const { data, loading, error } = useQuery<EditNameQuery>(EditNameDocument);
+  const [error, setError] = React.useState(null);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [data, setData] = React.useState<EditNameContainerData>()
 
-  if (loading) {
-    console.log('loading editName query');
-  }
+  React.useEffect(() => {
+    fetch("http://localhost:9090/feed")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setData(new EditNameContainerVM(result[1].data));
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error)
+        }
+      )
+  }, [])
 
-  if (error) {
-    console.log('something went wrong with editName query');
-  }
+  if (!isLoaded) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
-  if (!data || !data.editName) {
+  if (!data) {
     return <></>;
   }
 
   return (
     <div>
-      <EditNameContainer data={data.editName} />
+      <EditNameContainer data={data} />
     </div>
   )
 };

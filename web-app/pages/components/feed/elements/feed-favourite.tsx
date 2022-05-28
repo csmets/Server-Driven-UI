@@ -1,11 +1,21 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { SaveItemDocument } from '@csmets/typescript-apollo-sdui-types/types';
-import { useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import { SignalContext } from '../../../provider/signal';
 import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
 import { FeedFavouriteData } from '../models/feed-item-vm';
 import { SignalValuePairKey } from '../models/signal-vm';
+
+const saveItemMutationQuery = gql`
+  mutation saveItem($feedId: String!) {
+      save(feedId: $feedId) {
+        success
+        error {
+          message
+        }
+      }
+  }
+`;
 
 const FeedFavourite = (props: { data: FeedFavouriteData }): JSX.Element => {
   const { icon, action, signal } = props.data;
@@ -16,7 +26,7 @@ const FeedFavourite = (props: { data: FeedFavouriteData }): JSX.Element => {
     and will contain no values. All values are given up-front from the server
     initially.
   */
-  const [saveItemMutation, saveResponse] = useMutation(SaveItemDocument);
+  const [saveItemMutation, saveResponse] = useMutation(saveItemMutationQuery);
 
   const signalContext = React.useContext(SignalContext);
   const { useSignalEvent, emitSignals } = signalContext;

@@ -1,7 +1,7 @@
-import { TextInputFragment } from '@csmets/typescript-apollo-sdui-types/types';
 import * as React from 'react';
+import { TextInputData } from './models/edit-heading-container-vm';
 
-const TextInput = (props: { data: TextInputFragment}) => {
+const TextInput = (props: { data: TextInputData }) => {
   const { data } = props;
 
   if (!data) {
