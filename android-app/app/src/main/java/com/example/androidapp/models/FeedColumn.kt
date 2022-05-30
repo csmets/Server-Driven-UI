@@ -8,15 +8,6 @@ enum class FeedColumnAlignment {
     CENTER
 }
 
-fun type.ColumnAlignment?.map(): FeedColumnAlignment {
-    return when (this?.name) {
-        "CENTER" -> FeedColumnAlignment.CENTER
-        "LEFT" -> FeedColumnAlignment.LEFT
-        "RIGHT" -> FeedColumnAlignment.RIGHT
-        else -> FeedColumnAlignment.LEFT
-    }
-}
-
 @Serializable
 sealed class FeedColumn {
 

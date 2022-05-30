@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androidapp.models.FeedColumn
-import type.SignalValuePairKey
+import com.example.androidapp.models.SignalValuePairKey
 
 @Composable
 fun FeedFavouriteCount(feedFavouriteCount: FeedColumn.FeedFavouriteCount, viewModel: FeedFavouriteCountViewModel = viewModel()) {

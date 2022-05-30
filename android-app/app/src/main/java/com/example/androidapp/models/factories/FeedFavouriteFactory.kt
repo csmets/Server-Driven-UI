@@ -1,14 +1,15 @@
 package com.example.androidapp.models.factories
 
+import com.example.androidapp.models.EmitSignal
 import com.example.androidapp.models.FeedColumn
 import com.example.androidapp.models.FeedColumnAlignment
 import com.example.androidapp.models.FavouriteAction
-import fragment.FeedFavourite
+import org.json.JSONObject
 import javax.inject.Inject
 
 
 fun interface FeedFavouriteFactory {
-    fun create(feedFavourite: fragment.FeedFavourite, alignment: FeedColumnAlignment): FeedColumn.FeedFavourite
+    fun create(feedFavourite: JSONObject, alignment: FeedColumnAlignment): FeedColumn.FeedFavourite
 }
 
 class FeedFavouriteFactoryImpl @Inject constructor(
@@ -17,24 +18,40 @@ class FeedFavouriteFactoryImpl @Inject constructor(
 ): FeedFavouriteFactory {
 
     override fun create(
-        feedFavourite: FeedFavourite,
+        feedFavourite: JSONObject,
         alignment: FeedColumnAlignment
     ): FeedColumn.FeedFavourite {
-        val save = feedFavourite.action.fragments.favouriteAction.save?.mapNotNull {
-            emitSignalFactory.create(it.fragments.emitSignal)
+        val actionData = feedFavourite.getJSONObject("action")
+
+        val save: List<EmitSignal> = actionData.getJSONArray("save").let {
+            val saveSignals = mutableListOf<EmitSignal>()
+            var saveIndex = 0
+            while (saveIndex < it.length()) {
+                emitSignalFactory.create(it.getJSONObject(saveIndex))?.let { es -> saveSignals.add(es) }
+                saveIndex++
+            }
+            saveSignals
         }
-        val unsave = feedFavourite.action.fragments.favouriteAction.unsave?.mapNotNull {
-            emitSignalFactory.create(it.fragments.emitSignal)
+
+        val unsave = actionData.getJSONArray("unsave").let {
+            val unsaveSignals = mutableListOf<EmitSignal>()
+            var unsaveIndex = 0
+            while (unsaveIndex < it.length()) {
+                emitSignalFactory.create(it.getJSONObject(unsaveIndex))?.let { es -> unsaveSignals.add(es) }
+                unsaveIndex++
+            }
+            unsaveSignals
         }
+
         return FeedColumn.FeedFavourite(
             align = alignment,
-            icon = feedFavourite.icon,
+            icon = feedFavourite.getString("icon"),
             action = FavouriteAction(
-                feedId = feedFavourite.action.fragments.favouriteAction.feedId,
+                feedId = actionData.getString("feedId"),
                 save = save,
                 unsave = unsave
             ),
-            signal = signalFactory.create(feedFavourite.signal?.fragments?.signal)
+            signal = signalFactory.create(feedFavourite.getJSONObject("signal"))
         )
     }
 }

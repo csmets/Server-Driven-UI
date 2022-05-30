@@ -1,42 +1,53 @@
 package com.example.androidapp.services
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.exception.ApolloException
-import com.example.androidapp.GRAPHQL_ENDPOINT
+import com.example.androidapp.TEMPLATE_ENDPOINT
 import com.example.androidapp.models.FeedResponse
 import com.example.androidapp.models.factories.FeedResponseFactory
-import com.example.sduigeneratetypes.graphql.GetFeedQuery
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import org.json.JSONArray
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Inject
 
 interface RemoteDataSource {
-    suspend fun getFeed(): FeedResponse?
+    suspend fun getFeed(callback: suspend (res: FeedResponse) -> Unit)
 }
 
 class RemoteDataSourceImpl @Inject constructor(
     private val feedResponseFactory: FeedResponseFactory
 ): RemoteDataSource {
 
-    override suspend fun getFeed(): FeedResponse? {
-        val apolloClient = ApolloClient.builder()
-            .serverUrl(GRAPHQL_ENDPOINT)
+    override suspend fun getFeed(callback: suspend (res: FeedResponse) -> Unit) {
+        val templateService = Retrofit.Builder()
+            .baseUrl(TEMPLATE_ENDPOINT)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(TemplateAPI::class.java)
 
-        val response = try {
-            apolloClient.query(GetFeedQuery()).toFlow().flowOn(Dispatchers.IO).first()
-        } catch (e: ApolloException) {
-            // handle protocol errors
-            return null
-        }
+        templateService.getFeed().enqueue((object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                //handle error here
+            }
 
-        val feed = response.data?.feed
-        if (feed == null || response.hasErrors()) {
-            // handle application errors
-            return null
-        }
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val res = response.body()?.string()
+                if (res != null) {
+                    val json = JSONArray(res)
+                    val feed = json.getJSONObject(0).getJSONObject("data").getJSONArray("elements")
+                    val feedResponse = feedResponseFactory.create(feed)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (feedResponse != null) {
+                            callback(feedResponse)
+                        }
+                    }
+                }
+            }
 
-        return feedResponseFactory.create(feed.fragments.feedContainer)
+        }))
     }
 }

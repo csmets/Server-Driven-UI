@@ -1,12 +1,11 @@
 package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.FeedViewElement
-import fragment.FeedContainer
-import fragment.FeedHeading
+import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface FeedContainerElementFactory {
-    fun create(element: FeedContainer.Element?): FeedViewElement?
+    fun create(element: JSONObject?): FeedViewElement?
 }
 
 class FeedContainerElementFactoryImpl @Inject constructor(
@@ -14,15 +13,11 @@ class FeedContainerElementFactoryImpl @Inject constructor(
     private val typographyContentFactory: TypographyContentFactory,
     private val feedItemFactory: FeedItemFactory
 ): FeedContainerElementFactory {
-    override fun create(element: FeedContainer.Element?): FeedViewElement? {
-        val feedItem = element?.fragments?.feedItem
-        val typographyContent = element?.fragments?.typographyContent
-        val feedHeading = element?.fragments?.feedHeading
-
-        return when {
-            feedHeading != null -> feedHeadingFactory.create(feedHeading)
-            typographyContent != null -> typographyContentFactory.create(typographyContent)
-            feedItem != null -> feedItemFactory.create(feedItem)
+    override fun create(element: JSONObject?): FeedViewElement? {
+        return when(element?.get("__typename")) {
+            "FeedItem" -> feedItemFactory.create(element)
+            "FeedHeading" -> feedHeadingFactory.create(element)
+            "TypographyContent" -> typographyContentFactory.create(element)
             else -> null
         }
     }

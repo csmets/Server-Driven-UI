@@ -1,16 +1,16 @@
 package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.Paragraph
-import fragment.TypographyContent
+import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface ParagraphFactory {
-    fun create(paragraph: TypographyContent.Paragraph?): Paragraph?
+    fun create(paragraph: JSONObject?): Paragraph?
 }
 
 class ParagraphFactoryImpl @Inject constructor(): ParagraphFactory {
-    override fun create(paragraph: TypographyContent.Paragraph?): Paragraph? {
-        val text = paragraph?.fragments?.paragraph?.value
+    override fun create(paragraph: JSONObject?): Paragraph? {
+        val text = paragraph?.getString("value")
 
         when {
             text != null -> return Paragraph(text)

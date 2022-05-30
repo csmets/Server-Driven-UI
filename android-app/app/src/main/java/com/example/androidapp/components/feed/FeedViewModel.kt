@@ -1,6 +1,7 @@
 package com.example.androidapp.components.feed
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.androidapp.data.Feed
 import com.example.androidapp.data.FeedDatabase
@@ -32,10 +33,9 @@ class FeedViewModel @Inject constructor(
 
     private fun getResponse() {
         viewModelScope.launch {
-            val response = remoteDataSource.getFeed()
-            if (response != null) {
-                val feedResponse = Feed(0, response)
-                _feed.value = feedResponse
+            remoteDataSource.getFeed() { it ->
+                val feedResponse = Feed(0, it)
+                _feed.postValue(feedResponse)
                 repo.deleteFeed()
                 repo.addFeed(feedResponse)
             }

@@ -1,29 +1,48 @@
 package com.example.androidapp.models.factories
 
+import com.example.androidapp.models.EmitSignal
 import com.example.androidapp.models.SignalValuePair
-import fragment.EmitSignal
+import com.example.androidapp.models.SignalValuePairKey
+import com.example.androidapp.models.toSignalValuePairKey
+import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface EmitSignalFactory {
-    fun create(emitSignal: EmitSignal?): com.example.androidapp.models.EmitSignal?
+    fun create(emitSignal: JSONObject?): EmitSignal?
 }
 
 class EmitSignalFactoryImpl @Inject constructor(
     private val signalFactory: SignalFactory
 ): EmitSignalFactory {
-    override fun create(emitSignal: EmitSignal?): com.example.androidapp.models.EmitSignal? {
-        if (emitSignal?.signal == null) {
+    override fun create(emitSignal: JSONObject?): EmitSignal? {
+        if (emitSignal == null) {
             return null
         }
 
-        val values = emitSignal.values
+        val values = emitSignal.getJSONArray("values").let {
+            var index = 0
+            val esValues = mutableListOf<SignalValuePair>()
+            while (index < it.length()) {
+                val pair = it.getJSONObject(index)
+                val key = pair.getString("key").toSignalValuePairKey()
+                val value = pair.getString("value")
 
-        return com.example.androidapp.models.EmitSignal(
-            signal = signalFactory.create(emitSignal.signal!!.fragments.signal)!!,
-            values = values.map { emitSignalValue ->
-                val pair = emitSignalValue.fragments.signalValuePair
-                SignalValuePair(key = pair.key, value =  pair.value)
+                if (key != SignalValuePairKey.UNKNOWN && value.isNotEmpty()) {
+                    esValues.add(
+                        SignalValuePair(
+                            key = key,
+                            value = value
+                        )
+                    )
+                }
+                index++
             }
+            esValues
+        }
+
+        return EmitSignal(
+            signal = signalFactory.create(emitSignal.getJSONObject("signal"))!!,
+            values = values
         )
     }
 }

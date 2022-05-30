@@ -1,7 +1,6 @@
 package com.example.androidapp.models
 
 import kotlinx.serialization.Serializable
-import type.SignalValuePairKey
 
 @Serializable
 data class Signal(val type: SignalType, val reference: String?)
@@ -17,8 +16,8 @@ enum class SignalType {
     ERROR
 }
 
-fun type.SignalType.map(): SignalType {
-    return when(this.name) {
+fun String.toSignalType(): SignalType {
+    return when(this) {
         "FAVOURITE" -> SignalType.FAVOURITE
         "FAVOURITE_COUNT" -> SignalType.FAVOURITE_COUNT
         "TITLE" -> SignalType.TITLE
@@ -29,6 +28,22 @@ fun type.SignalType.map(): SignalType {
 
 @Serializable
 data class EmitSignal(val signal: Signal, val values: List<SignalValuePair>?)
+
+enum class SignalValuePairKey {
+    COUNT,
+    ICON,
+    TOGGLE,
+    UNKNOWN
+}
+
+fun String.toSignalValuePairKey(): SignalValuePairKey {
+    return when(this) {
+        "COUNT" -> SignalValuePairKey.COUNT
+        "ICON" -> SignalValuePairKey.ICON
+        "TOGGLE" -> SignalValuePairKey.TOGGLE
+        else -> SignalValuePairKey.UNKNOWN
+    }
+}
 
 @Serializable
 data class SignalValuePair(

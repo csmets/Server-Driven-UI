@@ -3,6 +3,22 @@ package com.example.androidapp.models
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class FeedTemplateResponse(
+    val section: String,
+    val data: FeedResponse
+)
+
+@Serializable
+sealed class DataResponse {
+    data class Feed(
+        val typename: String
+    )
+    data class Edit(
+        val typename: String
+    )
+}
+
+@Serializable
 data class FeedResponse(val elements: List<FeedViewElement>)
 
 @Serializable

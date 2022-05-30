@@ -1,25 +1,23 @@
 package com.example.androidapp.models.factories
 
-import com.example.androidapp.models.Signal
-import com.example.androidapp.models.SignalType
-import com.example.androidapp.models.SignalValue
-import com.example.androidapp.models.map
+import com.example.androidapp.models.*
+import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface SignalFactory {
-    fun create(signal: fragment.Signal?): Signal?
+    fun create(signal: JSONObject?): Signal?
 }
 
 class SignalFactoryImpl @Inject constructor(): SignalFactory {
 
-    override fun create(signal: fragment.Signal?): Signal? {
+    override fun create(signal: JSONObject?): Signal? {
         if (signal == null) {
             return null
         }
 
         return Signal(
-            type = signal.type.map(),
-            reference = signal.reference
+            type = signal.getString("type").toSignalType(),
+            reference = signal.getString("reference")
         )
     }
 }

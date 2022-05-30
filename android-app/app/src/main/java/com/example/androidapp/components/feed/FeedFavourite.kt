@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.androidapp.models.FeedColumn
-import type.SignalValuePairKey
+import com.example.androidapp.models.SignalValuePairKey
 
 @ExperimentalCoilApi
 @Composable
