@@ -2,14 +2,8 @@
 
 The core principle of this project and in SDUI is to only write once; DRY (don't repeat yourself).
 
-![Architecture overview](images/architecture-overview.jpg)
+![Architecture overview](images/architecture-overview.png)
 Overview diagram illustrating libraries, applications, and services that stitches it all together to make this SDUI.
-
-## GraphQL models (queries, mutations & fragments)
-
-It's important to home all client queries, mutations, and fragments in one place. It's easy for clients to have their own place where developers will write their graphql queries. The issue with this, is that all clients will have to update their fragments and queries rather than doing it in one place for all. It may also lead to inconsistencies and issues where a particular client might be missing a field that will result on missing information that could be important to your user.
-
-Other inconsistencies may include how the fragments may be written. It will lead into having each client having conversations with each other to resolve the same issue. It will reduce unwanted time figuring out how each client has worked on building the fragments when all of these graphql files are kept in one place.
 
 ## Style tokens
 
@@ -23,8 +17,12 @@ Design tokens allows you to be able to update your visual design values and have
 
 ## Application
 
-Android, iOS, and Web applications **should** not contain any business logic. Any business logic, if any, should not be done to the user interface (UI). UI should be dumb and any response given from the server-side must be handled. This is an important and key role to SDUI. **Having any business logic within the UI defeats the purpose of SDUI, as you are now letting the client determine the view rather than the server.**
+Android, iOS, and Web applications **should not contain any business logic**. Any business logic, if any, should not be done to the user interface (UI). UI should be dumb and any response given from the server-side must be handled. This is an important and key role to SDUI. **Having any business logic within the UI defeats the purpose of SDUI, as you are now letting the client determine the view rather than the server.**
+
+## Template service
+
+The template service is the client's one stop shop for building the views. The client can provide some context to the template service for it to tailor specific responses for that domain. This also removes individual clients from having to write their own GraphQL. Rather, all queries can be kept within the template service and let it handle how the presentation should look like. The template service can make 1 or many query calls to build a page and return it as a REST response. Having it return an old robust response such as REST grants some benefits for clients such as caching GET requests. With graphQL requests it's all done via POST and you have to leverage the library like Apollo to handle the caching for you.
 
 ## Compositor (GraphQL Server)
 
-The compositor is the service that composes the view for the client. It should determine the layout, such as, order of components. It will provide the values for the components to render as well as what components to render. The compositor should not contain any styling values, such as, font size, color, spacing, etc. Components are pre-built within the client and should always fulfill the requirements of the designs. **If you were to allow style values within the compositor you are then allowing developers to be able to provide custom values that goes against a design contract. It also confuses the role of responsibility of where the styles should come from, and will also make it hard to find where the root cause is when there is an issue with the visual style.
+The compositor is the service that composes the view elements for a module or page that the template service requests for. This service should determine the presentation, such as, the components layout and the order of components. It should also populate components values using the downstream services. The compositor should not contain any styling values, such as, font size, color, spacing, etc. Components are pre-built within the client and should always fulfill the requirements of the designs. **If you were to allow style values within the compositor you are then allowing developers to be able to provide custom values that goes against a design contract. It also confuses the role of responsibility of where the styles should come from, and will also make it hard to find where the root cause is when there is an issue with the visual style.**

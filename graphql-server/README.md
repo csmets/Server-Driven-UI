@@ -1,6 +1,6 @@
 # GraphQL Server
 
-This module is to house all the graphQL queries/mutations for clients to use. It's the data provider for clients.
+This module is to house all the graphQL queries for the template server to use. Clients can make direct calls to the GraphQL server for mutations. It's primarily the data provider for the template server.
 
 ## Getting started
 

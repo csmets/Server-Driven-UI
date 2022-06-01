@@ -9,21 +9,13 @@ To install run:
 npm ci
 ```
 
-`web-app` relies on two local packages which will need to be linked first before running this app.
-
-To link these packages run the following:
-
-```
-npm link @csmets/generated-types
-```
-
-and
+`web-app` relies on a local packages which will need to be linked first before running this app.
 
 ```
 npm link @csmets/tokens
 ```
 
-First, run the development server:
+To run the app:
 
 ```bash
 npm run dev
