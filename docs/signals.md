@@ -126,7 +126,7 @@ Let's take a look at an object we want to update.
 }
 ```
 
-Say Bob wants to update his phone and address details. Without using `SignalValuePair` we'd have to manually map the value to a field. For example:
+Say Bob wants to update his phone and address details. Without using `SignalValuePair` we'd have to manually map the value to a field.
 
 ```json
 {
@@ -145,7 +145,9 @@ Say Bob wants to update his phone and address details. Without using `SignalValu
 }
 ```
 
-The server doesn't tell the client that it needs to update the `phone` number field, rather this would require the developer to add some basic logic to map the value to emitted to update `phone` field. For basic usage this is fine, but in our case we want to update multiple values within the `user` objects.
+The server doesn't tell the client that it needs to update the `phone` number field, rather this would require the developer to add some basic logic to map the value to emitted to update `phone` field. For basic usage this is fine, but the best case would be to update multiple values within the `user` object.
+
+Let's take a look at what the schema looks like for `SignvalValuePair`:
 
 
 ```graphql
@@ -161,9 +163,27 @@ enum SignalValuePairKey {
 
 type SignalKeyValuePair {
   key: SignalValuePairKey!
+  value: SignalValue!
+}
+
+union SignalValue = SignalStringValue | SignalFieldInputsValues | SignalFieldInputValue
+
+type SignalStringValue {
   value: String!
 }
+
+type SignalFieldInputsValues {
+  prefix: [String!]
+  suffix: [String!]
+  ids: [String!]
+}
+
+type SignalFieldInputValue {
+  id: String!
+}
 ```
+
+Looking at the `SignalValue` union you'll notice that there's two different types. The reason why these types are created as opposed to using generic primitives is so that we can define some more custom server driven values. For forms we want to be able to grab a field by it's id and emit that value to a listening signal. For dealing with arrays, what if you wanted to place an input value at a specific position, you can send an object that contains the starting and ending values and insert a value inbetween.
 
 ```json
 {
@@ -181,7 +201,9 @@ type SignalKeyValuePair {
               },
               {
                 "key": "ADDRESS",
-                "value": "12 New Hope Street"
+                "value": {
+                  "value": "12 New Hope Street"
+                }
               }
             ]
           }
@@ -191,7 +213,7 @@ type SignalKeyValuePair {
 }
 ```
 
-Using `SignalValuePair` we can leverage the `key` to map to a particular field within the object that's driven by the server. Now we've taken the client logic off and handed it back to server. This allows for further flexibility without creating a contract within the client.
+Looking back at the examples, using `SignalValuePair` we can leverage the `key` to map to a particular field within the user object that's driven by the server. Now we've taken the client logic off and handed it back to server. This allows for further flexibility without creating a contract within the client.
 
 ### Updating cache
 
