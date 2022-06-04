@@ -1,7 +1,10 @@
 const { signalEnum } = require('../components/signal')
+const { sleep } = require('../utils');
 
 const editNameQuery = {
-  editName: () => {
+  editName: async () => {
+    await sleep(5000)
+
     return {
       elements: [
         {

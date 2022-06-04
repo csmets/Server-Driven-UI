@@ -16,6 +16,6 @@ class FeedHeadingFactoryImpl @Inject constructor(): FeedHeadingFactory {
             return null
         }
 
-        return FeedViewElement.FeedHeading(primary = primary!!, signal = null)
+        return FeedViewElement.FeedHeading(primary = primary, signal = null)
     }
 }

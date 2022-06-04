@@ -1,8 +1,6 @@
 package com.example.androidapp.hilt
 
 import com.example.androidapp.models.factories.*
-import com.example.androidapp.services.RemoteDataSource
-import com.example.androidapp.services.RemoteDataSourceImpl
 import com.example.androidapp.signals.SignalProvider
 import com.example.androidapp.signals.SignalProviderImpl
 import com.example.androidapp.signals.SignalRegistry
@@ -50,7 +48,4 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindTypographyContentFactory(impl: TypographyContentFactoryImpl): TypographyContentFactory
-
-   @Binds
-   abstract fun bindRemoteDatasource(impl: RemoteDataSourceImpl): RemoteDataSource
 }

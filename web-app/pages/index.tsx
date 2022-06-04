@@ -11,7 +11,6 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css';
 import { Feed } from './components/feed/feed';
 import { SignalProvider } from './provider/signal';
-import { EditHeadingTitle } from './components/edit-heading-title/edit-heading-title';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -32,7 +31,6 @@ const Home: NextPage = () => {
           <main className={styles.main}>
             <div>
               <Feed />
-              <EditHeadingTitle />
               <p>
                 Read{' '}
                 <Link href="/about">

@@ -6,13 +6,13 @@ import org.json.JSONArray
 import javax.inject.Inject
 
 fun interface FeedResponseFactory {
-    fun create(elements: JSONArray): FeedResponse?
+    fun create(elements: JSONArray): FeedResponse
 }
 
 class FeedResponseFactoryImpl @Inject constructor(
     private val feedContainerElementFactory: FeedContainerElementFactory
 ): FeedResponseFactory {
-    override fun create(elements: JSONArray): FeedResponse? {
+    override fun create(elements: JSONArray): FeedResponse {
         var index = 0
         val containerElements: MutableList<FeedViewElement> = mutableListOf()
 
