@@ -12,7 +12,7 @@ This documentation is to house the standards that should be in placed when worki
 7. [Forms](./forms.md)
 8. [Signals](./signals.md)
 9. [Cache](./cache.md)
-10. [Appendix: Benefits for clients to not call GraphQL](./decouple-graphql-client.md)
+10. [Appendix: Benefits for clients to not call GraphQL in SDUI](./decouple-graphql-client.md)
 
 ## Preface
 
