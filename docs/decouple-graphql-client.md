@@ -23,7 +23,7 @@ teams from releasing their work.
 
 ## What if you remove the client calling GraphQL and have it return a REST response?
 
-You would recieve the following benefits:
+You would receive the following benefits:
 
 - Client won't have to be concerned on ensuring it's asking for all required
   fields/types for the view.
@@ -71,7 +71,7 @@ Even if you're not having too, the addition of creating your own types doesn't
 take as long, and might be faster to do so then having to create GraphQL queries
 and run the code generation.
 
-[Insert image for broken generated code]
+![generated code causing application to break](./images/generated-code-broken.png)
 
 Taking a look at the example of the generated code breaking the application, we
 can see that when deleting the `Alt` the generated code removes it. This is so
@@ -79,12 +79,12 @@ it meets the contract from GraphQL, however the UI is now broken because it's
 asking for `Alt` but it doesn't exist.
 
 
-[Insert image to solution]
+![example showing generated code fixed](./images/generated-code-fixed.png)
 
 To solve this issue, we will have to update the UI to not access the missing
 `Alt` field but use the new `Desc` field.
 
-[Insert adapter with no Alt]
+![adapter handling nullable fields](./images/adapter-no-alt.png)
 
 When removing the generated code and rather adapt the returned JSON response we
 can prevent the application from breaking by not trusting the response. This
@@ -93,7 +93,7 @@ if it were not to appear it won't break the application. This is particularly
 useful for mobile applications where you want you're previous to builds to work
 even when the response has changed.
 
-[Insert adapter to use desc field]
+![adapter handling desc](./images/adapter-desc.png)
 
 Rather than having to make changes to the UI to use `Desc` instead of `Alt` you
 can update the adapter to use the returned `Desc` data into the `Alt` field.
