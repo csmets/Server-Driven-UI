@@ -1,0 +1,8 @@
+"""
+    Container is used for holding many different elements.
+    It can hold typography items like headings, and body text, but
+    also can hold UI elements like a card or a carousel.
+"""
+type Container {
+    elements: [ContainerElement!]
+}

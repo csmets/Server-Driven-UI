@@ -1,0 +1,6 @@
+# This file will hold unions for housing elements
+
+"""
+    Place all composable elements into this union for the container.
+"""
+union ContainerElement = Card

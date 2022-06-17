@@ -1,13 +1,7 @@
-union Action = EditNameSubmitAction
 union FormElement = Button | TextInput
 
 type EditNameContainer {
     elements: [FormElement!]
-}
-
-type EditNameSubmitAction {
-    inputIds: [String!]!
-    emitSignal: EmitSignal!
 }
 
 type TextInput {

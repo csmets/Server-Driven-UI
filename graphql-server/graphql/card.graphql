@@ -1,0 +1,5 @@
+type Card {
+    primary: String!
+    secondaries: [String!]
+    action: Action
+}

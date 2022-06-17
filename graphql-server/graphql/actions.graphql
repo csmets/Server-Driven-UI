@@ -1,0 +1,11 @@
+union Action = EditNameSubmitAction | URLAction
+
+type URLAction {
+    url: String!
+    description: String
+}
+
+type EditNameSubmitAction {
+    inputIds: [String!]!
+    emitSignal: EmitSignal!
+}
