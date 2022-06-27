@@ -2,20 +2,19 @@ import express from 'express';
 import * as http from 'http';
 import * as WebSocket from 'ws';
 
-import { GraphQLClient, gql } from 'graphql-request';
-import { feedQuery } from './queries/feed';
 import cors from 'cors';
-import { editNameQuery } from './queries/edit-name';
+import { parse } from 'url';
+import { feedWS } from './websockets/feed';
+import { hackerNewsWS } from './websockets/hacker-news';
+import { PORT } from './globals';
 
 
 const app = express();
 app.use(cors());
-const port = 9090;
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server, path: '/feed' });
-
-const endpoint = "http://localhost:4000/graphql";
+const feedServer = new WebSocket.Server({ noServer: true });
+const hackerNewsServer = new WebSocket.Server({ noServer: true });
 
 app.get('/component/feed', (_, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -34,27 +33,19 @@ app.get('/component/feed', (_, res) => {
   }));
 });
 
-wss.on('connection', async function connection(ws) {
-  const response = [];
-  ws.send(JSON.stringify(response));
+server.on('upgrade', function upgrade(request, socket, head) {
+  const { pathname } = parse(request.url);
 
-  const client = new GraphQLClient(endpoint, { headers: {} });
-  const feedResp = await client.request(feedQuery, {});
-  response.push({
-      "section": "feed",
-      "data": feedResp.feed
-  });
-  ws.send(JSON.stringify(response))
+  if (pathname === '/feed') {
+    feedWS(feedServer, request, socket, head);
+  } else if (pathname === '/hacker-news') {
+    hackerNewsWS(hackerNewsServer, request, socket, head);
+  } else {
+    socket.destroy();
+  }
+})
 
-  const formResp  = await client.request(editNameQuery, {});
-  response.push(
-    {
-      "section": "editName",
-      "data": formResp.editName
-    }
-  );
-  ws.send(JSON.stringify(response))
-  ws.close()
-});
-
-server.listen(port, () => console.log(`Template server listening on port ${port}!`));
+server.listen(
+  PORT,
+  () => console.log(`Template server listening on port ${PORT}!`)
+);

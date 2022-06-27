@@ -1,7 +1,7 @@
 const { getHNTopStories } = require('../services/hacker-news-service');
 
 const hackerNewsTopStoriesQuery = {
-  hackerNewTopStories: async () => {
+  hackerNewsTopStories: async () => {
     const result = await getHNTopStories()
     let elements = [];
 

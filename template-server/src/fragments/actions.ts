@@ -11,3 +11,11 @@ export const editNameSubmitActionFragment = gql`
   }
   ${emitSignalFragment}
 `;
+
+export const urlActionFragment = gql`
+  fragment urlActionFragment on URLAction {
+    __typename
+    url
+    description
+  }
+`;
