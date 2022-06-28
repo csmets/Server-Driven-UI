@@ -1,5 +1,5 @@
 type Query {
     feed: FeedContainer
     editName: EditNameContainer
-    hackerNewsTopStories: Container
+    hackerNewsTopStories: HackerNewsView
 }

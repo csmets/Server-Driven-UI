@@ -1,0 +1,5 @@
+union HackerNewsViewElements = Container
+
+type HackerNewsView {
+    elements: [HackerNewsViewElements!]!
+}

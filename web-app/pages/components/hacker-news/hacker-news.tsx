@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Container } from './elements/container';
-import { ContainerData, ContainerVM } from './models/container-vm';
+import {ContainerVM} from './models/container-vm';
+import { HackerNewsViewVM, HackerNewsViewData } from './models/hacker-news-view-vm';
 
 const HackerNewsFeed = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [hnData, setHNData] = React.useState<ContainerData>();
+  const [hnData, setHNData] = React.useState<HackerNewsViewData>();
 
   React.useEffect(() => {
     const socket = new WebSocket('ws://localhost:9090/hacker-news');
@@ -15,7 +16,7 @@ const HackerNewsFeed = (): JSX.Element => {
         setIsLoaded(true)
         response.forEach((el: any) => {
           if (el.section === 'hackerNews') {
-            setHNData(new ContainerVM(el.data.hackerNewsTopStories));
+            setHNData(new HackerNewsViewVM(el.data.hackerNewsTopStories));
           }
         });
       }
@@ -28,9 +29,16 @@ const HackerNewsFeed = (): JSX.Element => {
     return <></>;
   }
 
+  const viewElements = hnData?.elements?.map((el, index) => {
+    if (el instanceof ContainerVM) {
+      return <Container key={`view-container-${index}`} data={el} />
+    }
+    return <></>
+  })
+
   return (
     <>
-      {hnData && <Container data={hnData} />}
+      {viewElements}
     </>
   );
 }

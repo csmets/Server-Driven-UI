@@ -1,13 +1,13 @@
 import { gql } from "graphql-request";
-import {containerFragment} from "../fragments/container";
+import { hackerNewsViewFragment } from "../fragments/hacker-news-view";
 
 const hackerNewsTopStoriesQuery = gql`
   query {
     hackerNewsTopStories {
-      ...containerFragment
+      ...hackerNewsViewFragment
     }
   }
-  ${containerFragment}
+  ${hackerNewsViewFragment}
 `;
 
 export { hackerNewsTopStoriesQuery }

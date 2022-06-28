@@ -19,7 +19,15 @@ const hackerNewsTopStoriesQuery = {
     }
 
     return {
-      elements
+      // typename: HackerNewsView
+      // view elements
+      elements: [
+        {
+          // typename: Container
+          // container elements
+          elements
+        }
+      ]
     }
   }
 };
