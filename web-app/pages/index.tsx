@@ -37,6 +37,11 @@ const Home: NextPage = () => {
                   <a>about page!</a>
                 </Link>
               </p>
+              <p>
+                <Link href="/hacker-news">
+                  <a>Hacker News top stories</a>
+                </Link>
+              </p>
             </div>
           </main>
 
