@@ -16,7 +16,7 @@ export class URLActionVM implements URLActionData {
 }
 
 export const actionAdapter = (action: any): Action | undefined  => {
-  switch(action.__typename) {
+  switch(action?.__typename) {
     case "URLAction":
       return new URLActionVM(action);
     default:

@@ -10,7 +10,7 @@ export const Card = (props: { data: CardData }): JSX.Element => {
         <h3>{primary}</h3>
         <ul>
           { secondaries.map((s, index) => {
-            return <li key={`card-secondaries-${index}`}>${s}</li>
+            return <li key={`card-secondaries-${index}`}>{s}</li>
           }) }
         </ul>
       </a>
