@@ -48,4 +48,16 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindTypographyContentFactory(impl: TypographyContentFactoryImpl): TypographyContentFactory
+
+   @Binds
+   abstract fun bindHackerNewsResponseFactory(impl: HackerNewsResponseFactoryImpl): HackerNewsResponseFactory
+
+   @Binds
+   abstract fun bindContainerFactory(impl: ContainerFactoryImpl): ContainerFactory
+
+   @Binds
+   abstract fun bindCardFactory(impl: CardFactoryImpl): CardFactory
+
+   @Binds
+   abstract fun bindActionFactory(impl: ActionFactoryImpl): ActionFactory
 }

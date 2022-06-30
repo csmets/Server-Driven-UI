@@ -1,21 +1,20 @@
-package com.example.androidapp.data
+package com.example.androidapp.data.hackernews
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+@Database(entities = [HackerNews::class], version = 1, exportSchema = false)
+abstract class HackerNewsDatabase: RoomDatabase() {
 
-@Database(entities = [Feed::class], version = 1, exportSchema = false)
-abstract class FeedDatabase: RoomDatabase() {
-
-    abstract fun feedDao(): FeedDao
+    abstract fun hackerNewsDao(): HackerNewsDao
 
     companion object {
         @Volatile
-        private var INSTANCE: FeedDatabase? = null
+        private var INSTANCE: HackerNewsDatabase? = null
 
-        fun getDatabase(context: Context): FeedDatabase {
+        fun getDatabase(context: Context): HackerNewsDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -23,8 +22,8 @@ abstract class FeedDatabase: RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    FeedDatabase::class.java,
-                    "feed_database"
+                    HackerNewsDatabase::class.java,
+                    "hacker_news_database"
                 ).build()
                 INSTANCE = instance
                 return instance

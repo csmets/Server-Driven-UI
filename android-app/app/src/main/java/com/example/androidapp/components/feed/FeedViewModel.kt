@@ -3,10 +3,10 @@ package com.example.androidapp.components.feed
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.androidapp.TEMPLATE_ENDPOINT
-import com.example.androidapp.data.Feed
-import com.example.androidapp.data.FeedDatabase
-import com.example.androidapp.data.FeedRepo
+import com.example.androidapp.FEED_TEMPLATE_ENDPOINT
+import com.example.androidapp.data.feed.Feed
+import com.example.androidapp.data.feed.FeedDatabase
+import com.example.androidapp.data.feed.FeedRepo
 import com.example.androidapp.models.factories.FeedResponseFactory
 import com.example.androidapp.services.MessageListener
 import com.example.androidapp.services.WebSocketManager
@@ -32,20 +32,20 @@ class FeedViewModel @Inject constructor(
         repo = FeedRepo(feedDao)
         _feed.value = repo.readAllData.value
         val ws = WebSocketManager
-        ws.init(TEMPLATE_ENDPOINT, this)
+        ws.init(FEED_TEMPLATE_ENDPOINT, this)
         ws.connect()
     }
 
     override fun onConnectSuccess() {
-        Log.d("INFO", "Connected to template service web socket")
+        Log.d("INFO", "Connected to feed template service web socket")
     }
 
     override fun onConnectFailed() {
-        Log.e("ERROR", "Failed to connect to template service web socket")
+        Log.e("ERROR", "Failed to connect to feed template service web socket")
     }
 
     override fun onClose() {
-        Log.d("INFO", "Connection to template service has closed")
+        Log.d("INFO", "Connection to feed template service has closed")
     }
 
     override fun onMessage(text: String?) {

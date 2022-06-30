@@ -8,12 +8,13 @@ const hackerNewsTopStoriesQuery = {
     if (Array.isArray(result)) {
       elements = result.map((element) => {
         const { title, url, by } = element.data;
+
+        const action = url ? { url } : null
+
         return {
           primary: title,
           secondaries: [by],
-          action: {
-            url
-          }
+          action
         }
       });
     }

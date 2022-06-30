@@ -1,4 +1,4 @@
-package com.example.androidapp.data
+package com.example.androidapp.data.feed
 
 import androidx.room.TypeConverter
 import com.example.androidapp.models.FeedResponse

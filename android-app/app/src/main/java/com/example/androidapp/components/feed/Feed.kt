@@ -20,8 +20,6 @@ fun Feed(viewModel: FeedViewModel = viewModel()) {
     val feed = viewModel.feed.observeAsState()
     val feedView = feed.value?.feedView
 
-    println("response: " + Json.encodeToString(feed.value?.feedView))
-
     Row {
         Column(modifier = Modifier
             .fillMaxWidth()
