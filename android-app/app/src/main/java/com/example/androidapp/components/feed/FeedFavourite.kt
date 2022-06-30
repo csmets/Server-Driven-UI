@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.androidapp.models.FeedColumn
@@ -15,7 +15,7 @@ import com.example.androidapp.models.SignalValuePairKey
 
 @ExperimentalCoilApi
 @Composable
-fun FeedFavourite(feedFavourite: FeedColumn.FeedFavourite, viewModel: FeedFavouriteViewModel = viewModel()) {
+fun FeedFavourite(feedFavourite: FeedColumn.FeedFavourite, viewModel: FeedFavouriteViewModel = hiltViewModel()) {
     var isSaved by remember {
         mutableStateOf(false)
     }
