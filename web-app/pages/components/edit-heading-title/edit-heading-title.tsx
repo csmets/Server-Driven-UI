@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { EditNameContainer } from './elements/edit-name-container';
-import { EditNameContainerData, EditNameContainerVM } from './models/edit-heading-container-vm';
+import { EditNameContainer } from './edit-name-container';
+import { EditNameContainerData, EditNameContainerVM } from '../../models/edit-heading-container-vm';
 
 const EditHeadingTitle = () => {
   const [error, setError] = React.useState(null);

@@ -35,7 +35,7 @@ sealed class FeedViewElement {
 }
 
 @Serializable
-data class Paragraph(val text: String)
+data class Paragraph(val text: String): ContainerElement()
 
 @Serializable
 sealed class FeedElement {

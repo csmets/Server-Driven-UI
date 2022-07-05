@@ -1,4 +1,4 @@
-import { EmitSignalData, EmitSignalVM } from "../../feed/models/signal-vm"
+import { EmitSignalData, EmitSignalVM } from "./signal-vm"
 
 export type EditNameElement = TextInputData | ButtonData;
 

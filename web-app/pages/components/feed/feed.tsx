@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FeedContainer } from './elements/feed-container';
-import { FeedContainerVM, FeedContainerData  } from './models/feed-container-vm';
-import { EditNameContainer } from '../edit-heading-title/elements/edit-name-container';
-import { EditNameContainerData, EditNameContainerVM } from '../edit-heading-title/models/edit-heading-container-vm';
+import { FeedContainer } from './feed-container';
+import { FeedContainerVM, FeedContainerData  } from '../../models/feed-container-vm';
+import { EditNameContainer } from '../edit-heading-title/edit-name-container';
+import { EditNameContainerData, EditNameContainerVM } from '../../models/edit-heading-container-vm';
 
 const Feed = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = React.useState(false);

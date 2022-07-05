@@ -5,6 +5,14 @@ const containerResolver = {
         return 'Card';
       }
 
+      if (obj.type && obj.value) {
+        return 'Heading';
+      }
+
+      if (obj.value) {
+        return 'Paragraph';
+      }
+
       return null;
     }
   }

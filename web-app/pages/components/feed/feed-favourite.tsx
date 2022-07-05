@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { gql, useMutation } from '@apollo/client';
-import { SignalContext } from '../../../provider/signal';
-import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
-import { FeedFavouriteData } from '../models/feed-item-vm';
-import { SignalValuePairKey } from '../models/signal-vm';
+import { SignalContext } from '../../provider/signal';
+import { signalPairKeyValue } from '../../helper/signal-pair-key-value';
+import { FeedFavouriteData } from '../../models/feed-item-vm';
+import { SignalValuePairKey } from '../../models/signal-vm';
 
 const saveItemMutationQuery = gql`
   mutation saveItem($feedId: String!) {

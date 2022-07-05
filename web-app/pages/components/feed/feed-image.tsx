@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { FeedImageData } from '../models/feed-item-vm';
+import { FeedImageData } from '../../models/feed-item-vm';
 
 const FeedImage = (props: { data: FeedImageData }) => {
   const { data } = props

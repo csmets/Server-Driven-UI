@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FeedColumnLayoutData, FeedFavouriteVM, FeedFavouriteCountVM } from '../models/feed-item-vm';
+import { FeedColumnLayoutData, FeedFavouriteVM, FeedFavouriteCountVM } from '../../models/feed-item-vm';
 import { FeedFavourite } from './feed-favourite';
 import { FeedFavouriteCount } from './feed-favourite-count';
 

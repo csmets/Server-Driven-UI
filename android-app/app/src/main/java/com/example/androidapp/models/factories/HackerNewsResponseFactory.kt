@@ -2,7 +2,6 @@ package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.HackerNewsResponse
 import com.example.androidapp.models.ViewElement
-import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 

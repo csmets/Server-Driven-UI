@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FeedCaptionData } from '../models/feed-item-vm';
+import { FeedCaptionData } from '../../models/feed-item-vm';
 
 const FeedCaption = (props: { data: FeedCaptionData }): JSX.Element => {
   const { data } = props;

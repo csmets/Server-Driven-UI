@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { SignalContext } from '../../../provider/signal';
-import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
-import { FeedFavouriteCountData } from '../models/feed-item-vm';
-import { SignalValuePairKey } from '../models/signal-vm';
+import { SignalContext } from '../../provider/signal';
+import { signalPairKeyValue } from '../../helper/signal-pair-key-value';
+import { FeedFavouriteCountData } from '../../models/feed-item-vm';
+import { SignalValuePairKey } from '../../models/signal-vm';
 
 const FeedFavouriteCount = (props: { data: FeedFavouriteCountData }): JSX.Element => {
   const { data } = props;

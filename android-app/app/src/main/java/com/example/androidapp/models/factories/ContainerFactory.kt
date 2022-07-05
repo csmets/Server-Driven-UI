@@ -10,7 +10,9 @@ fun interface ContainerFactory {
 }
 
 class ContainerFactoryImpl @Inject constructor(
-    private val cardFactory: CardFactory
+    private val cardFactory: CardFactory,
+    private val paragraphFactory: ParagraphFactory,
+    private val headingFactory: HeadingFactory
 ): ContainerFactory {
     override fun create(container: JSONObject): ViewElement.Container {
         val elements = container.getJSONArray("elements")
@@ -19,11 +21,14 @@ class ContainerFactoryImpl @Inject constructor(
         var index = 0
         while (index < elements.length()) {
             val el = elements.getJSONObject(index)
+            val typename = el.getString("__typename")
 
-            if (el.getString("__typename") == "Card") {
-                cardFactory.create(el)?.let {
+            when(typename) {
+                "Card" -> cardFactory.create(el)?.let {
                     containerElements.add(it)
                 }
+                "Paragraph" -> paragraphFactory.create(el)?.let { containerElements.add(it) }
+                "Heading" -> containerElements.add(headingFactory.create(el))
             }
 
             index++

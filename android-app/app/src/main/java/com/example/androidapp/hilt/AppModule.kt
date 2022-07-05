@@ -60,4 +60,7 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindActionFactory(impl: ActionFactoryImpl): ActionFactory
+
+   @Binds
+   abstract fun bindHeadingFactory(impl: HeadingFactoryImpl): HeadingFactory
 }

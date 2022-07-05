@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { TypographyContentFragment } from '@csmets/typescript-apollo-sdui-types/types';
+import {ParagraphVM} from '../feed/models/paragraph-vm';
+import { TypographyContentData } from '../feed/models/typography-content-vm';
 import { Paragraph } from './paragraph';
 
-const TypographyContent = (props: { data: TypographyContentFragment }) => {
+const TypographyContent = (props: { data: TypographyContentData }) => {
   const { data } = props;
 
   if (!data) {
@@ -10,12 +11,10 @@ const TypographyContent = (props: { data: TypographyContentFragment }) => {
   }
 
   const content = data.paragraph?.map((element, index) => {
-    switch (element?.__typename) {
-      case 'Paragraph':
+    if (element instanceof ParagraphVM) {
         return <Paragraph key={`feed-paragraph-${index}`} data={element} />
-      default:
-        return <></>
     }
+    return <></>
   });
 
   return <div>{content}</div>;

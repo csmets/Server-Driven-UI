@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useAction } from '../../action';
+import { useAction } from './action';
 import { ButtonData } from '../models/edit-heading-container-vm';
 
 const Button = (props: { data: ButtonData }) => {

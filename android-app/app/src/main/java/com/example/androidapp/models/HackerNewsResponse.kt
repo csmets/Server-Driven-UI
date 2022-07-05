@@ -25,6 +25,19 @@ sealed class ContainerElement {
         val secondaries: List<String>?,
         val action: Action?
     ) : ContainerElement()
+
+    @Serializable
+    data class Heading(
+        val value: String,
+        val headingType: HeadingType
+    ) : ContainerElement()
+}
+
+@Serializable
+enum class HeadingType {
+    H1,
+    H2,
+    H3
 }
 
 @Serializable

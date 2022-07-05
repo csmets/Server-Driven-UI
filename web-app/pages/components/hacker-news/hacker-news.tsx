@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Container } from './elements/container';
-import {ContainerVM} from './models/container-vm';
-import { HackerNewsViewVM, HackerNewsViewData } from './models/hacker-news-view-vm';
+import { Container } from '../container';
+import {ContainerVM} from '../../models/container-vm';
+import { HackerNewsViewVM, HackerNewsViewData } from '../../models/hacker-news-view-vm';
 
 const HackerNewsFeed = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = React.useState(false);

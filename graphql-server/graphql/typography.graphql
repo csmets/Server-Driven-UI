@@ -5,3 +5,14 @@ type TypographyContent {
 type Paragraph {
     value: String
 }
+
+type Heading {
+    type: HeadingType
+    value: String
+}
+
+enum HeadingType {
+    H1
+    H2
+    H3
+}

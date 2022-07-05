@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { SignalContext } from '../provider/signal';
-import { Action, EditNameSubmitActionVM } from './edit-heading-title/models/edit-heading-container-vm';
-import { SignalValuePairKey } from './feed/models/signal-vm';
+import { Action, EditNameSubmitActionVM } from '../models/edit-heading-container-vm';
+import { SignalValuePairKey } from '../models/signal-vm';
 
 const updateHeadingMutationQuery = gql`
   mutation updateHeading($formInputs: [FormInput!]) {

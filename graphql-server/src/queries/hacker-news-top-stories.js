@@ -26,7 +26,13 @@ const hackerNewsTopStoriesQuery = {
         {
           // typename: Container
           // container elements
-          elements
+          elements: [
+            {
+              type: "H1",
+                value: "Top Stories"
+            },
+            ...elements
+          ]
         }
       ]
     }

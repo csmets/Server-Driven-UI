@@ -13,7 +13,7 @@ const resolvers = {
   ...feedViewElementResolver,
   ...formElementResolver,
   ...hackerNewsResolver,
-  ...containerResolver
+  ...containerResolver,
 }
 
 module.exports = {

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { SignalContext } from '../../../provider/signal';
-import { signalPairKeyValue } from '../../../helper/signal-pair-key-value';
-import { FeedHeadingData } from '../models/feed-heading-vm';
-import { SignalValuePairKey } from '../models/signal-vm';
+import { SignalContext } from '../../provider/signal';
+import { signalPairKeyValue } from '../../helper/signal-pair-key-value';
+import { FeedHeadingData } from '../../models/feed-heading-vm';
+import { SignalValuePairKey } from '../../models/signal-vm';
 
 const FeedHeading = (props: { data: FeedHeadingData }): JSX.Element => {
   const { signal, primary } = props.data;
