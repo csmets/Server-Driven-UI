@@ -5,6 +5,7 @@ import { Paragraph } from "./typography/paragraph";
 import { CardVM } from "../models/card-vm";
 import { ContainerData } from "../models/container-vm";
 import { Card } from "./card";
+import styles from '../../styles/container.module.css';
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
@@ -28,7 +29,7 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
   })
 
   return (
-    <div>
+    <div className={styles.container}>
       {containerElements}
     </div>
   );

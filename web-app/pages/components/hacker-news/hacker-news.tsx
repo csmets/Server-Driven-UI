@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Container } from '../container';
 import {ContainerVM} from '../../models/container-vm';
 import { HackerNewsViewVM, HackerNewsViewData } from '../../models/hacker-news-view-vm';
+import styles from '../../../styles/hacker-news/hacker-news.module.css';
 
 const HackerNewsFeed = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -37,9 +38,11 @@ const HackerNewsFeed = (): JSX.Element => {
   })
 
   return (
-    <>
-      {viewElements}
-    </>
+    <div className={styles.view}>
+      <div className={styles.view_container}>
+        {viewElements}
+      </div>
+    </div>
   );
 }
 

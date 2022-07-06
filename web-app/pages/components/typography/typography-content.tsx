@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {ParagraphVM} from '../feed/models/paragraph-vm';
-import { TypographyContentData } from '../feed/models/typography-content-vm';
+import { ParagraphVM } from '../..//models/paragraph-vm';
+import { TypographyContentData } from '../../models/typography-content-vm';
 import { Paragraph } from './paragraph';
 
 const TypographyContent = (props: { data: TypographyContentData }) => {

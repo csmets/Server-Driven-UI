@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FeedImage } from './feed-image';
 import { FeedCaption } from './feed-caption';
-import styles from '../../../../styles/feed/FeedItem.module.css';
+import styles from '../../../styles/feed/FeedItem.module.css';
 import { FeedColumnLayout } from './feed-column-layout';
 import { FeedCaptionVM, FeedImageVM, FeedItemData, FeedColumnLayoutVM } from '../../models/feed-item-vm';
 

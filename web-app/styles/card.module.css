@@ -1,0 +1,31 @@
+.card {
+  padding-left: var(--spacing-x2);
+  border-bottom: 1px solid black;
+  padding-bottom: var(--spacing-x2);
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: grey;
+}
+
+.title {
+  font-size: 16px;
+}
+
+.secondaries {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.secondaries_item {
+  margin-right: var(--spacing-x2);
+}
