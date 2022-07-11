@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Typography } from '@mui/material';
 import { HeadingData, HeadingType } from '../../models/heading-vm';
-import styles from '../../../styles/heading.module.css';
 
 
 export const Heading = (props: { data: HeadingData }) => {
@@ -10,12 +10,13 @@ export const Heading = (props: { data: HeadingData }) => {
     return <></>;
   }
 
+
   switch(data.type) {
     case HeadingType.H1:
-      return <h1 className={styles.heading_1}>{ data.value }</h1>;
+      return <Typography variant="h1">{ data.value }</Typography>;
     case HeadingType.H2:
-      return <h2 className={styles.heading_2}>{ data.value }</h2>;
+      return <Typography variant="h2">{ data.value }</Typography>;
     case HeadingType.H3:
-      return <h3 className={styles.heading_3}>{ data. value }</h3>;
+      return <Typography variant="h3">{ data.value }</Typography>;
   }
 }

@@ -1,20 +1,24 @@
 import { CardData } from "../models/card-vm";
-import styles from "../../styles/card.module.css";
+import { Card as CardComponent, Typography, CardContent, CardActionArea } from "@mui/material";
 
 export const Card = (props: { data: CardData }): JSX.Element => {
   const { data } = props;
   const { primary, secondaries, action } = data;
 
   return (
-    <div className={styles.card}>
-      <a className={styles.link} href={action?.url}>
-        <h3 className={styles.title}>{primary}</h3>
-        <ul className={styles.secondaries}>
+    <CardComponent sx={{ minWidth: 275 }}>
+      <CardActionArea href={action?.url || ""}>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {primary}
+          </Typography>
           { secondaries.map((s, index) => {
-            return <li className={styles.secondaries_item} key={`card-secondaries-${index}`}>{s}</li>
+            return <Typography key={`card-content-secondaries-${index}`} sx={{ mb: 1.5 }} color="text.secondary">
+            {s}
+            </Typography>
           }) }
-        </ul>
-      </a>
-    </div>
+        </CardContent>
+      </CardActionArea>
+    </CardComponent>
   );
 }

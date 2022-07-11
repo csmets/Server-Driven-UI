@@ -5,7 +5,8 @@ import { Paragraph } from "./typography/paragraph";
 import { CardVM } from "../models/card-vm";
 import { ContainerData } from "../models/container-vm";
 import { Card } from "./card";
-import styles from '../../styles/container.module.css';
+import { Container as ContainerComponent } from "@mui/material";
+import { Box } from "@mui/system";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
@@ -17,7 +18,10 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
 
   const containerElements = elements?.map((el, index) => {
     if (el instanceof CardVM) {
-      return <Card key={`container-card-${index}`} data={el} />
+      return <>
+        <Card key={`container-card-${index}`} data={el} />
+        <Box sx={{mb: 2}} />
+      </>
     }
     if (el instanceof ParagraphVM) {
       return <Paragraph key={`container-paragraph-${index}`} data={el} />
@@ -29,8 +33,8 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
   })
 
   return (
-    <div className={styles.container}>
+    <ContainerComponent maxWidth="sm">
       {containerElements}
-    </div>
+    </ContainerComponent>
   );
 };
