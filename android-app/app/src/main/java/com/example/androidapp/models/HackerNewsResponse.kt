@@ -27,17 +27,26 @@ sealed class ContainerElement {
     ) : ContainerElement()
 
     @Serializable
-    data class Heading(
+    data class Typography(
         val value: String,
-        val headingType: HeadingType
+        val variant: TypographyVariant
     ) : ContainerElement()
 }
 
 @Serializable
-enum class HeadingType {
+enum class TypographyVariant {
     H1,
     H2,
-    H3
+    H3,
+    H4,
+    H5,
+    H6,
+    BODY1,
+    BODY2,
+    SUBTITLE1,
+    SUBTITLE2,
+    CAPTION,
+    OVERLINE
 }
 
 @Serializable

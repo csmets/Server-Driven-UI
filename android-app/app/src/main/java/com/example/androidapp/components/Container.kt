@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.androidapp.components.typography.Typography
 import com.example.androidapp.models.ContainerElement
 import com.example.androidapp.models.Paragraph
 import com.example.androidapp.models.ViewElement
@@ -22,7 +23,7 @@ fun Container(container: ViewElement.Container) {
             container.elements.forEach {
                 when(it) {
                     is ContainerElement.Card -> Card(it)
-                    is ContainerElement.Heading -> Text(text = it.value)
+                    is ContainerElement.Typography -> Typography(it)
                     is Paragraph -> Text(text = it.text)
                 }
             }

@@ -1,18 +1,29 @@
+# Deprecated
 type TypographyContent {
     paragraph: [Paragraph]
 }
 
+# Deprecated
 type Paragraph {
     value: String
 }
 
-type Heading {
-    type: HeadingType
-    value: String
+type Typography {
+    value: String!
+    variant: TypographyVariant!
 }
 
-enum HeadingType {
+enum TypographyVariant {
     H1
     H2
     H3
+    H4
+    H5
+    H6
+    BODY1
+    BODY2
+    SUBTITLE1
+    SUBTITLE2
+    CAPTION
+    OVERLINE
 }

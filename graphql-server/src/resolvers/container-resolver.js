@@ -5,12 +5,8 @@ const containerResolver = {
         return 'Card';
       }
 
-      if (obj.type && obj.value) {
-        return 'Heading';
-      }
-
-      if (obj.value) {
-        return 'Paragraph';
+      if (obj.variant && obj.value) {
+        return 'Typography';
       }
 
       return null;

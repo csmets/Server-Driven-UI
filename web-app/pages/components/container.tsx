@@ -1,12 +1,10 @@
-import { HeadingVM } from "../models/heading-vm";
-import { ParagraphVM } from "../models/paragraph-vm";
-import { Heading } from "./typography/heading";
-import { Paragraph } from "./typography/paragraph";
 import { CardVM } from "../models/card-vm";
 import { ContainerData } from "../models/container-vm";
 import { Card } from "./card";
 import { Container as ContainerComponent } from "@mui/material";
 import { Box } from "@mui/system";
+import { TypographyVM } from "../models/typography-vm";
+import { Typography } from "./typography/typography";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
@@ -23,11 +21,8 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
         <Box sx={{mb: 2}} />
       </>
     }
-    if (el instanceof ParagraphVM) {
-      return <Paragraph key={`container-paragraph-${index}`} data={el} />
-    }
-    if (el instanceof HeadingVM) {
-      return <Heading key={`container-heading-${index}`} data={el} />
+    if (el instanceof TypographyVM) {
+      return <Typography key={`container-typography-${index}`} data={el} />
     }
     return <></>
   })
