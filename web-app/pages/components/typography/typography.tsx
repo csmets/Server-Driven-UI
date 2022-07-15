@@ -3,7 +3,7 @@ import {
   Typography as TypographyComponent,
   TypographyVariant as TypographyVariantMUI
 } from '@mui/material';
-import { TypographyData, TypographyVariant } from '../../models/typography-vm';
+import { TypographyData, TypographyTheme, TypographyVariant } from '../../models/typography-vm';
 
 export const Typography = (props: { data: TypographyData }) => {
   const { data } = props;
@@ -16,11 +16,23 @@ export const Typography = (props: { data: TypographyData }) => {
     <TypographyComponent
       variant={adaptVariantToMUI(data.variant)}
       display={displayAsBlockOrInline(data.variant)}
+      color={adaptThemeColor(data.theme)}
     >
       { data.value }
     </TypographyComponent>
   );
 };
+
+const adaptThemeColor = (
+  theme: TypographyTheme
+): string  => {
+  switch (theme) {
+    case TypographyTheme.PRIMARY:
+      return "text.primary";
+    case TypographyTheme.SECONDARY:
+      return "text.secondary";
+  }
+}
 
 const displayAsBlockOrInline = (
   variant: TypographyVariant

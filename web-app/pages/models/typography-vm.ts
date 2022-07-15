@@ -13,18 +13,26 @@ export enum TypographyVariant {
   OVERLINE
 }
 
+export enum TypographyTheme {
+  PRIMARY,
+  SECONDARY
+}
+
 export interface TypographyData {
   variant: TypographyVariant
   value: string
+  theme: TypographyTheme
 }
 
 export class TypographyVM implements TypographyData {
   variant: TypographyVariant
   value: string
+  theme: TypographyTheme
 
   constructor(typography: any) {
     this.value = typography?.value;
     this.variant = this.adaptVariant(typography?.variant);
+    this.theme = this.adaptTheme(typography?.theme);
   }
 
   adaptVariant(type: any): TypographyVariant {
@@ -55,6 +63,17 @@ export class TypographyVM implements TypographyData {
         return TypographyVariant.OVERLINE;
       default:
         return TypographyVariant.BODY1;
+    }
+  }
+
+  adaptTheme(th: any): TypographyTheme {
+    switch(th) {
+      case "PRIMARY":
+        return TypographyTheme.PRIMARY;
+      case "SECONDARY":
+        return TypographyTheme.SECONDARY;
+      default:
+        return TypographyTheme.PRIMARY;
     }
   }
 }

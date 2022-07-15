@@ -5,5 +5,6 @@ export const typographyFragment = gql`
     __typename
     variant
     value
+    theme
   }
 `;

@@ -11,6 +11,12 @@ type Paragraph {
 type Typography {
     value: String!
     variant: TypographyVariant!
+    theme: TypographyTheme!
+}
+
+enum TypographyTheme {
+    PRIMARY
+    SECONDARY
 }
 
 enum TypographyVariant {

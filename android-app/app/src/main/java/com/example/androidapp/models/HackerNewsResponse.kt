@@ -29,7 +29,8 @@ sealed class ContainerElement {
     @Serializable
     data class Typography(
         val value: String,
-        val variant: TypographyVariant
+        val variant: TypographyVariant,
+        val theme: TypographyTheme
     ) : ContainerElement()
 }
 
@@ -47,6 +48,12 @@ enum class TypographyVariant {
     SUBTITLE2,
     CAPTION,
     OVERLINE
+}
+
+@Serializable
+enum class TypographyTheme {
+    PRIMARY,
+    SECONDARY
 }
 
 @Serializable

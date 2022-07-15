@@ -30,7 +30,8 @@ const hackerNewsTopStoriesQuery = {
             {
               // typename: Typography
               variant: "H1",
-              value: "Top Stories"
+              value: "Top Stories",
+              theme: "PRIMARY"
             },
             ...elements
           ]
