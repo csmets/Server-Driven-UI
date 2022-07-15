@@ -11,7 +11,8 @@ fun interface ContainerFactory {
 
 class ContainerFactoryImpl @Inject constructor(
     private val cardFactory: CardFactory,
-    private val typographyFactory: TypographyFactory
+    private val typographyFactory: TypographyFactory,
+    private val boxFactory: BoxFactory
 ): ContainerFactory {
     override fun create(container: JSONObject): ViewElement.Container {
         val elements = container.getJSONArray("elements")
@@ -27,6 +28,7 @@ class ContainerFactoryImpl @Inject constructor(
                     containerElements.add(it)
                 }
                 "Typography" -> containerElements.add(typographyFactory.create(el))
+                "Box" -> containerElements.add(boxFactory.create(el))
             }
 
             index++

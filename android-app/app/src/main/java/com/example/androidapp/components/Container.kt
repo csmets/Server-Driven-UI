@@ -1,16 +1,11 @@
 package com.example.androidapp.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.androidapp.components.typography.Typography
 import com.example.androidapp.models.ContainerElement
-import com.example.androidapp.models.Paragraph
 import com.example.androidapp.models.ViewElement
 
 @Composable
@@ -24,7 +19,11 @@ fun Container(container: ViewElement.Container) {
                 when(it) {
                     is ContainerElement.Card -> Card(it)
                     is ContainerElement.Typography -> Typography(it)
-                    is Paragraph -> Text(text = it.text)
+                    is ContainerElement.Box -> Box(
+                        modifier = Modifier
+                            .height(it.height.dp)
+                            .width(it.width.dp)
+                    )
                 }
             }
         }

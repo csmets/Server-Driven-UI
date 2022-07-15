@@ -1,8 +1,8 @@
+import { BoxVM } from "../models/box-vm";
 import { CardVM } from "../models/card-vm";
 import { ContainerData } from "../models/container-vm";
 import { Card } from "./card";
-import { Container as ContainerComponent } from "@mui/material";
-import { Box } from "@mui/system";
+import { Container as ContainerComponent, Box } from "@mui/material";
 import { TypographyVM } from "../models/typography-vm";
 import { Typography } from "./typography/typography";
 
@@ -23,6 +23,9 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
     }
     if (el instanceof TypographyVM) {
       return <Typography key={`container-typography-${index}`} data={el} />
+    }
+    if (el instanceof BoxVM) {
+      return <Box sx={{ width: el.width, height: el.height }}/>
     }
     return <></>
   })

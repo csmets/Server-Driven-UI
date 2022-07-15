@@ -63,4 +63,7 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindHeadingFactory(impl: TypographyFactoryImpl): TypographyFactory
+
+   @Binds
+   abstract fun bindBoxFactory(impl: BoxFactoryImpl): BoxFactory
 }

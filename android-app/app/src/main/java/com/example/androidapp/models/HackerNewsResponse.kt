@@ -32,6 +32,12 @@ sealed class ContainerElement {
         val variant: TypographyVariant,
         val theme: TypographyTheme
     ) : ContainerElement()
+
+    @Serializable
+    data class Box(
+        val width: Int,
+        val height: Int
+    ) : ContainerElement()
 }
 
 @Serializable

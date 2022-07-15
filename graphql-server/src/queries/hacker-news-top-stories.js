@@ -33,6 +33,11 @@ const hackerNewsTopStoriesQuery = {
               value: "Top Stories",
               theme: "PRIMARY"
             },
+            {
+              // typename: Box
+              width: null,
+              height: 24
+            },
             ...elements
           ]
         }

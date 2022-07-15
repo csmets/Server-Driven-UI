@@ -9,6 +9,10 @@ const containerResolver = {
         return 'Typography';
       }
 
+      if (obj.width || obj.height) {
+        return 'Box';
+      }
+
       return null;
     }
   }
