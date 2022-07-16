@@ -1,0 +1,28 @@
+enum ButtonVariant {
+    TEXT
+    CONTAINED
+    OUTLINED
+}
+
+enum ButtonTheme {
+    PRIMARY
+    SECONDARY
+    SUCCESS
+    ERROR
+}
+
+enum ButtonSize {
+    SMALL
+    MEDIUM
+    LARGE
+}
+
+type Button {
+    variant: ButtonVariant!
+    label: String!
+    action: Action!
+    disabled: Boolean!
+    disableElevation: Boolean!
+    theme: ButtonTheme!
+    size: ButtonSize!
+}

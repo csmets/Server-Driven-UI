@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { ButtonVM } from '../../models/button-vm';
+import { EditNameContainerData, TextInputVM } from '../../models/edit-heading-container-vm';
 import { Button } from '../button';
 import { TextInput } from './text-input';
-import { ButtonVM, EditNameContainerData, TextInputVM } from '../../models/edit-heading-container-vm';
 
 const EditNameContainer = (props: { data: EditNameContainerData }) => {
 

@@ -8,6 +8,11 @@ export const buttonFragment = gql`
     action {
       ...editNameSubmitActionFragment
     }
+    variant
+    disabled
+    disableElevation
+    theme
+    size
   }
   ${editNameSubmitActionFragment}
 `;

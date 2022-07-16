@@ -1,4 +1,9 @@
-export type Action = URLActionData;
+import {
+  EditNameSubmitActionData,
+  EditNameSubmitActionVM
+} from "./edit-heading-container-vm";
+
+export type Action = URLActionData | EditNameSubmitActionData;
 
 export interface URLActionData {
   url: string
@@ -19,6 +24,8 @@ export const actionAdapter = (action: any): Action | undefined  => {
   switch(action?.__typename) {
     case "URLAction":
       return new URLActionVM(action);
+    case "EditNameSubmitAction":
+      return new EditNameSubmitActionVM(action);
     default:
       return undefined;
   }

@@ -1,3 +1,4 @@
+import { ButtonData, ButtonVM } from "./button-vm";
 import { EmitSignalData, EmitSignalVM } from "./signal-vm"
 
 export type EditNameElement = TextInputData | ButtonData;
@@ -16,23 +17,6 @@ export class TextInputVM implements TextInputData {
     this.placeholder = textInput?.placeholder
   }
 }
-
-export interface ButtonData {
-  label: string
-  action: EditNameSubmitActionData
-}
-
-export class ButtonVM implements ButtonData {
-  label: string;
-  action: Action
-
-  constructor(button: any) {
-    this.label = button.label;
-    this.action = new EditNameSubmitActionVM(button.action);
-  }
-}
-
-export type Action = EditNameSubmitActionData;
 
 export interface EditNameSubmitActionData {
   inputIds: string[]

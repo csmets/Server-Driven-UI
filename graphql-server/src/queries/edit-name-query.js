@@ -12,6 +12,7 @@ const editNameQuery = {
           placeholder: 'Updating heading title'
         },
         {
+          // button
           label: 'Edit title',
           action: {
             inputIds: ['headingInput'],
@@ -22,7 +23,12 @@ const editNameQuery = {
               },
               values: []
             }
-          }
+          },
+          variant: "CONTAINED",
+          disabled: false,
+          disableElevation: false,
+          theme: "PRIMARY",
+          size: "MEDIUM"
         }
       ]
     }
