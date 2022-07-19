@@ -10,7 +10,7 @@ import { Button as ButtonComponent } from "@mui/material";
 
 const Button = (props: { data: ButtonData }) => {
   const { data } = props;
-  const action = useAction(data.action)
+  const action = data.action && useAction(data.action)
 
   if (!data) {
     return <></>

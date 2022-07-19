@@ -24,11 +24,11 @@ const editNameQuery = {
               values: []
             }
           },
-          variant: "CONTAINED",
           disabled: false,
           disableElevation: false,
-          theme: "PRIMARY",
-          size: "MEDIUM"
+          buttonVariant: "CONTAINED",
+          buttonTheme: "PRIMARY",
+          buttonSize: "MEDIUM"
         }
       ]
     }

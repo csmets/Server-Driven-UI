@@ -29,14 +29,15 @@ const hackerNewsTopStoriesQuery = {
           elements: [
             {
               // typename: Typography
-              variant: "H1",
+              typographyVariant: "H1",
               value: "Top Stories",
-              theme: "PRIMARY"
+              typographyTheme: "PRIMARY"
             },
             {
               // typename: Box
               width: null,
-              height: 24
+              height: 24,
+              _debugColor: null
             },
             ...elements
           ]

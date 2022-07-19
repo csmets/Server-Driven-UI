@@ -10,8 +10,8 @@ type Paragraph {
 
 type Typography {
     value: String!
-    variant: TypographyVariant!
-    theme: TypographyTheme!
+    typographyVariant: TypographyVariant!
+    typographyTheme: TypographyTheme!
 }
 
 enum TypographyTheme {

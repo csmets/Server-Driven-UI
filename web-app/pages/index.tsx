@@ -42,6 +42,11 @@ const Home: NextPage = () => {
                   <a>Hacker News top stories</a>
                 </Link>
               </p>
+              <p>
+                <Link href="/kitchen-sink">
+                  <a>Kitchen sink</a>
+                </Link>
+              </p>
             </div>
           </main>
 

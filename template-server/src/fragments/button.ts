@@ -1,5 +1,4 @@
 import { gql } from "graphql-request";
-import { editNameSubmitActionFragment } from './actions';
 
 export const buttonFragment = gql`
   fragment buttonFragment on Button {
@@ -7,12 +6,12 @@ export const buttonFragment = gql`
     label
     action {
       ...editNameSubmitActionFragment
+      ...urlActionFragment
     }
-    variant
     disabled
     disableElevation
-    theme
-    size
+    buttonVariant
+    buttonTheme
+    buttonSize
   }
-  ${editNameSubmitActionFragment}
 `;

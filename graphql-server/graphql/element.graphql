@@ -3,4 +3,6 @@
 """
     Place all composable elements into this union for the container.
 """
-union ContainerElement = Card | Typography | Box
+union ContainerElement = Card | Typography | Box | Button
+
+union ViewElement = Container

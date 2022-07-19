@@ -5,6 +5,8 @@ import { Card } from "./card";
 import { Container as ContainerComponent, Box } from "@mui/material";
 import { TypographyVM } from "../models/typography-vm";
 import { Typography } from "./typography/typography";
+import { Button } from "./button";
+import { ButtonVM } from "../models/button-vm";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
@@ -25,7 +27,10 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
       return <Typography key={`container-typography-${index}`} data={el} />
     }
     if (el instanceof BoxVM) {
-      return <Box sx={{ width: el.width, height: el.height }}/>
+      return <Box key={`container-spacing-${index}`} sx={{ width: el.width, height: el.height }}/>
+    }
+    if (el instanceof ButtonVM) {
+      return <Button key={`container-button-${index}`} data={el} />
     }
     return <></>
   })

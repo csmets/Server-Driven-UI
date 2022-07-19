@@ -4,7 +4,7 @@ const { feedElementResolver } = require('./feed-element-resolver');
 const { feedViewElementResolver } = require('./feed-view-element-resolver');
 const { formElementResolver } = require('./form-element-resolver');
 const { containerResolver } = require('./container-resolver');
-const { hackerNewsResolver } = require('./hacker-news-resolver');
+const { viewElementResolver } = require('./view-element-resolver');
 
 const resolvers = {
   ...actionResolver,
@@ -12,7 +12,7 @@ const resolvers = {
   ...feedElementResolver,
   ...feedViewElementResolver,
   ...formElementResolver,
-  ...hackerNewsResolver,
+  ...viewElementResolver,
   ...containerResolver,
 }
 

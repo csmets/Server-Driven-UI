@@ -1,4 +1,5 @@
 type Box {
+    _debugColor: Color
     width: Int
     height: Int
 }

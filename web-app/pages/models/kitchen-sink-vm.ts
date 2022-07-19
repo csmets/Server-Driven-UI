@@ -1,13 +1,13 @@
 import { ContainerData, ContainerVM } from "./container-vm"
 
-export type HackerNewsViewElement = ContainerData;
+export type KitchenSinkElement = ContainerData;
 
-export interface HackerNewsViewData {
-  elements: HackerNewsViewElement[]
+export interface KitchenSinkViewData {
+  elements: KitchenSinkElement[]
 }
 
-export class HackerNewsViewVM implements HackerNewsViewData {
-  elements: HackerNewsViewElement[];
+export class KitchenSinkViewVM implements KitchenSinkViewData {
+  elements: KitchenSinkElement[];
 
   constructor(view: any) {
     this.elements = [];

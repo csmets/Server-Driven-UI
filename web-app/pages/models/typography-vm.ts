@@ -31,8 +31,8 @@ export class TypographyVM implements TypographyData {
 
   constructor(typography: any) {
     this.value = typography?.value;
-    this.variant = this.adaptVariant(typography?.variant);
-    this.theme = this.adaptTheme(typography?.theme);
+    this.variant = this.adaptVariant(typography?.typographyVariant);
+    this.theme = this.adaptTheme(typography?.typographyTheme);
   }
 
   adaptVariant(type: any): TypographyVariant {

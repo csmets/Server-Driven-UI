@@ -1,0 +1,8 @@
+enum Color {
+    PRIMARY
+    SECONDARY
+    ERROR
+    WARNING
+    INFO
+    SUCCESS
+}

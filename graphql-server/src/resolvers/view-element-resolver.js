@@ -1,5 +1,5 @@
-const hackerNewsResolver = {
-  HackerNewsViewElements: {
+const viewElementResolver = {
+  ViewElement: {
     __resolveType(obj) {
       if (obj.elements) {
         return 'Container';
@@ -11,5 +11,5 @@ const hackerNewsResolver = {
 };
 
 module.exports = {
-  hackerNewsResolver
+  viewElementResolver
 }

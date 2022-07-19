@@ -18,11 +18,11 @@ enum ButtonSize {
 }
 
 type Button {
-    variant: ButtonVariant!
     label: String!
-    action: Action!
+    action: Action
     disabled: Boolean!
     disableElevation: Boolean!
-    theme: ButtonTheme!
-    size: ButtonSize!
+    buttonVariant: ButtonVariant!
+    buttonTheme: ButtonTheme!
+    buttonSize: ButtonSize!
 }

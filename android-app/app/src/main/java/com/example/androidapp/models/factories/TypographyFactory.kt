@@ -13,8 +13,8 @@ fun interface TypographyFactory {
 class TypographyFactoryImpl @Inject constructor(): TypographyFactory {
     override fun create(typo: JSONObject): ContainerElement.Typography {
         val text = typo.getString("value")
-        val type = adaptTypographyVariant(typo.getString("variant"))
-        val theme = adaptTypographyTheme(typo.getString("theme"))
+        val type = adaptTypographyVariant(typo.getString("typographyVariant"))
+        val theme = adaptTypographyTheme(typo.getString("typographyTheme"))
 
         return ContainerElement.Typography(
             value = text,

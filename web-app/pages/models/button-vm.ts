@@ -41,11 +41,11 @@ export class ButtonVM implements ButtonData {
   constructor(button: any) {
     this.label = button.label;
     this.action = actionAdapter(button.action);
-    this.variant = adaptButtonVariant(button.variant);
+    this.variant = adaptButtonVariant(button.buttonVariant);
     this.disabled = button.disabled;
     this.disableElevation = button.disableElevation;
-    this.theme = adaptButtonTheme(button.theme);
-    this.size = adaptButtonSize(button.size);
+    this.theme = adaptButtonTheme(button.buttonTheme);
+    this.size = adaptButtonSize(button.buttonSize);
   }
 }
 

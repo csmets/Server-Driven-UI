@@ -6,7 +6,9 @@ import cors from 'cors';
 import { parse } from 'url';
 import { feedWS } from './websockets/feed';
 import { hackerNewsWS } from './websockets/hacker-news';
-import { PORT } from './globals';
+import { GRAPHQL_SERVER, PORT } from './globals';
+import { GraphQLClient } from 'graphql-request';
+import { kitchenSinkQuery } from './queries/kitchen-sink';
 
 
 const app = express();
@@ -31,6 +33,22 @@ app.get('/component/feed', (_, res) => {
       }
     ]
   }));
+});
+
+app.get('/kitchen-sink', async (_, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const client = new GraphQLClient(GRAPHQL_SERVER, { headers: {} });
+  let response = [];
+
+  /*
+   * Fetch kitchen sink view response
+   */
+  const kitchenSinkResp = await client.request(kitchenSinkQuery, {});
+  response.push({
+      "section": "feed",
+      "data": kitchenSinkResp.kitchenSink
+      });
+  res.end(JSON.stringify(response))
 });
 
 server.on('upgrade', function upgrade(request, socket, head) {

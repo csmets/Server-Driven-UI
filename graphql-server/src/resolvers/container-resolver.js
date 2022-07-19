@@ -5,12 +5,16 @@ const containerResolver = {
         return 'Card';
       }
 
-      if (obj.variant && obj.value) {
+      if (obj.typographyVariant && obj.value) {
         return 'Typography';
       }
 
       if (obj.width || obj.height) {
         return 'Box';
+      }
+
+      if (obj.buttonVariant && obj.label) {
+        return 'Button';
       }
 
       return null;

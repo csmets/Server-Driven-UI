@@ -1,4 +1,3 @@
-import { urlActionFragment } from "./actions";
 import { gql } from "graphql-request";
 
 export const cardFragment = gql`
@@ -10,5 +9,4 @@ export const cardFragment = gql`
       ...urlActionFragment
     }
   }
-  ${urlActionFragment}
 `;
