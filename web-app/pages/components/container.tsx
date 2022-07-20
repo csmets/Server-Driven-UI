@@ -1,8 +1,8 @@
 import { BoxVM } from "../models/box-vm";
 import { CardVM } from "../models/card-vm";
-import { ContainerData } from "../models/container-vm";
+import { ContainerData, ContainerType } from "../models/container-vm";
 import { Card } from "./card";
-import { Container as ContainerComponent, Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { TypographyVM } from "../models/typography-vm";
 import { Typography } from "./typography/typography";
 import { Button } from "./button";
@@ -10,7 +10,7 @@ import { ButtonVM } from "../models/button-vm";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
-  const { elements } = data;
+  const { containerType, elements } = data;
 
   if (!data || !elements) {
     return <></>
@@ -35,9 +35,29 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
     return <></>
   })
 
-  return (
-    <ContainerComponent maxWidth="sm">
-      {containerElements}
-    </ContainerComponent>
-  );
+  switch (containerType) {
+    case ContainerType.COLUMN:
+      return (
+        <Stack
+          direction="column"
+        >
+          {containerElements}
+        </Stack>
+      );
+    case ContainerType.ROW:
+      return (
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+        >
+          {containerElements}
+        </Stack>
+      );
+    default:
+      return (
+        <Stack>
+          {containerElements}
+        </Stack>
+      );
+  }
 };

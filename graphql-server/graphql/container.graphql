@@ -4,5 +4,12 @@
     also can hold UI elements like a card or a carousel.
 """
 type Container {
+    containerType: ContainerType!
     elements: [ContainerElement!]
+}
+
+enum ContainerType {
+    FILL
+    ROW
+    COLUMN
 }

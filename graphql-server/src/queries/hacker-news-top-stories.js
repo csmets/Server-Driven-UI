@@ -26,6 +26,7 @@ const hackerNewsTopStoriesQuery = {
         {
           // typename: Container
           // container elements
+          containerType: "FILL",
           elements: [
             {
               // typename: Typography

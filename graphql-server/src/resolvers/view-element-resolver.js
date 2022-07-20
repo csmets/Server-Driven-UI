@@ -1,7 +1,7 @@
 const viewElementResolver = {
   ViewElement: {
     __resolveType(obj) {
-      if (obj.elements) {
+      if (obj.elements && obj.containerType) {
         return 'Container';
       }
 

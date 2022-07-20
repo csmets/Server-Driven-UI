@@ -5,6 +5,7 @@ const kitchenSinkQuery = {
       elements: [
         {
           // container
+          containerType: "FILL",
           elements: [
             // Typography
             {
@@ -76,7 +77,13 @@ const kitchenSinkQuery = {
               typographyVariant: "BODY1",
               value: "Theme can be applied to any typography item.",
               typographyTheme: "SECONDARY"
-            },
+            }
+          ]
+        },
+        {
+          // container
+          containerType: "FILL",
+          elements: [
             // Spacing
             {
               typographyVariant: "H2",
@@ -102,7 +109,13 @@ const kitchenSinkQuery = {
               typographyVariant: "BODY1",
               value: "See above! to visually see the spacing",
               typographyTheme: "PRIMARY"
-            },
+            }
+          ],
+        },
+        {
+          //container
+          containerType: "FILL",
+          elements: [
             // Button
             {
               typographyVariant: "H2",
@@ -113,7 +126,12 @@ const kitchenSinkQuery = {
               typographyVariant: "H5",
               value: "Basic button",
               typographyTheme: "PRIMARY"
-            },
+            }
+          ]
+        },
+        {
+          containerType: "ROW",
+          elements: [
             {
               buttonVariant: "TEXT",
               label: "Text",
@@ -140,12 +158,22 @@ const kitchenSinkQuery = {
               disableElevation: false,
               buttonTheme: "PRIMARY",
               buttonSize: "MEDIUM"
-            },
+            }
+          ]
+        },
+        {
+          containerType: "FILL",
+          elements: [
             {
               typographyVariant: "H5",
               value: "Text button",
               typographyTheme: "PRIMARY"
-            },
+            }
+          ]
+        },
+        {
+          containerType: "ROW",
+          elements: [
             {
               buttonVariant: "TEXT",
               label: "Primary",

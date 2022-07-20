@@ -5,15 +5,24 @@ import { TypographyData, TypographyVM } from "./typography-vm";
 
 export type ContainerElement = CardData | TypographyData | BoxData | ButtonData
 
+export enum ContainerType {
+  FILL,
+  COLUMN,
+  ROW
+}
+
 export interface ContainerData {
+  containerType: ContainerType
   elements: ContainerElement[]
 }
 
 export class ContainerVM implements ContainerData {
-  elements: ContainerElement[]
+  containerType: ContainerType;
+  elements: ContainerElement[];
 
   constructor(container: any) {
-    this.elements = []
+    this.elements = [];
+    this.containerType = adaptContainerType(container?.containerType);
 
     container?.elements?.forEach((el: any) => {
       switch (el.__typename) {
@@ -31,5 +40,18 @@ export class ContainerVM implements ContainerData {
           break;
       }
     });
+  }
+}
+
+const adaptContainerType = (type: string): ContainerType => {
+  switch (type) {
+    case "FILL":
+      return ContainerType.FILL;
+    case "COLUMN":
+      return ContainerType.COLUMN;
+    case "ROW":
+      return ContainerType.ROW;
+    default:
+      return ContainerType.FILL;
   }
 }
