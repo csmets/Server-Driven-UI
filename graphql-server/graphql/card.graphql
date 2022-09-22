@@ -1,5 +1,8 @@
 type Card {
     primary: String!
     secondaries: [String!]
+    media: Image
+    content: [String!]
+    links: [Button!]
     action: Action
 }

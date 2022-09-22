@@ -14,7 +14,10 @@ const hackerNewsTopStoriesQuery = {
         return {
           primary: title,
           secondaries: [by],
-          action
+          action,
+          media: null,
+          content: null,
+          links: null
         }
       });
     }

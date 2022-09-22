@@ -1,0 +1,12 @@
+type Image {
+    url: String!
+    alt: String!
+    width: Int
+    height: Int
+    valueType: ImageValueType
+}
+
+enum ImageValueType {
+    PIXEL
+    PERCENTAGE
+}
