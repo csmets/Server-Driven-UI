@@ -10,3 +10,4 @@ GraphQLEndpoint.kt
 local.properties
 dist/
 node_modules/
+schema.graphql

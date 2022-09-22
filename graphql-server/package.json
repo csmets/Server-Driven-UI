@@ -5,7 +5,9 @@
   "main": "./src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node dist/server.js"
+    "start": "npx tsc && node dist/server.js",
+    "generate": "node scripts/generate.js && npm run generate-types",
+    "generate-types": "graphql-codegen --config codegen.yml"
   },
   "author": "",
   "license": "ISC",
@@ -20,10 +22,13 @@
     "graphql": "^15.5.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.12.1",
+    "@graphql-codegen/typescript": "^2.7.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
     "@types/graphql": "^14.5.0",
     "@types/node": "^18.7.18",
+    "graphql-codegen": "^0.4.0",
     "typescript": "^4.8.3"
   }
 }
