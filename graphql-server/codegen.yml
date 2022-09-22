@@ -2,6 +2,6 @@ overwrite: true
 schema: "src/schema.graphql"
 documents: null
 generates:
-  src/types.d.ts:
+  src/types.ts:
     plugins:
       - "typescript"

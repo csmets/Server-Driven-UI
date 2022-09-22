@@ -1,3 +1,4 @@
+import { card } from '../components/card/card';
 import { getHNTopStories } from '../services/hacker-news-service';
 
 export const hackerNewsTopStoriesQuery = {
@@ -11,14 +12,11 @@ export const hackerNewsTopStoriesQuery = {
 
         const action = url ? { url } : null
 
-        return {
+        return card({
           primary: title,
           secondaries: [by],
-          action,
-          media: null,
-          content: null,
-          links: null
-        }
+          action
+        })
       });
     }
 

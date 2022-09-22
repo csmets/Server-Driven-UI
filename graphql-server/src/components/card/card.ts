@@ -1,7 +1,5 @@
-export const card = (primary, secondaries, action) => {
-  return {
-    primary,
-    secondaries,
-    action
-  };
+import { Card } from "../../types";
+
+export const card = (card: Card): Card => {
+  return card;
 };

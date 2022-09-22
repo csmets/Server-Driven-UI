@@ -1,4 +1,5 @@
 import { gql } from "graphql-request";
+import { imageFragment } from "./image";
 
 export const cardFragment = gql`
   fragment cardFragment on Card {
@@ -8,5 +9,12 @@ export const cardFragment = gql`
     action {
       ...urlActionFragment
     }
+    links {
+      ...buttonFragment
+    }
+    media {
+      ...imageFragment
+    }
   }
+  ${imageFragment}
 `;

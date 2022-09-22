@@ -1,3 +1,7 @@
+import { button } from "../components/button/button"
+import { card } from "../components/card/card"
+import { ButtonVariant } from "../types"
+
 export const kitchenSinkQuery = {
   kitchenSink: () => {
     return {
@@ -204,11 +208,26 @@ export const kitchenSinkQuery = {
               value: "Cards",
               typographyTheme: "PRIMARY"
             },
-            {
-              typographyVariant: "H5",
-              value: "Basic card",
-              typographyTheme: "PRIMARY"
-            }
+            card({
+              primary: 'Basic card',
+              secondaries: ['Secondary text']
+            }),
+            card({
+              primary: 'Media link card',
+              secondaries: ['Secondary text'],
+              links: [
+                button({
+                  label: 'Card link',
+                  disabled: false,
+                  disableElevation: true,
+                  buttonVariant: ButtonVariant.Text
+                })
+              ],
+              media: {
+                url: 'https://picsum.photos/500/400',
+                alt: 'Random image'
+              }
+            })
           ]
         },
       ]
