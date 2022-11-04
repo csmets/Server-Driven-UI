@@ -53,6 +53,7 @@ android {
     apollo {
         useVersion2Compat()
     }
+    namespace 'com.example.androidapp'
 }
 
 tasks.whenTaskAdded { task ->
