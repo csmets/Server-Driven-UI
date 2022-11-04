@@ -24,6 +24,7 @@ fun Container(container: ViewElement.Container) {
                             .height(it.height.dp)
                             .width(it.width.dp)
                     )
+                    is ContainerElement.Button -> Button(it)
                 }
             }
         }
