@@ -1,18 +1,18 @@
 package com.example.androidapp.models.factories
 
-import com.example.androidapp.models.HackerNewsResponse
+import com.example.androidapp.models.ViewResponse
 import com.example.androidapp.models.ViewElement
 import org.json.JSONObject
 import javax.inject.Inject
 
-fun interface HackerNewsResponseFactory {
-    fun create(response: JSONObject): HackerNewsResponse
+fun interface ViewElementFactory {
+    fun create(response: JSONObject): ViewResponse
 }
 
-class HackerNewsResponseFactoryImpl @Inject constructor(
+class ViewElementFactoryImpl @Inject constructor(
     private val containerFactory: ContainerFactory
-): HackerNewsResponseFactory {
-    override fun create(response: JSONObject): HackerNewsResponse {
+): ViewElementFactory {
+    override fun create(response: JSONObject): ViewResponse {
         val elements = response.getJSONArray("elements")
         val viewElements: MutableList<ViewElement> = mutableListOf()
 
@@ -25,6 +25,6 @@ class HackerNewsResponseFactoryImpl @Inject constructor(
             index++
         }
 
-        return HackerNewsResponse(elements = viewElements)
+        return ViewResponse(elements = viewElements)
     }
 }

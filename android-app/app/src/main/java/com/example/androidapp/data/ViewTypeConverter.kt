@@ -1,16 +1,16 @@
-package com.example.androidapp.data.hackernews
+package com.example.androidapp.data
 
 import androidx.room.TypeConverter
-import com.example.androidapp.models.HackerNewsResponse
+import com.example.androidapp.models.ViewResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-object HackerNewsTypeConverter {
+object ViewTypeConverter {
 
     @TypeConverter
     @JvmStatic
-    fun fromJson(json: String): HackerNewsResponse? {
+    fun fromJson(json: String): ViewResponse? {
         return try {
             Json.decodeFromString(json)
         } catch (e: Exception) {
@@ -20,7 +20,7 @@ object HackerNewsTypeConverter {
 
     @TypeConverter
     @JvmStatic
-    fun toJson(viewResponse: HackerNewsResponse): String {
+    fun toJson(viewResponse: ViewResponse): String {
         return Json.encodeToString(viewResponse)
     }
 }

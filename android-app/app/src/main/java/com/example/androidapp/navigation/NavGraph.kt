@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.androidapp.components.feed.Feed
 import com.example.androidapp.components.hackernews.HackerNews
+import com.example.androidapp.components.kitchensink.KitchenSink
 
 @Composable
 fun SetupNavGraph(
@@ -24,6 +25,11 @@ fun SetupNavGraph(
             route = Screen.HackerNews.route
         ) {
             HackerNews(navController = navHostController)
+        }
+        composable(
+            route = Screen.KitchenSink.route
+        ) {
+            KitchenSink(navController = navHostController)
         }
     }
 }

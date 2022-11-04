@@ -102,6 +102,8 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+
+    implementation("com.android.volley:volley:1.2.1")
 }
 
 kapt {

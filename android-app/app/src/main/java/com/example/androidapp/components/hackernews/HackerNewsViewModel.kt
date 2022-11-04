@@ -10,7 +10,7 @@ import com.example.androidapp.HACKER_NEWS_TEMPLATE_ENDPOINT
 import com.example.androidapp.data.hackernews.HackerNews
 import com.example.androidapp.data.hackernews.HackerNewsDatabase
 import com.example.androidapp.data.hackernews.HackerNewsRepo
-import com.example.androidapp.models.factories.HackerNewsResponseFactory
+import com.example.androidapp.models.factories.ViewElementFactory
 import com.example.androidapp.services.MessageListener
 import com.example.androidapp.services.WebSocketManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HackerNewsViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val hackerNewsResponseFactory: HackerNewsResponseFactory
+    private val viewElementFactory: ViewElementFactory
 ): ViewModel(), MessageListener {
 
     private val _hackerNews = MutableLiveData<HackerNews>()
@@ -47,7 +47,7 @@ class HackerNewsViewModel @Inject constructor(
                     .getJSONObject(0)
                     .getJSONObject("data")
                     .getJSONObject("hackerNewsTopStories")
-                val hnResponse = HackerNews(0, hackerNewsResponseFactory.create(hnData))
+                val hnResponse = HackerNews(0, viewElementFactory.create(hnData))
                 _hackerNews.postValue(hnResponse)
 
                 viewModelScope.launch {

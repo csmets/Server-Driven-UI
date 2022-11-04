@@ -6,7 +6,7 @@ graphql-server/node_modules/
 .idea
 build/
 .gradle/
-GraphQLEndpoint.kt
+ip.kt
 local.properties
 dist/
 node_modules/

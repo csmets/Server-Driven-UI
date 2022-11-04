@@ -50,7 +50,7 @@ abstract class AppModule {
    abstract fun bindTypographyContentFactory(impl: TypographyContentFactoryImpl): TypographyContentFactory
 
    @Binds
-   abstract fun bindHackerNewsResponseFactory(impl: HackerNewsResponseFactoryImpl): HackerNewsResponseFactory
+   abstract fun bindHackerNewsResponseFactory(impl: ViewElementFactoryImpl): ViewElementFactory
 
    @Binds
    abstract fun bindContainerFactory(impl: ContainerFactoryImpl): ContainerFactory

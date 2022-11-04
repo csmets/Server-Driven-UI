@@ -34,6 +34,13 @@ fun BottomBarNavigation(
                     navController.navigate(Screen.HackerNews.route)
                 }
             )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = "KitchenSink",
+                modifier = Modifier.clickable {
+                    navController.navigate(Screen.KitchenSink.route)
+                }
+            )
         }
     }
 }
