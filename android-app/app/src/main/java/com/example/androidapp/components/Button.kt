@@ -27,7 +27,7 @@ fun Button(data: ContainerElement.Button) {
         colors = if (data.variant == ButtonVariant.CONTAINED) {
             ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
         } else {
-            ButtonDefaults.buttonColors(backgroundColor = Color.Unspecified)
+            ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
         },
         border = if (data.variant == ButtonVariant.OUTLINED) {
             when (data.theme) {
