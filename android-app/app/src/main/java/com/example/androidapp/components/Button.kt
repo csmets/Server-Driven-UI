@@ -33,7 +33,7 @@ fun Button(data: ContainerElement.Button) {
             when (data.theme) {
                 ButtonTheme.PRIMARY -> BorderStroke(1.dp, MaterialTheme.colors.primary)
                 ButtonTheme.SECONDARY -> BorderStroke(1.dp, MaterialTheme.colors.secondary)
-                ButtonTheme.SUCCESS -> BorderStroke(1.dp, Color(0xFF2E7D32))
+                ButtonTheme.SUCCESS -> BorderStroke(1.dp, Color(Colors.Success))
                 ButtonTheme.ERROR -> BorderStroke(1.dp, MaterialTheme.colors.error)
             }
         } else {

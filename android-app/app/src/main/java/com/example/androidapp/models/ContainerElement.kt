@@ -1,5 +1,6 @@
 package com.example.androidapp.models
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,7 +23,8 @@ sealed class ContainerElement {
     @Serializable
     data class Box(
         val width: Int,
-        val height: Int
+        val height: Int,
+        val _debugColor: BoxColor?
     ) : ContainerElement()
 
     @Serializable
@@ -79,4 +81,14 @@ enum class ButtonSize {
     SMALL,
     MEDIUM,
     LARGE
+}
+
+@Serializable
+enum class BoxColor {
+    PRIMARY,
+    SECONDARY,
+    ERROR,
+    WARNING,
+    INFO,
+    SUCCESS
 }

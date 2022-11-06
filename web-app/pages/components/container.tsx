@@ -27,7 +27,7 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
       return <Typography key={`container-typography-${index}`} data={el} />
     }
     if (el instanceof BoxVM) {
-      return <Box key={`container-spacing-${index}`} sx={{ width: el.width, height: el.height }}/>
+      return <Box key={`container-spacing-${index}`} sx={{ width: el.width, height: el.height, backgroundColor: el._debugColor }} />
     }
     if (el instanceof ButtonVM) {
       return <Button key={`container-button-${index}`} data={el} />
