@@ -18,9 +18,9 @@ This documentation is to house the standards that should be in placed when worki
 
 SDUI can be defined in various different ways. It can be as simple a providing copy/localized text from the server, or be completely driven by the server by providing the styles/templates to build the UI.
 
-All of which the client **should** be dumb, and should not drive business logic from the response given by the server.
+All of which the client **should** be 'dumb', and should **NOT** drive business logic from the response given by the server.
 
-This project is opinionated to how SDUI should be done in a specific way following the [guiding principle](#guiding-principle). Ideally, this project will help provide a path to solve SDUI problems in a large scale.
+This project is opinionated to how SDUI should be done in a specific way following the [guiding principle](#guiding-principle). Ideally, this project will help provide a path to solve SDUI problems at a large scale.
 
 Examples and opinions are driven from using GraphQL. If you are using a technology other than GraphQL, it may not work for you but it still may provide useful concepts on your own approach.
 
@@ -34,8 +34,8 @@ Before taking on SDUI, I think it's a good idea to look into the pros and cons f
 - Reduce the number of app updates to users as you can leverage the composable components given with SDUI.
 - Adding experiments (A/B tests) to users becomes faster, no need to create a new client releases to deploy new experiments.
 - Provide consistent data across multiple platforms.
-- No longer have to make changes in each client app for business logic as it's done on the server's response.
-- Client becomes dumb and is only UI making it lightweight and reduces client specific bugs.
+- **No longer have to make changes in each client app for business logic as it's done on the server's response.**
+- **Client becomes dumb and is only UI making it lightweight and reduces client specific bugs.**
 
 ### Disadvantages
 
