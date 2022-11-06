@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.androidapp.KITCHEN_SINK_TEMPLATE_ENDPOINT
+import com.example.androidapp.config.KITCHEN_SINK_TEMPLATE_ENDPOINT
 import com.example.androidapp.data.kitchensink.KitchenSink
 import com.example.androidapp.data.kitchensink.KitchenSinkDatabase
 import com.example.androidapp.data.kitchensink.KitchenSinkRepo

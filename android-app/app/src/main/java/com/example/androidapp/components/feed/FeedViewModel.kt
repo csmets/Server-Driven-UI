@@ -3,7 +3,7 @@ package com.example.androidapp.components.feed
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.androidapp.FEED_TEMPLATE_ENDPOINT
+import com.example.androidapp.config.FEED_TEMPLATE_ENDPOINT
 import com.example.androidapp.data.feed.Feed
 import com.example.androidapp.data.feed.FeedDatabase
 import com.example.androidapp.data.feed.FeedRepo

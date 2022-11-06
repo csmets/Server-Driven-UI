@@ -1,6 +1,4 @@
-package com.example.androidapp
-
-import com.example.androidapp.config.IP
+package com.example.androidapp.config
 
 const val FEED_TEMPLATE_ENDPOINT = "ws://" + IP + ":9090/feed"
 const val HACKER_NEWS_TEMPLATE_ENDPOINT = "ws://" + IP + ":9090/hacker-news"

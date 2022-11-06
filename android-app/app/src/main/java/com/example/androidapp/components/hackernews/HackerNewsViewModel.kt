@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidapp.HACKER_NEWS_TEMPLATE_ENDPOINT
+import com.example.androidapp.config.HACKER_NEWS_TEMPLATE_ENDPOINT
 import com.example.androidapp.data.hackernews.HackerNews
 import com.example.androidapp.data.hackernews.HackerNewsDatabase
 import com.example.androidapp.data.hackernews.HackerNewsRepo
