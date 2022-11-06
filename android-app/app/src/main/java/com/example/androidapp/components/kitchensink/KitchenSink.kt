@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.androidapp.BottomBarNavigation
 import com.example.androidapp.components.Container
+import com.example.androidapp.components.View
 import com.example.androidapp.models.ViewElement
 
 @Composable
@@ -34,20 +35,6 @@ fun KitchenSink(
         },
         bottomBar = { BottomBarNavigation(navController = navController) }
     ) {
-        Row {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                view?.elements?.forEach {
-                    when (it) {
-                        is ViewElement.Container -> Container(it)
-                    }
-                }
-            }
-        }
+        View(viewResponse = view)
     }
 }
