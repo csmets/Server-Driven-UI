@@ -19,7 +19,7 @@ import coil.compose.rememberImagePainter
 import com.example.androidapp.models.Action
 import com.example.androidapp.models.ContainerElement
 
-@OptIn(ExperimentalCoilApi::class)
+@ExperimentalCoilApi
 @Composable
 fun Card(card: ContainerElement.Card) {
     val uriHandler = LocalUriHandler.current
@@ -37,30 +37,32 @@ fun Card(card: ContainerElement.Card) {
             },
         elevation = 10.dp
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column {
             if (card.media != null) {
                 Image(
                     painter = rememberImagePainter(card.media.url),
                     contentDescription = card.media.alt,
                     modifier = Modifier
                         .fillMaxSize()
-                        .height(card.media.height?.dp ?: 200.dp),
+                        .height(200.dp),
                     alignment = Alignment.Center,
                     contentScale = ContentScale.Crop
                 )
             }
-            Text(text = card.primary, fontSize = 24.sp, fontWeight = FontWeight.W400)
-            card.secondaries?.forEach {
-                Row {
-                    Text(text = it, color = Color.LightGray)
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = card.primary, fontSize = 24.sp, fontWeight = FontWeight.W400)
+                card.secondaries?.forEach {
+                    Row {
+                        Text(text = it, color = Color.LightGray)
+                    }
                 }
-            }
-            if (card.links != null) {
-                Row {
-                    card.links.forEach {
-                        Button(data = it)
+                if (card.links != null) {
+                    Row {
+                        card.links.forEach {
+                            Button(data = it)
+                        }
                     }
                 }
             }
