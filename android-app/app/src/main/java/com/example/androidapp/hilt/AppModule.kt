@@ -69,4 +69,7 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindButtonFactory(impl: ButtonFactoryImpl): ButtonFactory
+
+   @Binds
+   abstract fun bindImageFactory(impl: ImageFactoryImpl): ImageFactory
 }

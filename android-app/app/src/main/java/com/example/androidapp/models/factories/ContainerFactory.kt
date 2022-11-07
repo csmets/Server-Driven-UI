@@ -22,9 +22,8 @@ class ContainerFactoryImpl @Inject constructor(
         var index = 0
         while (index < elements.length()) {
             val el = elements.getJSONObject(index)
-            val typename = el.getString("__typename")
 
-            when(typename) {
+            when(el.getString("__typename")) {
                 "Card" -> cardFactory.create(el)?.let {
                     containerElements.add(it)
                 }

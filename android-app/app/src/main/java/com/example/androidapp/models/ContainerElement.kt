@@ -1,6 +1,5 @@
 package com.example.androidapp.models
 
-import androidx.compose.ui.graphics.Color
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,7 +9,9 @@ sealed class ContainerElement {
     data class Card(
         val primary: String,
         val secondaries: List<String>?,
-        val action: Action?
+        val action: Action?,
+        val links: List<Button>?,
+        val media: Image?
     ) : ContainerElement()
 
     @Serializable
