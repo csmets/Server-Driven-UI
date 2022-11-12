@@ -15,6 +15,9 @@ export const cardFragment = gql`
     media {
       ...imageFragment
     }
+    signal {
+      ...signalFragment
+    }
   }
   ${imageFragment}
 `;

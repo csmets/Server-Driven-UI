@@ -7,6 +7,7 @@ export const buttonFragment = gql`
     action {
       ...editNameSubmitActionFragment
       ...urlActionFragment
+      ...favouriteActionFragment
     }
     disabled
     disableElevation

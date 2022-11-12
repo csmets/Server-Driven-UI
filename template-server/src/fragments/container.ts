@@ -1,8 +1,9 @@
 import { gql } from "graphql-request";
-import {editNameSubmitActionFragment, urlActionFragment} from "./actions";
+import { editNameSubmitActionFragment, urlActionFragment } from "./actions";
 import { boxFragment } from "./box";
-import {buttonFragment} from "./button";
+import { buttonFragment } from "./button";
 import { cardFragment } from "./card";
+import { favouriteActionFragment } from "./favourite-action";
 import { typographyFragment } from "./typography";
 
 export const containerFragment = gql`
@@ -22,4 +23,5 @@ export const containerFragment = gql`
   ${buttonFragment}
   ${editNameSubmitActionFragment}
   ${urlActionFragment}
+  ${favouriteActionFragment}
 `;

@@ -1,13 +1,13 @@
 import { gql } from "graphql-request";
-import { feedContainerFragment } from "../fragments/feed-container";
+import { feedViewFragment } from "../fragments/feed-view";
 
 const feedQuery = gql`
   query {
     feed {
-      ...feedContainerFragment
+      ...feedViewFragment
     }
   }
-  ${feedContainerFragment}
+  ${feedViewFragment}
 `;
 
 export { feedQuery }

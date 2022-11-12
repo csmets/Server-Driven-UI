@@ -1,5 +1,4 @@
 import { gql } from "graphql-request";
-import { emitSignalFragment } from "./emit-signal";
 
 const favouriteActionFragment = gql`
   fragment favouriteActionFragment on FavouriteAction {
@@ -12,7 +11,6 @@ const favouriteActionFragment = gql`
       ...emitSignalFragment
     }
   }
-  ${emitSignalFragment}
 `;
 
 export { favouriteActionFragment };
