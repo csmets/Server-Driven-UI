@@ -7,7 +7,7 @@ import com.example.androidapp.config.FEED_TEMPLATE_ENDPOINT
 import com.example.androidapp.data.feed.Feed
 import com.example.androidapp.data.feed.FeedDatabase
 import com.example.androidapp.data.feed.FeedRepo
-import com.example.androidapp.models.factories.FeedResponseFactory
+import com.example.androidapp.models.factories.ViewElementFactory
 import com.example.androidapp.services.MessageListener
 import com.example.androidapp.services.WebSocketManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val feedResponseFactory: FeedResponseFactory
+    private val viewElementFactory: ViewElementFactory
 ): ViewModel(), MessageListener {
 
     private val _feed = MutableLiveData<Feed>()
@@ -52,8 +52,8 @@ class FeedViewModel @Inject constructor(
         if (text != null) {
             val json = JSONArray(text)
             if (json.length() > 0) {
-                val feed = json.getJSONObject(0).getJSONObject("data").getJSONArray("elements")
-                val feedResponse = Feed(0, feedResponseFactory.create(feed))
+                val feed = json.getJSONObject(0).getJSONObject("data")
+                val feedResponse = Feed(0, viewElementFactory.create(feed))
                 _feed.postValue(feedResponse)
 
                 viewModelScope.launch {
