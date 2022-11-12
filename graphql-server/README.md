@@ -17,3 +17,11 @@ npm start
 ```
 
 Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
+
+## Development
+
+When updating the schema it is important to update your typescript types. To do this, run:
+
+```
+npm run generate
+```

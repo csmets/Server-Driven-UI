@@ -7,6 +7,9 @@ export const actionResolver = {
       if (obj.url) {
         return 'URLAction';
       }
+      if (obj.save && obj.unsave) {
+        return 'FavouriteAction';
+      }
 
       return null;
     }

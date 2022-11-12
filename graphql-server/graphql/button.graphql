@@ -18,7 +18,9 @@ enum ButtonSize {
 }
 
 type Button {
-    label: String!
+    signal: Signal
+    icon: String
+    label: String
     action: Action
     disabled: Boolean!
     disableElevation: Boolean!

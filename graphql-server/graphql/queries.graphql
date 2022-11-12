@@ -1,5 +1,5 @@
 type Query {
-    feed: FeedContainer
+    feed: FeedView
     editName: EditNameContainer
     hackerNewsTopStories: HackerNewsView
     kitchenSink: KitchenSinkView

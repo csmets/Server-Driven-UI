@@ -1,4 +1,5 @@
 type Card {
+    signal: Signal
     primary: String!
     secondaries: [String!]
     media: Image

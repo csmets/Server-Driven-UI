@@ -1,0 +1,11 @@
+type HackerNewsView {
+    elements: [ViewElement!]!
+}
+
+type KitchenSinkView {
+    elements: [ViewElement!]!
+}
+
+type FeedView {
+    elements: [ViewElement!]!
+}

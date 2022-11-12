@@ -1,4 +1,4 @@
-union Action = EditNameSubmitAction | URLAction
+union Action = EditNameSubmitAction | URLAction | FavouriteAction
 
 type URLAction {
     url: String!
@@ -8,4 +8,10 @@ type URLAction {
 type EditNameSubmitAction {
     inputIds: [String!]!
     emitSignal: EmitSignal!
+}
+
+type FavouriteAction {
+    feedId: String!
+    save: [EmitSignal!]
+    unsave: [EmitSignal!]
 }

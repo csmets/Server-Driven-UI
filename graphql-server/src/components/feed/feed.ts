@@ -1,22 +1,34 @@
 import { MockFeedService } from '../../services/mock-feed-service';
-import { feedImage } from './feed-image';
-import { feedColumn } from './feed-column';
-import { feedCaption } from './feed-caption';
+import { Card, SignalType } from '../../types';
+import { feedFavouriteButton } from './feed-favourite';
 
-const feedItemFactory = (id, caption, image, alt, count) => {
+const cardFactory = (id, caption, image, alt, count): Card => {
   return {
-    items: [
-      feedImage(image, alt),
-      feedColumn(count, id),
-      feedCaption(caption)
-    ]
+    __typename: 'Card',
+    primary: caption,
+    secondaries: [caption],
+    media: {
+      __typename: 'Image',
+      url: image,
+      alt
+    },
+    links: [
+      feedFavouriteButton(count, id, false)
+    ],
+    content: [
+      `${count} likes`
+    ],
+    signal: {
+      type: SignalType.FavouriteCount,
+      reference: `ref-${id}-count`
+    },
   }
 };
 
-export const fetchFeed = () => {
+export const fetchFeed = (): Card[] => {
   const data = MockFeedService.getData()
 
-  const feedList = data.map(({id, caption, image, alt, count}) => feedItemFactory(id, caption, image, alt, count));
+  const feedList = data.map(({id, caption, image, alt, count}) => cardFactory(id, caption, image, alt, count));
 
   return feedList
 };

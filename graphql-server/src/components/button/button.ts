@@ -1,13 +1,14 @@
 import { Action, Button, ButtonSize, ButtonTheme, ButtonVariant } from "../../types";
 
 interface ButtonProps {
+  icon?: string;
+  label?: string;
   action?: Action;
   buttonSize?: ButtonSize;
   buttonTheme?: ButtonTheme;
   buttonVariant?: ButtonVariant;
   disableElevation: boolean;
   disabled: boolean;
-  label: string;
 }
 
 export const button = (button: ButtonProps): Button => {
@@ -15,6 +16,7 @@ export const button = (button: ButtonProps): Button => {
   const size = button.buttonSize || ButtonSize.Medium;
   const variant = button.buttonVariant || ButtonVariant.Contained;
   return {
+    icon: button.icon,
     buttonVariant: variant,
     label: button.label,
     action: button.action,

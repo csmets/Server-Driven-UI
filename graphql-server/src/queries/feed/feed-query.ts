@@ -1,5 +1,6 @@
 import { elements } from './elements/elements';
 import axios from 'axios';
+import { ContainerType } from '../../types';
 
 export const feedQuery = {
   feed: async () => {
@@ -21,7 +22,12 @@ export const feedQuery = {
     }
 
     return {
-      elements: template
+      // view
+      elements: [{
+        // container
+        containerType: ContainerType.Column,
+        elements: template
+      }]
     }
   }
 };

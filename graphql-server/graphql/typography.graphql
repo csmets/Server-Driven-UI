@@ -9,6 +9,7 @@ type Paragraph {
 }
 
 type Typography {
+    signal: Signal
     value: String!
     typographyVariant: TypographyVariant!
     typographyTheme: TypographyTheme!

@@ -12,7 +12,7 @@ export type Scalars = {
   Float: number;
 };
 
-export type Action = EditNameSubmitAction | UrlAction;
+export type Action = EditNameSubmitAction | FavouriteAction | UrlAction;
 
 export type Box = {
   __typename?: 'Box';
@@ -29,7 +29,9 @@ export type Button = {
   buttonVariant: ButtonVariant;
   disableElevation: Scalars['Boolean'];
   disabled: Scalars['Boolean'];
-  label: Scalars['String'];
+  icon?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  signal?: Maybe<Signal>;
 };
 
 export enum ButtonSize {
@@ -59,6 +61,7 @@ export type Card = {
   media?: Maybe<Image>;
   primary: Scalars['String'];
   secondaries?: Maybe<Array<Scalars['String']>>;
+  signal?: Maybe<Signal>;
 };
 
 export enum Color {
@@ -138,54 +141,10 @@ export type FavouriteAction = {
   unsave?: Maybe<Array<EmitSignal>>;
 };
 
-export type FeedCaption = {
-  __typename?: 'FeedCaption';
-  text?: Maybe<Scalars['String']>;
+export type FeedView = {
+  __typename?: 'FeedView';
+  elements: Array<ViewElement>;
 };
-
-export type FeedContainer = {
-  __typename?: 'FeedContainer';
-  elements?: Maybe<Array<Maybe<FeedViewElement>>>;
-};
-
-export type FeedElement = ColumnLayout | FeedCaption | FeedImage;
-
-export type FeedFavourite = Column & {
-  __typename?: 'FeedFavourite';
-  action: FavouriteAction;
-  align: ColumnAlignment;
-  icon: Scalars['String'];
-  id: Scalars['String'];
-  signal?: Maybe<Signal>;
-};
-
-export type FeedFavouriteCount = Column & {
-  __typename?: 'FeedFavouriteCount';
-  align: ColumnAlignment;
-  count: Scalars['String'];
-  id: Scalars['String'];
-  signal?: Maybe<Signal>;
-};
-
-export type FeedHeading = {
-  __typename?: 'FeedHeading';
-  id: Scalars['String'];
-  primary?: Maybe<Scalars['String']>;
-  signal?: Maybe<Signal>;
-};
-
-export type FeedImage = {
-  __typename?: 'FeedImage';
-  alt?: Maybe<Scalars['String']>;
-  src: Scalars['String'];
-};
-
-export type FeedItem = {
-  __typename?: 'FeedItem';
-  items?: Maybe<Array<Maybe<FeedElement>>>;
-};
-
-export type FeedViewElement = FeedHeading | FeedItem | TypographyContent;
 
 export type FormElement = Button | TextInput;
 
@@ -248,7 +207,7 @@ export type Paragraph = {
 export type Query = {
   __typename?: 'Query';
   editName?: Maybe<EditNameContainer>;
-  feed?: Maybe<FeedContainer>;
+  feed?: Maybe<FeedView>;
   hackerNewsTopStories?: Maybe<HackerNewsView>;
   kitchenSink?: Maybe<KitchenSinkView>;
 };
@@ -292,6 +251,7 @@ export type TextInput = {
 
 export type Typography = {
   __typename?: 'Typography';
+  signal?: Maybe<Signal>;
   typographyTheme: TypographyTheme;
   typographyVariant: TypographyVariant;
   value: Scalars['String'];
