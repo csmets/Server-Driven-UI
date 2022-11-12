@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { FeedContainer } from './feed-container';
-import { FeedContainerVM, FeedContainerData  } from '../../models/feed-container-vm';
 import { EditNameContainer } from '../edit-heading-title/edit-name-container';
 import { EditNameContainerData, EditNameContainerVM } from '../../models/edit-heading-container-vm';
+import { ViewData, ViewVM } from '../../models/view-vm';
+import { View } from '../view';
 
 const Feed = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [feedData, setFeedData] = React.useState<FeedContainerData>();
+  const [feedData, setFeedData] = React.useState<ViewData>();
   const [editNameData, setEditNameData] = React.useState<EditNameContainerData>();
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ const Feed = (): JSX.Element => {
         setIsLoaded(true)
         response.forEach((el: any) => {
           if (el.section === 'feed') {
-            setFeedData(new FeedContainerVM(el.data));
+            setFeedData(new ViewVM(el.data));
           }
           if (el.section === 'editName') {
             setEditNameData(new EditNameContainerVM(el.data));
@@ -36,7 +36,7 @@ const Feed = (): JSX.Element => {
 
   return (
     <>
-      {feedData && <FeedContainer data={feedData} />}
+      {feedData && <View data={feedData} />}
       {editNameData && <EditNameContainer data={editNameData} />}
     </>
   );

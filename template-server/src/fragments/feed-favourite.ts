@@ -1,5 +1,4 @@
 import { gql } from "graphql-request";
-import { favouriteActionFragment } from "./favourite-action";
 
 const feedFavouriteFragment = gql`
   fragment feedFavouriteFragment on FeedFavourite {
@@ -13,7 +12,6 @@ const feedFavouriteFragment = gql`
       ...favouriteActionFragment
     }
   }
-  ${favouriteActionFragment}
 `;
 
 export { feedFavouriteFragment };
