@@ -1,5 +1,5 @@
 import { BoxData, BoxVM } from "./box-vm";
-import {ButtonData, ButtonVM} from "./button-vm";
+import {ButtonData, ButtonVM} from "./buttons/button-vm";
 import { CardData, CardVM } from "./card-vm";
 import { TypographyData, TypographyVM } from "./typography-vm";
 

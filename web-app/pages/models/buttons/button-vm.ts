@@ -1,4 +1,5 @@
-import { Action, actionAdapter } from "./action-vm";
+import { Action, actionAdapter } from "../action-vm";
+import { SignalData, SignalVM } from "../signal-vm";
 
 export enum ButtonVariant {
   TEXT,
@@ -26,7 +27,9 @@ export interface ButtonData {
   disabled: boolean,
   disableElevation: boolean,
   theme: ButtonTheme,
-  size: ButtonSize
+  size: ButtonSize,
+  signal?: SignalData,
+  icon?: string
 }
 
 export class ButtonVM implements ButtonData {
@@ -37,6 +40,8 @@ export class ButtonVM implements ButtonData {
   disableElevation: boolean;
   theme: ButtonTheme;
   size: ButtonSize;
+  signal?: SignalData;
+  icon?: string;
 
   constructor(button: any) {
     this.label = button.label;
@@ -46,6 +51,8 @@ export class ButtonVM implements ButtonData {
     this.disableElevation = button.disableElevation;
     this.theme = adaptButtonTheme(button.buttonTheme);
     this.size = adaptButtonSize(button.buttonSize);
+    this.signal = button?.signal && new SignalVM(button?.signal);
+    this.icon = button?.icon;
   }
 }
 
@@ -77,7 +84,7 @@ const adaptButtonTheme = (theme: string): ButtonTheme => {
   }
 };
 
-const adaptButtonSize = (size: string): ButtonSize => {
+export const adaptButtonSize = (size: string): ButtonSize => {
   switch (size) {
     case "SMALL":
       return ButtonSize.SMALL;

@@ -1,24 +1,8 @@
-import {
-  EditNameSubmitActionData,
-  EditNameSubmitActionVM
-} from "./edit-heading-container-vm";
+import { EditNameSubmitActionData, EditNameSubmitActionVM } from "./actions/edit-name-submit-action";
+import { FavouriteActionData, FavouriteActionVM } from "./actions/favourite-action";
+import { URLActionData, URLActionVM } from "./actions/url-action";
 
-export type Action = URLActionData | EditNameSubmitActionData;
-
-export interface URLActionData {
-  url: string
-  description?: string
-}
-
-export class URLActionVM implements URLActionData {
-  url: string
-  description?: string
-
-  constructor(action: any) {
-    this.url = action?.url;
-    this.description = action?.description;
-  }
-}
+export type Action = URLActionData | EditNameSubmitActionData | FavouriteActionData;
 
 export const actionAdapter = (action: any): Action | undefined  => {
   switch(action?.__typename) {
@@ -26,6 +10,8 @@ export const actionAdapter = (action: any): Action | undefined  => {
       return new URLActionVM(action);
     case "EditNameSubmitAction":
       return new EditNameSubmitActionVM(action);
+    case "FavouriteAction":
+      return new FavouriteActionVM(action);
     default:
       return undefined;
   }

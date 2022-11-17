@@ -6,7 +6,7 @@ import { Box, Stack } from "@mui/material";
 import { TypographyVM } from "../models/typography-vm";
 import { Typography } from "./typography/typography";
 import { Button } from "./button";
-import { ButtonVM } from "../models/button-vm";
+import { ButtonVM } from "../models/buttons/button-vm";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
