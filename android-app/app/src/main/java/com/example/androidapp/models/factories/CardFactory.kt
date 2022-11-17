@@ -2,6 +2,7 @@ package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.Buttons
 import com.example.androidapp.models.ContainerElement
+import com.example.androidapp.util.JsonUtil.makeStringArray
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
@@ -13,7 +14,8 @@ fun interface CardFactory {
 class CardFactoryImpl @Inject constructor(
     private val actionFactory: ActionFactory,
     private val buttonFactory: ButtonFactory,
-    private val imageFactory: ImageFactory
+    private val imageFactory: ImageFactory,
+    private val signalFactory: SignalFactory
 ): CardFactory {
     override fun create(card: JSONObject): ContainerElement.Card {
         val hasAction = !card.isNull("action")
@@ -41,7 +43,9 @@ class CardFactoryImpl @Inject constructor(
             } else {
                 null
             },
-            media = if (hasMedia) imageFactory.create(card.getJSONObject("media")) else null
+            media = if (hasMedia) imageFactory.create(card.getJSONObject("media")) else null,
+            content = card.optJSONArray("content")?.let { makeStringArray(it) },
+            signal = card.optJSONObject("signal")?.let { signalFactory.create(it) }
         )
     }
 

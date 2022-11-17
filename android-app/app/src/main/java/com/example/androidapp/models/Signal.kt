@@ -10,16 +10,16 @@ fun Signal.key(): String {
 }
 
 enum class SignalType {
-    FAVOURITE,
-    FAVOURITE_COUNT,
+    TOGGLE,
+    UPDATE,
     TITLE,
     ERROR
 }
 
 fun String.toSignalType(): SignalType {
     return when(this) {
-        "FAVOURITE" -> SignalType.FAVOURITE
-        "FAVOURITE_COUNT" -> SignalType.FAVOURITE_COUNT
+        "TOGGLE" -> SignalType.TOGGLE
+        "UPDATE" -> SignalType.UPDATE
         "TITLE" -> SignalType.TITLE
         "ERROR" -> SignalType.ERROR
         else -> SignalType.ERROR
@@ -30,17 +30,17 @@ fun String.toSignalType(): SignalType {
 data class EmitSignal(val signal: Signal, val values: List<SignalValuePair>?)
 
 enum class SignalValuePairKey {
-    COUNT,
+    CONTENT,
     ICON,
-    TOGGLE,
+    PRIMARY,
     UNKNOWN
 }
 
 fun String.toSignalValuePairKey(): SignalValuePairKey {
     return when(this) {
-        "COUNT" -> SignalValuePairKey.COUNT
+        "CONTENT" -> SignalValuePairKey.CONTENT
         "ICON" -> SignalValuePairKey.ICON
-        "TOGGLE" -> SignalValuePairKey.TOGGLE
+        "PRIMARY" -> SignalValuePairKey.PRIMARY
         else -> SignalValuePairKey.UNKNOWN
     }
 }

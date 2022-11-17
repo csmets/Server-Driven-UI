@@ -1,6 +1,7 @@
 package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.*
+import com.example.androidapp.util.JsonUtil.makeStringArray
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
@@ -60,13 +61,4 @@ class EmitSignalFactoryImpl @Inject constructor(
         }
     }
 
-    private fun makeStringArray(strings: JSONArray): List<String> {
-        var index = 0
-        val result = mutableListOf<String>()
-        while (index < strings.length()) {
-            result.add(strings.getString(index))
-            index++
-        }
-        return result
-    }
 }

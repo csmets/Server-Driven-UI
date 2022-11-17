@@ -36,7 +36,7 @@ fun Button(data: Buttons) {
 fun GeneralButton(data: Buttons.Button) {
     val uriHandler = LocalUriHandler.current
 
-    androidx.compose.material.Button(
+    Button(
         onClick = { actionHandler(action = data.action, handler = uriHandler) },
         elevation = setElevation(disableElevation = data.disableElevation),
         enabled = !data.disabled,
@@ -117,7 +117,7 @@ fun FavouriteButton(data: Buttons.FavouriteButton, viewModel: FeedFavouriteViewM
         }
     }
 
-    androidx.compose.material.Button(
+    Button(
         onClick = {
             when(data.action) {
                 is Action.FavouriteAction -> {
@@ -137,11 +137,11 @@ fun FavouriteButton(data: Buttons.FavouriteButton, viewModel: FeedFavouriteViewM
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
     ) {
         Image(
-            painter = rememberImagePainter(data.icon),
+            painter = rememberImagePainter(icon),
             contentDescription = "",
             alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(24.dp).padding(6.dp)
+            modifier = Modifier.size(30.dp).padding(2.dp)
         )
     }
 }

@@ -12,7 +12,9 @@ sealed class ContainerElement {
         val secondaries: List<String>?,
         val action: Action?,
         val links: List<Buttons>?,
-        val media: Image?
+        val media: Image?,
+        val content: List<String>?,
+        val signal: Signal?
     ) : ContainerElement()
 
     @Serializable
