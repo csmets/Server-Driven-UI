@@ -11,6 +11,7 @@ import com.example.androidapp.components.typography.Typography
 import com.example.androidapp.models.BoxColor
 import com.example.androidapp.models.ContainerElement
 import com.example.androidapp.models.ViewElement
+import com.example.androidapp.models.toButton
 
 @Composable
 fun Container(container: ViewElement.Container) {
@@ -29,7 +30,7 @@ fun Container(container: ViewElement.Container) {
                             .width(it.width.dp)
                             .background(adaptColor(it._debugColor))
                     )
-                    is ContainerElement.Button -> Button(it)
+                    is ContainerElement.Button -> Button(it.toButton())
                 }
             }
         }

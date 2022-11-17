@@ -1,5 +1,6 @@
 package com.example.androidapp.models.factories
 
+import com.example.androidapp.models.Buttons
 import com.example.androidapp.models.ContainerElement
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,10 +25,16 @@ class CardFactoryImpl @Inject constructor(
             action = if (hasAction) actionFactory.create(card.getJSONObject("action")) else null,
             links = if (hasLinks) {
                 val links = card.getJSONArray("links")
-                val output: MutableList<ContainerElement.Button> = emptyList<ContainerElement.Button>().toMutableList()
+                val output: MutableList<Buttons> = emptyList<Buttons>().toMutableList()
                 var index = 0
                 while (index < links.length()) {
-                    output.add(buttonFactory.create(links.getJSONObject(index)))
+                    val link = links.getJSONObject(index)
+                    val button = buttonFactory.create(links.getJSONObject(index))
+                    val type = link.getString("__typename")
+                    when(type) {
+                        "FavouriteButton" -> button.toFavourite()?.let { output.add(it) }
+                        "Button" -> button.toButton()?.let { output.add(it) }
+                    }
                     index++
                 }
                 output

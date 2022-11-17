@@ -1,9 +1,7 @@
 package com.example.androidapp.models.factories
 
-import com.example.androidapp.models.EmitSignal
-import com.example.androidapp.models.SignalValuePair
-import com.example.androidapp.models.SignalValuePairKey
-import com.example.androidapp.models.toSignalValuePairKey
+import com.example.androidapp.models.*
+import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -25,13 +23,13 @@ class EmitSignalFactoryImpl @Inject constructor(
             while (index < it.length()) {
                 val pair = it.getJSONObject(index)
                 val key = pair.getString("key").toSignalValuePairKey()
-                val value = pair.getString("value")
+                val value = pair.optJSONObject("value")
 
-                if (key != SignalValuePairKey.UNKNOWN && value.isNotEmpty()) {
+                if (key != SignalValuePairKey.UNKNOWN && value != null) {
                     esValues.add(
                         SignalValuePair(
                             key = key,
-                            value = value
+                            value = adaptValue(value)
                         )
                     )
                 }
@@ -44,5 +42,31 @@ class EmitSignalFactoryImpl @Inject constructor(
             signal = signalFactory.create(emitSignal.getJSONObject("signal"))!!,
             values = values
         )
+    }
+
+    private fun adaptValue(value: JSONObject): SignalValue {
+        return when (value.getString("__typename")) {
+            "SignalStringValue" -> SignalValue.SignalStringValue(
+                text = value.getString("text")
+            )
+            "SignalArrayValue" -> SignalValue.SignalArrayValue(
+                suffix = makeStringArray(value.getJSONArray("suffix")),
+                prefix = makeStringArray(value.getJSONArray("prefix")),
+                array = makeStringArray(value.getJSONArray("array"))
+            )
+            else -> SignalValue.SignalStringValue(
+                text = ""
+            )
+        }
+    }
+
+    private fun makeStringArray(strings: JSONArray): List<String> {
+        var index = 0
+        val result = mutableListOf<String>()
+        while (index < strings.length()) {
+            result.add(strings.getString(index))
+            index++
+        }
+        return result
     }
 }

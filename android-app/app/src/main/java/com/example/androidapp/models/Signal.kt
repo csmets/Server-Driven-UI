@@ -48,7 +48,7 @@ fun String.toSignalValuePairKey(): SignalValuePairKey {
 @Serializable
 data class SignalValuePair(
     val key: SignalValuePairKey,
-    val value: String
+    val value: SignalValue
 )
 
 @Serializable
@@ -57,5 +57,12 @@ sealed class SignalValue {
     @Serializable
     data class SignalStringValue(
         val text: String
+    ): SignalValue()
+
+    @Serializable
+    data class SignalArrayValue(
+        val prefix: List<String>?,
+        val suffix: List<String>?,
+        val array: List<String>?
     ): SignalValue()
 }

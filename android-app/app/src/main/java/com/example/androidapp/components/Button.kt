@@ -1,23 +1,39 @@
 package com.example.androidapp.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonElevation
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import com.example.androidapp.components.feed.FeedFavouriteViewModel
 import com.example.androidapp.models.*
 
+@ExperimentalCoilApi
 @Composable
-fun Button(data: ContainerElement.Button) {
+fun Button(data: Buttons) {
+    when (data) {
+        is Buttons.Button -> GeneralButton(data = data)
+        is Buttons.FavouriteButton -> FavouriteButton(data = data)
+    }
+}
+
+@ExperimentalCoilApi
+@Composable
+fun GeneralButton(data: Buttons.Button) {
     val uriHandler = LocalUriHandler.current
 
     androidx.compose.material.Button(
@@ -40,11 +56,25 @@ fun Button(data: ContainerElement.Button) {
             null
         },
         modifier = when(data.size) {
-            ButtonSize.SMALL -> Modifier.height(30.dp).width(80.dp)
+            ButtonSize.SMALL -> Modifier
+                .height(30.dp)
+                .width(80.dp)
             ButtonSize.MEDIUM -> Modifier
-            ButtonSize.LARGE -> Modifier.height(60.dp).width(180.dp)
+            ButtonSize.LARGE -> Modifier
+                .height(60.dp)
+                .width(180.dp)
         }
     ) {
+        if (data.icon != null) {
+            Image(
+                painter = rememberImagePainter(data.icon),
+                contentDescription = "",
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(24.dp)
+            )
+        }
         Text(text = data.label,
             color = if (data.variant == ButtonVariant.CONTAINED) {
                 MaterialTheme.colors.onPrimary
@@ -61,6 +91,57 @@ fun Button(data: ContainerElement.Button) {
                 ButtonSize.MEDIUM -> MaterialTheme.typography.button.fontSize
                 ButtonSize.LARGE -> MaterialTheme.typography.h3.fontSize.times(0.5)
             }
+        )
+    }
+}
+
+@ExperimentalCoilApi
+@Composable
+fun FavouriteButton(data: Buttons.FavouriteButton, viewModel: FeedFavouriteViewModel = hiltViewModel()) {
+    var isSaved by remember {
+        mutableStateOf(false)
+    }
+    var icon by remember {
+        mutableStateOf(data.icon)
+    }
+
+    data.signal?.let {
+        viewModel.listenTo(it).subscribe { event ->
+            event.values?.forEach { value ->
+                if (value.key == SignalValuePairKey.ICON) {
+                    if (value.value is SignalValue.SignalStringValue) {
+                        icon = value.value.text
+                    }
+                }
+            }
+        }
+    }
+
+    androidx.compose.material.Button(
+        onClick = {
+            when(data.action) {
+                is Action.FavouriteAction -> {
+                    if (isSaved) {
+                        data.action.unsave?.let { viewModel.emitSignals(it) }
+                        isSaved = !isSaved
+                    } else {
+                        data.action.save?.let { viewModel.emitSignals(it) }
+                        isSaved = !isSaved
+                    }
+                }
+                else -> Unit
+            }
+        },
+        elevation = setElevation(disableElevation = true),
+        enabled = !data.disabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
+    ) {
+        Image(
+            painter = rememberImagePainter(data.icon),
+            contentDescription = "",
+            alignment = Alignment.Center,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(24.dp).padding(6.dp)
         )
     }
 }
@@ -88,16 +169,18 @@ private fun setElevation(disableElevation: Boolean): ButtonElevation? {
     }
 }
 
+@ExperimentalCoilApi
 @Preview
 @Composable
 fun ButtonPreview() {
-    Button(data = ContainerElement.Button(
+    Button(data = Buttons.Button(
         label = "Button test",
         action = null,
         disabled = false,
         disableElevation = false,
         variant = ButtonVariant.CONTAINED,
         theme = ButtonTheme.PRIMARY,
-        size = ButtonSize.LARGE
+        size = ButtonSize.LARGE,
+        icon = null
     ))
 }

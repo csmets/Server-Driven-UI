@@ -29,7 +29,8 @@ class ContainerFactoryImpl @Inject constructor(
                 }
                 "Typography" -> containerElements.add(typographyFactory.create(el))
                 "Box" -> containerElements.add(boxFactory.create(el))
-                "Button" -> containerElements.add(buttonFactory.create(el))
+                "Button" -> buttonFactory.create(el).toContainerButton()
+                    ?.let { containerElements.add(it) }
             }
 
             index++

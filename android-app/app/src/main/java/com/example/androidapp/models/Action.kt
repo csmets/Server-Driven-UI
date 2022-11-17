@@ -10,4 +10,11 @@ sealed class Action {
         val url: String,
         val description: String?
     ) : Action()
+
+    @Serializable
+    data class FavouriteAction(
+        val feedId: String,
+        val save: List<EmitSignal>?,
+        val unsave: List<EmitSignal>?
+    ) : Action()
 }
