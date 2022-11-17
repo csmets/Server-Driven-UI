@@ -4,13 +4,13 @@ import {
   ButtonSize,
   ButtonTheme,
   ButtonVariant
-} from '../models/button-vm';
+} from '../models/buttons/button-vm';
 import { useAction } from './action';
 import { Button as ButtonComponent } from "@mui/material";
 
 const Button = (props: { data: ButtonData }) => {
   const { data } = props;
-  const action = data.action && useAction(data.action)
+  const action = data.action && useAction(data.action);
 
   if (!data) {
     return <></>
@@ -25,6 +25,7 @@ const Button = (props: { data: ButtonData }) => {
       color={adaptButtonThemeColor(data.theme)}
       size={adaptButtonSize(data.size)}
     >
+      {data?.icon && <img src={data.icon} alt="" width="20px" height="20px" />}
       {data.label}
     </ButtonComponent>
   )
@@ -62,7 +63,7 @@ const adaptButtonThemeColor = (
   }
 }
 
-const adaptButtonSize = (
+export const adaptButtonSize = (
   size: ButtonSize
 ): "small" | "medium" | "large" => {
   switch (size) {

@@ -1,5 +1,6 @@
 package com.example.androidapp.models
 
+import com.example.androidapp.models.factories.toContainerButton
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,8 +11,10 @@ sealed class ContainerElement {
         val primary: String,
         val secondaries: List<String>?,
         val action: Action?,
-        val links: List<Button>?,
-        val media: Image?
+        val links: List<Buttons>?,
+        val media: Image?,
+        val content: List<String>?,
+        val signal: Signal?
     ) : ContainerElement()
 
     @Serializable
@@ -36,8 +39,22 @@ sealed class ContainerElement {
         val disableElevation: Boolean,
         val variant: ButtonVariant,
         val theme: ButtonTheme,
-        val size: ButtonSize
+        val size: ButtonSize,
+        val icon: String?
     ) : ContainerElement()
+}
+
+fun ContainerElement.Button.toButton(): Buttons.Button {
+    return Buttons.Button(
+        label = this.label,
+        action = this.action,
+        disabled = this.disabled,
+        disableElevation = this.disableElevation,
+        variant = this.variant,
+        theme = this.theme,
+        size = this.size,
+        icon = this.icon
+    )
 }
 
 @Serializable

@@ -4,7 +4,22 @@ const signalValuePairFragment = gql`
   fragment signalValuePairFragment on SignalValuePair {
     __typename
     key
-    value
+    value {
+      ...signalStringValueFragment
+      ...signalArrayValueFragment
+    }
+  }
+
+  fragment signalStringValueFragment on SignalStringValue {
+    __typename
+    text
+  }
+
+  fragment signalArrayValueFragment on SignalArrayValue {
+    __typename
+    prefix
+    suffix
+    array
   }
 `;
 

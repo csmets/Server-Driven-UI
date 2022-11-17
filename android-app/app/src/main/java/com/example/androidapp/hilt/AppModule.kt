@@ -20,34 +20,13 @@ abstract class AppModule {
    abstract fun bindSignalRegistry(impl: SignalRegistryImpl): SignalRegistry
 
    @Binds
-   abstract fun bindColumnLayoutFactory(impl: ColumnLayoutFactoryImpl): ColumnLayoutFactory
-
-   @Binds
    abstract fun bindEmitSignalFactory(impl: EmitSignalFactoryImpl): EmitSignalFactory
-
-   @Binds
-   abstract fun bindFeedContainerElementFactory(impl: FeedContainerElementFactoryImpl): FeedContainerElementFactory
-
-   @Binds
-   abstract fun bindFeedFavouriteFactory(impl: FeedFavouriteFactoryImpl): FeedFavouriteFactory
-
-   @Binds
-   abstract fun bindFeedHeadingFactory(impl: FeedHeadingFactoryImpl): FeedHeadingFactory
-
-   @Binds
-   abstract fun bindFeedItemFactory(impl: FeedItemFactoryImpl): FeedItemFactory
-
-   @Binds
-   abstract fun bindFeedResponseFactory(impl: FeedResponseFactoryImpl): FeedResponseFactory
 
    @Binds
    abstract fun bindParagraphFactory(impl: ParagraphFactoryImpl): ParagraphFactory
 
    @Binds
    abstract fun bindSignalFactory(impl: SignalFactoryImpl): SignalFactory
-
-   @Binds
-   abstract fun bindTypographyContentFactory(impl: TypographyContentFactoryImpl): TypographyContentFactory
 
    @Binds
    abstract fun bindHackerNewsResponseFactory(impl: ViewElementFactoryImpl): ViewElementFactory

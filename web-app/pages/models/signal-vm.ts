@@ -9,20 +9,31 @@ export interface EmitSignalData {
 }
 
 export interface SignalValuePairData {
-  key: string
-  value: string
+  key: SignalValuePairKey
+  value: SignalValuePairValue
 }
+
+export interface SignalStringValueData {
+  text: string
+}
+
+export interface SignalArrayValueData {
+  prefix?: [string]
+  suffix?: [string]
+  array: [string]
+}
+
+export type SignalValuePairValue = SignalStringValueData | SignalArrayValueData;
 
 export enum SignalType {
   Error = 'ERROR',
-  Favourite = 'FAVOURITE',
-  FavouriteCount = 'FAVOURITE_COUNT',
   Title = 'TITLE',
-  Toggle = 'TOGGLE'
+  Toggle = 'TOGGLE',
+  Update = 'UPDATE'
 }
 
 export enum SignalValuePairKey {
-  Count = 'COUNT',
+  Content = 'CONTENT',
   Icon = 'ICON',
   Primary = 'PRIMARY'
 }
@@ -53,11 +64,44 @@ export class EmitSignalVM implements EmitSignalData {
 }
 
 export class SignalValuePairVM implements SignalValuePairData {
-  key: string;
-  value: string;
+  key: SignalValuePairKey;
+  value: SignalValuePairValue;
 
   constructor(signalPairValue: any) {
     this.key = signalPairValue.key
-    this.value = signalPairValue.value
+    this.value = this.handleValue(signalPairValue.value)
+  }
+
+  private handleValue(value: any): SignalValuePairValue {
+    switch (value.__typename) {
+      case 'SignalStringValue':
+        return new SignalStringValueVM(value);
+      case 'SignalArrayValue':
+        return new SignalArrayValueVM(value);
+      default:
+        // Value will always be returned but incase something changes default
+        // is to return an empty string
+        return new SignalStringValueVM('');
+    }
+  }
+}
+
+export class SignalStringValueVM implements SignalStringValueData {
+  text: string;
+
+  constructor(signalStringValue: any) {
+    this.text = signalStringValue.text
+  }
+}
+
+export class SignalArrayValueVM implements SignalArrayValueData {
+  suffix?: [string];
+  prefix?: [string];
+  array: [string];
+
+  constructor(signalArrayValue: any) {
+    this.suffix = signalArrayValue.suffix;
+    this.prefix = signalArrayValue.prefix;
+    this.array = signalArrayValue.array;
   }
 }

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { SignalContext } from '../provider/signal';
-import { Action, EditNameSubmitActionVM } from '../models/edit-heading-container-vm';
-import { SignalValuePairKey } from '../models/signal-vm';
+import { SignalStringValueVM, SignalValuePairKey } from '../models/signal-vm';
+import { Action } from '../models/action-vm';
+import { FavouriteActionVM } from '../models/actions/favourite-action';
+import { EditNameSubmitActionVM } from '../models/actions/edit-name-submit-action';
 
 const updateHeadingMutationQuery = gql`
   mutation updateHeading($formInputs: [FormInput!]) {
@@ -15,18 +17,32 @@ const updateHeadingMutationQuery = gql`
   }
 `
 
-const useAction = (action: Action) => {
+const saveItemMutationQuery = gql`
+  mutation saveItem($feedId: String!) {
+      save(feedId: $feedId) {
+        success
+        error {
+          message
+        }
+      }
+  }
+`;
+
+const useAction = (action: Action, stateHandler?: { value: any, setValue: any}) => {
   const [updateHeadingMutation] = useMutation(updateHeadingMutationQuery);
+  const [saveItemMutation] = useMutation(saveItemMutationQuery);
   const signalContext = React.useContext(SignalContext);
   const { emitSignals } = signalContext;
+  const value = stateHandler?.value;
+  const setValue = stateHandler?.setValue;
 
   if (action instanceof EditNameSubmitActionVM) {
       const onClick = () => {
         const inputValues = action.inputIds.map((input) => {
-          const value = document.getElementById(input)?.value;
+          const elValue = (document.getElementById(input) as HTMLInputElement).value;
           return {
             key: input,
-            value
+            value: elValue
           }
         });
 
@@ -36,7 +52,7 @@ const useAction = (action: Action) => {
             signal: action.emitSignal.signal,
             values: [{
               key: SignalValuePairKey.Primary,
-              value : inputValues[0].value
+              value : new SignalStringValueVM({ text: inputValues[0].value })
             }]
           }]);
 
@@ -50,7 +66,7 @@ const useAction = (action: Action) => {
                 signal: action.emitSignal.signal,
                 values: [{
                   key: SignalValuePairKey.Primary,
-                  value: inputValues[0].value
+                  value : new SignalStringValueVM({ text: inputValues[0].value })
                 }]
               }], cache)
             }
@@ -61,6 +77,35 @@ const useAction = (action: Action) => {
         onClick
       }
   }
+
+  if (action instanceof FavouriteActionVM) {
+    const onClick = () => {
+      const feedId = action?.feedId || "";
+      saveItemMutation({
+        variables: { feedId },
+        update(cache, _) {
+          if (value) {
+            action?.unsave && emitSignals(action.unsave, cache)
+          } else {
+            action?.save && emitSignals(action?.save, cache)
+          }
+        }
+      });
+
+      if (value) {
+        action?.unsave && emitSignals(action.unsave)
+      } else {
+        action?.save && emitSignals(action?.save)
+      }
+
+      setValue(!value);
+    }
+
+    return {
+      onClick
+    }
+  }
+
   return null;
 }
 

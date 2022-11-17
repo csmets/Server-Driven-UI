@@ -1,19 +1,18 @@
 import { gql } from "graphql-request";
 
-export const buttonFragment = gql`
-  fragment buttonFragment on Button {
+export const favouriteButtonFragment = gql`
+  fragment favouriteButtonFragment on FavouriteButton {
     __typename
-    label
     action {
       ...editNameSubmitActionFragment
       ...urlActionFragment
       ...favouriteActionFragment
     }
     disabled
-    disableElevation
-    buttonVariant
-    buttonTheme
     buttonSize
     icon
+    signal {
+      ...signalFragment
+    }
   }
 `;

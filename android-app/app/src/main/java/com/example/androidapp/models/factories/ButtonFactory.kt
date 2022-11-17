@@ -1,21 +1,19 @@
 package com.example.androidapp.models.factories
 
-import com.example.androidapp.models.ButtonSize
-import com.example.androidapp.models.ButtonTheme
-import com.example.androidapp.models.ButtonVariant
-import com.example.androidapp.models.ContainerElement
+import com.example.androidapp.models.*
 import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface ButtonFactory {
-    fun create(button: JSONObject): ContainerElement.Button
+    fun create(button: JSONObject): FactoryButton
 }
 
 class ButtonFactoryImpl @Inject constructor(
-    private val actionFactory: ActionFactory
+    private val actionFactory: ActionFactory,
+    private val signalFactory: SignalFactory
 ): ButtonFactory {
-    override fun create(button: JSONObject): ContainerElement.Button {
-        val label = button.getString("label")
+    override fun create(button: JSONObject): FactoryButton {
+        val label = if (button.has("label")) button.getString("label") else null
 
         val action = if (!button.isNull("action")) {
             actionFactory.create(button.getJSONObject("action"))
@@ -23,20 +21,28 @@ class ButtonFactoryImpl @Inject constructor(
             null
         }
 
-        val disabled = button.getBoolean("disabled")
-        val disableElevation = button.getBoolean("disableElevation")
-        val variant = adaptButtonVariant(button.getString("buttonVariant"))
-        val theme = adaptButtonTheme(button.getString("buttonTheme"))
-        val size = adaptButtonSize(button.getString("buttonSize"))
+        val disabled = if (button.has("disabled")) button.getBoolean("disabled") else null
+        val disableElevation = if (button.has("disableElevation")) button.getBoolean("disableElevation") else null
+        val variant = if (button.has("buttonVariant")) adaptButtonVariant(button.getString("buttonVariant")) else null
+        val theme = if (button.has("buttonTheme")) adaptButtonTheme(button.getString("buttonTheme")) else null
+        val size = if (button.has("buttonSize")) adaptButtonSize(button.getString("buttonSize")) else null
+        val icon = if (button.has("icon") && !button.isNull("icon")) button.getString("icon") else null
+        val signal = if (button.has("signal")) {
+            signalFactory.create(button.getJSONObject("signal"))
+        } else {
+            null
+        }
 
-        return ContainerElement.Button(
+        return FactoryButton(
             label = label,
             action = action,
             disabled = disabled,
             disableElevation = disableElevation,
             variant = variant,
             theme = theme,
-            size = size
+            size = size,
+            icon = icon,
+            signal = signal
         )
     }
 
@@ -67,4 +73,78 @@ class ButtonFactoryImpl @Inject constructor(
             else -> ButtonSize.MEDIUM
         }
     }
+}
+
+data class FactoryButton(
+    val label: String?,
+    val action: Action?,
+    val disabled: Boolean?,
+    val disableElevation: Boolean?,
+    val variant: ButtonVariant?,
+    val theme: ButtonTheme?,
+    val size: ButtonSize?,
+    val icon: String?,
+    val signal: Signal?
+)
+
+fun FactoryButton.toContainerButton(): ContainerElement.Button? {
+    if (
+        this.label == null ||
+        this.disabled == null ||
+        this.disableElevation == null ||
+        this.variant == null ||
+        this.theme == null ||
+        this.size == null
+    ) {
+       return null
+    }
+    return ContainerElement.Button(
+        label = this.label,
+        action = this.action,
+        disabled = this.disabled,
+        disableElevation = this.disableElevation,
+        variant = this.variant,
+        theme = this.theme,
+        size = this.size,
+        icon = this.icon
+    )
+}
+
+fun FactoryButton.toFavourite(): Buttons.FavouriteButton? {
+    if (
+        this.disabled == null ||
+        this.size == null
+    ) {
+        return null
+    }
+    return Buttons.FavouriteButton(
+        action = this.action,
+        disabled = this.disabled,
+        size = this.size,
+        icon = this.icon,
+        signal = this.signal
+    )
+}
+
+fun FactoryButton.toButton(): Buttons.Button? {
+    if (
+        this.label == null ||
+        this.disabled == null ||
+        this.disableElevation == null ||
+        this.variant == null ||
+        this.theme == null ||
+        this.size == null
+    ) {
+        return null
+    }
+    return Buttons.Button(
+        label = this.label,
+        action = this.action,
+        disabled = this.disabled,
+        disableElevation = this.disableElevation,
+        variant = this.variant,
+        theme = this.theme,
+        size = this.size,
+        icon = this.icon
+    )
 }

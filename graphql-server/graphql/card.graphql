@@ -4,6 +4,6 @@ type Card {
     secondaries: [String!]
     media: Image
     content: [String!]
-    links: [Button!]
+    links: [Buttons!]
     action: Action
 }

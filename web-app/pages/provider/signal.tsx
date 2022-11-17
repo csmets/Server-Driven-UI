@@ -1,6 +1,6 @@
 import { ApolloCache, NormalizedCacheObject } from '@apollo/client';
 import * as React from 'react';
-import { EmitSignalData, SignalData, SignalType, SignalValuePairData } from '../components/feed/models/signal-vm';
+import { EmitSignalData, SignalData, SignalType, SignalValuePairData } from '../models/signal-vm';
 
 interface SignalContext {
   useSignalEvent: (signal: SignalData | null | undefined, callback: (result: SubscribeResult) => void) => void

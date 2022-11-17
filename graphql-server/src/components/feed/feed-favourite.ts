@@ -1,20 +1,18 @@
-import { Button, ButtonSize, ButtonTheme, ButtonVariant, SignalType, SignalValuePairKey } from '../../types';
+import { ButtonSize, FavouriteButton, SignalType, SignalValuePairKey } from '../../types';
+import { favouriteButton } from '../button/favourite-button';
 
-export const feedFavouriteButton = (count, feedId, saved = false): Button => {
+export const feedFavouriteButton = (count, feedId, saved = false): FavouriteButton => {
   const heart_full = "https://cdn-icons-png.flaticon.com/512/1076/1076984.png";
   const heart_empty = "https://cdn-icons-png.flaticon.com/512/1077/1077035.png";
   const originalImage = saved ? heart_full : heart_empty;
   const nextImage = saved ? heart_empty : heart_full;
-  const nextCount = saved ? count : count + 1;
-  return {
-    __typename: 'Button',
+  const nextCount = saved ? `${count} likes` : `${count + 1} likes`;
+
+  return favouriteButton({
     icon: originalImage,
-    buttonSize: ButtonSize.Small,
-    buttonTheme: ButtonTheme.Secondary,
-    buttonVariant: ButtonVariant.Text,
-    disableElevation: false,
-    disabled: false,
     label: null,
+    buttonSize: ButtonSize.Small,
+    disabled: false,
     signal: {
       type: SignalType.Toggle,
       reference: `ref-${feedId}`
@@ -31,19 +29,27 @@ export const feedFavouriteButton = (count, feedId, saved = false): Button => {
           values: [
             {
               key: SignalValuePairKey.Icon,
-              value: nextImage
+              value: {
+                __typename: 'SignalStringValue',
+                text: nextImage
+              }
             }
           ]
         },
         {
           signal: {
-            type: SignalType.FavouriteCount,
+            type: SignalType.Update,
             reference: `ref-${feedId}-count`
           },
           values: [
             {
-              key: SignalValuePairKey.Count,
-              value: nextCount
+              key: SignalValuePairKey.Content,
+              value: {
+                __typename: 'SignalArrayValue',
+                suffix: [],
+                prefix: [],
+                array: [nextCount]
+              }
             }
           ]
         }
@@ -57,23 +63,31 @@ export const feedFavouriteButton = (count, feedId, saved = false): Button => {
           values: [
             {
               key: SignalValuePairKey.Icon,
-              value: originalImage
+              value: {
+                __typename: 'SignalStringValue',
+                text: originalImage
+              }
             }
           ]
         },
         {
           signal: {
-            type: SignalType.FavouriteCount,
+            type: SignalType.Update,
             reference: `ref-${feedId}-count`
           },
           values: [
             {
-              key: SignalValuePairKey.Count,
-              value: count
+              key: SignalValuePairKey.Content,
+              value: {
+                __typename: 'SignalArrayValue',
+                suffix: [],
+                prefix: [],
+                array: [`${count} likes`]
+              }
             }
           ]
         }
       ]
     },
-  }
+  })
 };

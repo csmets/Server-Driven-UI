@@ -16,6 +16,7 @@ export const button = (button: ButtonProps): Button => {
   const size = button.buttonSize || ButtonSize.Medium;
   const variant = button.buttonVariant || ButtonVariant.Contained;
   return {
+    __typename: 'Button',
     icon: button.icon,
     buttonVariant: variant,
     label: button.label,
