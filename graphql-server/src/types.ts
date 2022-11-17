@@ -21,7 +21,7 @@ export type Box = {
   width?: Maybe<Scalars['Int']>;
 };
 
-export type Button = {
+export type Button = Buttons & {
   __typename?: 'Button';
   action?: Maybe<Action>;
   buttonSize: ButtonSize;
@@ -31,7 +31,6 @@ export type Button = {
   disabled: Scalars['Boolean'];
   icon?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
-  signal?: Maybe<Signal>;
 };
 
 export enum ButtonSize {
@@ -53,11 +52,19 @@ export enum ButtonVariant {
   Text = 'TEXT'
 }
 
+export type Buttons = {
+  action?: Maybe<Action>;
+  buttonSize: ButtonSize;
+  disabled: Scalars['Boolean'];
+  icon?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+};
+
 export type Card = {
   __typename?: 'Card';
   action?: Maybe<Action>;
   content?: Maybe<Array<Scalars['String']>>;
-  links?: Maybe<Array<Button>>;
+  links?: Maybe<Array<Buttons>>;
   media?: Maybe<Image>;
   primary: Scalars['String'];
   secondaries?: Maybe<Array<Scalars['String']>>;
@@ -141,6 +148,16 @@ export type FavouriteAction = {
   unsave?: Maybe<Array<EmitSignal>>;
 };
 
+export type FavouriteButton = Buttons & {
+  __typename?: 'FavouriteButton';
+  action?: Maybe<Action>;
+  buttonSize: ButtonSize;
+  disabled: Scalars['Boolean'];
+  icon?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  signal?: Maybe<Signal>;
+};
+
 export type FeedView = {
   __typename?: 'FeedView';
   elements: Array<ViewElement>;
@@ -218,30 +235,43 @@ export type Signal = {
   type: SignalType;
 };
 
+export type SignalArrayValue = {
+  __typename?: 'SignalArrayValue';
+  array: Array<Scalars['String']>;
+  prefix?: Maybe<Array<Scalars['String']>>;
+  suffix?: Maybe<Array<Scalars['String']>>;
+};
+
 export type SignalInput = {
   reference?: InputMaybe<Scalars['String']>;
   type: SignalType;
 };
 
+export type SignalStringValue = {
+  __typename?: 'SignalStringValue';
+  text: Scalars['String'];
+};
+
 export enum SignalType {
   Error = 'ERROR',
-  Favourite = 'FAVOURITE',
-  FavouriteCount = 'FAVOURITE_COUNT',
   Title = 'TITLE',
-  Toggle = 'TOGGLE'
+  Toggle = 'TOGGLE',
+  Update = 'UPDATE'
 }
 
 export type SignalValuePair = {
   __typename?: 'SignalValuePair';
   key: SignalValuePairKey;
-  value: Scalars['String'];
+  value: SignalValuePairValue;
 };
 
 export enum SignalValuePairKey {
-  Count = 'COUNT',
+  Content = 'CONTENT',
   Icon = 'ICON',
   Primary = 'PRIMARY'
 }
+
+export type SignalValuePairValue = SignalArrayValue | SignalStringValue;
 
 export type TextInput = {
   __typename?: 'TextInput';

@@ -6,7 +6,7 @@ const cardFactory = (id, caption, image, alt, count): Card => {
   return {
     __typename: 'Card',
     primary: caption,
-    secondaries: [caption],
+    secondaries: [],
     media: {
       __typename: 'Image',
       url: image,
@@ -19,7 +19,7 @@ const cardFactory = (id, caption, image, alt, count): Card => {
       `${count} likes`
     ],
     signal: {
-      type: SignalType.FavouriteCount,
+      type: SignalType.Update,
       reference: `ref-${id}-count`
     },
   }

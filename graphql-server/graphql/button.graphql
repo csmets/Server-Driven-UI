@@ -17,8 +17,15 @@ enum ButtonSize {
     LARGE
 }
 
-type Button {
-    signal: Signal
+interface Buttons {
+    icon: String
+    label: String
+    action: Action
+    disabled: Boolean!
+    buttonSize: ButtonSize!
+}
+
+type Button implements Buttons {
     icon: String
     label: String
     action: Action
@@ -26,5 +33,14 @@ type Button {
     disableElevation: Boolean!
     buttonVariant: ButtonVariant!
     buttonTheme: ButtonTheme!
+    buttonSize: ButtonSize!
+}
+
+type FavouriteButton implements Buttons {
+    label: String
+    signal: Signal
+    icon: String
+    action: Action
+    disabled: Boolean!
     buttonSize: ButtonSize!
 }

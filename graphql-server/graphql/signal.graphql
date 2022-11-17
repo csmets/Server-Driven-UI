@@ -9,14 +9,26 @@ type EmitSignal {
 
 enum SignalValuePairKey {
     ICON
-    COUNT
+    CONTENT
     PRIMARY
 }
 
 type SignalValuePair {
     key: SignalValuePairKey!,
-    value: String!
+    value: SignalValuePairValue!
 }
+
+type SignalStringValue {
+    text: String!
+}
+
+type SignalArrayValue {
+    prefix: [String!]
+    suffix: [String!]
+    array: [String!]!
+}
+
+union SignalValuePairValue = SignalStringValue | SignalArrayValue
 
 type Signal {
     type: SignalType!
@@ -30,8 +42,7 @@ input SignalInput {
 
 enum SignalType {
     TOGGLE
-    FAVOURITE
-    FAVOURITE_COUNT
+    UPDATE
     TITLE
     ERROR
 }
