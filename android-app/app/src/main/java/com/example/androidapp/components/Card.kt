@@ -87,9 +87,11 @@ fun Card(card: ContainerElement.Card, viewModel: FeedFavouriteViewModel = hiltVi
                     Text(text = it, fontSize = 16.sp, fontWeight = FontWeight.W400)
                 }
                 if (card.links != null) {
-                    Row {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         card.links.forEach {
-                            Button(data = it)
+                            Column(modifier = Modifier.padding(end = 6.dp)) {
+                                Button(data = it)
+                            }
                         }
                     }
                 }

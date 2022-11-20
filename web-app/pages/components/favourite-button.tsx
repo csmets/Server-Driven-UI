@@ -114,16 +114,9 @@ const FavouriteButton = (props: { data: FavouriteButtonData }) => {
   }
 
   return (
-    <ButtonComponent
-      onClick={onClick}
-      variant={'text'}
-      disabled={data.disabled}
-      disableElevation={true}
-      color={'primary'}
-      size={adaptButtonSize(data.size)}
-    >
-      {svg && <img src={svg} alt="" width="20px" height="20px" />}
-    </ButtonComponent>
+    <a onClick={onClick} style={{padding: "5px"}}>
+      {svg && <img src={svg} alt="" width="30px" height="30px" />}
+    </a>
   )
 }
 

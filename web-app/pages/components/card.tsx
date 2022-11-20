@@ -64,7 +64,7 @@ const CardContentArea = (props: { data: CardData }): JSX.Element => {
     <>
       {media && <CardMedia
           component="img"
-          height="140"
+          height="220"
           image={media.url}
           alt={media.alt}
         />}

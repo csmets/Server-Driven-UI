@@ -2,10 +2,8 @@ package com.example.androidapp.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -116,9 +114,12 @@ fun FavouriteButton(data: Buttons.FavouriteButton, viewModel: FeedFavouriteViewM
             }
         }
     }
-
-    Button(
-        onClick = {
+    Image(
+        painter = rememberImagePainter(icon),
+        contentDescription = "",
+        alignment = Alignment.Center,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.size(30.dp).padding(2.dp).clickable {
             when(data.action) {
                 is Action.FavouriteAction -> {
                     if (isSaved) {
@@ -131,19 +132,8 @@ fun FavouriteButton(data: Buttons.FavouriteButton, viewModel: FeedFavouriteViewM
                 }
                 else -> Unit
             }
-        },
-        elevation = setElevation(disableElevation = true),
-        enabled = !data.disabled,
-        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
-    ) {
-        Image(
-            painter = rememberImagePainter(icon),
-            contentDescription = "",
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(30.dp).padding(2.dp)
-        )
-    }
+        }
+    )
 }
 
 private fun actionHandler(action: Action?, handler: UriHandler) {
