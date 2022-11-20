@@ -18,7 +18,13 @@ Observing the diagram above, all clients (android, iOS, and Web - react) are all
 
 ## About this project
 
-This project is to be used a resource and a playground to learn SDUI. It covers an end to end implementation (excluding the downstream services) on how SDUI works.
+This project is to be used a resource and a playground to learn SDUI. It covers an end to end implementation on how SDUI works.
+
+It's primary focus is to follow the SDUI paradigm by ensuring the clients reference the same data endpoint that provides the UI schematics on how it should render.
+
+Below shows the output from the mobile Android view and the web view from this project.
+
+![project demonstrating SDUI](docs/images/SDUIExample.png)
 
 The repository is broken up into different modules:
 
