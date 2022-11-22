@@ -12,7 +12,9 @@ This documentation is to house the standards that should be in placed when worki
 7. [Forms](./forms.md)
 8. [Signals](./signals.md)
 9. [Cache](./cache.md)
-10. [Appendix: Benefits for clients to not call GraphQL in SDUI](./decouple-graphql-client.md)
+10. [Knowledge: All business logic should only live in the server-side](./server-side-business-logic.md)
+11. [Knowledge: Benefits for clients to not call GraphQL in SDUI](./decouple-graphql-client.md)
+12. [Appendix: Sending Signals in SDUI](https://medium.com/expedia-group-tech/sending-signals-in-server-driven-ui-a8a580059ed1)
 
 ## Preface
 
