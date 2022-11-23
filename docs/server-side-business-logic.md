@@ -5,16 +5,16 @@ There are great benefits to having business logic derived from the server-side.
 These benefits include:
 
 - Front-end clients can be slim and be solely focused on user-interface (UI).
-- Future migrations to different technology stacks/platforms within the front-end require less effort.
+- Future migrations to different technology stacks/platforms within the front end require less effort.
 - Separation of concerns are more clearly defined.
-- Frontend unit tests are less focused on meeting business logic requirements and more on providing correct visuals.
+- Front end unit tests are less focused on meeting business logic requirements and more on providing correct visuals.
 - Multiple clients will all share same conditions and be in parity.
 - Experiments/features are controlled from the one source
 - Localization is primarily done via the server-side.
 
 Server-driven UI (SDUI) unleashes all of the above by default. As to be completely SDUI, the response from the server should only provide values that shape the UI, and not values to be massaged into the UI.
 
-Typically, we see a lot of front-end clients get REST or GraphQL responses that return data values to be placed within the UI. This can be pricing data, customer data, shopping item data, etc. With this data, there are often times where manipulation must be made for certain cases. This can be, calculating values for a total price within in a shopping cart. Or, displaying customer data in some bespoke presentation depending on their tier. Or, displaying certain shopping items due to business filters, etc.
+Typically, we see a lot of front end clients get REST or GraphQL responses that return data values to be placed within the UI. This can be pricing data, customer data, shopping item data, etc. With this data, there are often times where manipulation must be made for certain cases. This can be, calculating values for a total price within in a shopping cart. Or, displaying customer data in some bespoke presentation depending on their tier. Or, displaying certain shopping items due to business filters, etc.
 
 ```diff
 {
@@ -49,13 +49,13 @@ Typically, we see a lot of front-end clients get REST or GraphQL responses that 
 ```
 _A rough example showcasing the differences between 'traditional' data vs SDUI. 'Traditional' provides just values whereas SDUI provides a design schema_
 
-The problems will become apparent once the business or technology changes. Examples are when a business moves towards building a platform, or a new front-end framework is taking trend with major benefits. Migrating these front-end client apps require a lot of effort, especially if there's a lot of hidden business logic held within it. Migrations will need to be done in small iteration and done for certain majority cases. The time to release is long and heavily monitored to ensure disruption is minimal and business value is also gained. Cost of this work is often high and usually will involve impacting disruption due to leadership changes and company reorganization (in large companies).
+The problems will become apparent once the business or technology changes. Examples are when a business moves towards building a platform, or a new front-end framework is taking trend with major benefits. Migrating these front end client apps require a lot of effort, especially if there's a lot of hidden business logic held within it. Migrations will need to be done in small iteration and done for certain majority cases. The time to release is long and heavily monitored to ensure disruption is minimal and business value is also gained. Cost of this work is often high and usually will involve impacting disruption due to leadership changes and company reorganization (in large companies).
 
 It is simpler to leverage a data schematic providing the whole shape of the UI - this is what SDUI offers. Moving to different UI frameworks is primarily focused on the framework gains. Developers can work on performance improvements and focus on innovation. Less concerns are made to negative business impact to changes. This is a major win!
 
-What I'm outlining here brings major wins for the frontend. Backend migrations and changes will still fall under the same traditions we do today, and heavy testing will be used to ensure confidence is made with the changes.
+What I'm outlining here brings major wins for the front end. Back end migrations and changes will still fall under the same traditions we do today, and heavy testing will be used to ensure confidence is made with the changes.
 
-## Front-end migrations
+## Front end migrations
 
 Let's dive a little deeper into migrations, and see the processes broken down into figurative timelines. Take a look at the 2 images below.
 
@@ -65,9 +65,9 @@ Let's dive a little deeper into migrations, and see the processes broken down in
 
 ![sdui migration timeline](image/../images/sdui-migration-timeline.png)
 
-It is often business logic and components that create a lot of complexity within the front-end. It involves a lot of massaging of data values across different components and handling different business edge case views. Confidence is then done through testing; unit, integration and visual regression tests. We can see this in the 'Traditional' gantt chart.
+It is often business logic and components that create a lot of complexity within the front end. It involves a lot of massaging of data values across different components and handling different business edge case views. Confidence is then done through testing; unit, integration and visual regression tests. We can see this in the 'Traditional' gantt chart.
 
-Comparing to SDUI, the time is halved. Components are simpler. Tests are smaller. There's also no business logic. Because all business logic lives within the server-side the front-end is more "pure" in that it's primary focus is now on UI.
+Comparing to SDUI, the time is halved. Components are simpler. Tests are smaller. There's also no business logic. Because all business logic lives within the server-side the front end is more "pure" in that it's primary focus is now on UI.
 
 However, I must stress that the server-side has to be feature complete in SDUI, only then is the migration simple and quick. Platform migrations would involve a lot more effort and education across multiple teams. This is an expensive task, but once complete, massive wins are gained like migrating front-end app to different frameworks.
 

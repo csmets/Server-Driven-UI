@@ -1,3 +1,5 @@
+![Documentation banner](images/banner-docs.png)
+
 # SDUI Documentation
 
 This documentation is to house the standards that should be in placed when working in a SDUI paradigm.
@@ -30,7 +32,7 @@ Examples and opinions are driven from using GraphQL. If you are using a technolo
 
 Before taking on SDUI, I think it's a good idea to look into the pros and cons first to decide whether or not this is the right decision for you.
 
-### Advantages
+### ✅ Advantages
 
 - Native clients can provide users with composable content.
 - Reduce the number of app updates to users as you can leverage the composable components given with SDUI.
@@ -39,7 +41,7 @@ Before taking on SDUI, I think it's a good idea to look into the pros and cons f
 - **No longer have to make changes in each client app for business logic as it's done on the server's response.**
 - **Client becomes dumb and is only UI making it lightweight and reduces client specific bugs.**
 
-### Disadvantages
+### ❌ Disadvantages
 
 - Taking advantage of unique platform features becomes challenging.
 - Enterprise level application is difficult to coordinate.
