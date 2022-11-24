@@ -1,9 +1,9 @@
 # Actions
 
-What are actions? Actions are types that you'll create for elements that require some form of interaction. For example a text link item would have an action attached to it that will provide the URI, so when it's clicked an action has been made and that type will provide the required fields. Other examples would be:
+What are actions? Actions are types that you'll create for elements that require some form of interaction. For example a text link item would have an action attached to it that will provide a URI. So, when it's clicked, an action has been made and that type will provide the required fields to enable that interaction. Other examples would be:
 
-- Clicking a menu
-- Clicking a button
+- Interacting with a menu
+- Interacting with a button
 - etc
 
 Using a button as an example, it would look like:
@@ -51,7 +51,7 @@ type Button {
 union Action = CopyToClipboard | URILink | GoToHomeScreen | OpenDialog | OpenMenu
 ```
 
-What you want to avoid is having the following:
+What you want to avoid is having the following in your action:
 
 ```graphql
 type OpenMenu {
@@ -70,7 +70,7 @@ type TextLink {
 }
 ```
 
-The example above introduces a cyclical issue, but it also means that all actionable leaf objects that are using `Action` will the possibility of having `OpenMenu` which has `MenuItem`. This would mean that were to explode your query fragments it would look like:
+The example above introduces a cyclical issue, but it also means that all actionable leaf objects that are using `Action` will have the possibility of having `OpenMenu` which has `MenuItem`. On the query it would explode your fragments to look like this:
 
 ```graphql
 ... on TextLink {

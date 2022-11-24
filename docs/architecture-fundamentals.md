@@ -7,7 +7,7 @@ Overview diagram illustrating libraries, applications, and services that stitche
 
 ## Style tokens
 
-This is out of the scope of SDUI but is good practice for organizations or if you're wanting to provide consistency across your applications.
+This is out of the scope of SDUI but is good practice to provide consistency across multiple applications.
 
 When working with multiple clients (Android, iOS, Web) it is important for all clients to share the same styling in order to provide a unified visual experience to your users. This can be achieved through the use of style tokens.
 
@@ -17,11 +17,11 @@ Design tokens allows you to be able to update your visual design values and have
 
 ## Application
 
-Android, iOS, and Web applications **should not contain any business logic**. Any business logic, if any, should not be done to the user interface (UI). UI should be dumb and any response given from the server-side must be handled. This is an important and key role to SDUI. **Having any business logic within the UI defeats the purpose of SDUI, as you are now letting the client determine the view rather than the server.**
+Android, iOS, and Web applications **should not contain any business logic**. Any business logic, if any, should not be done to the user interface (UI). UI should be dumb and any response given from the server-side must  be the resolved value. This is an important and key role to SDUI. **Having any business logic within the UI defeats the purpose of SDUI, as you are now letting the client determine the view rather than the server.**
 
 ## Template service
 
-The template service is the client's one stop shop for building the views. The client can provide some context to the template service for it to tailor specific responses for that domain. This also removes individual clients from having to write their own GraphQL. Rather, all queries can be kept within the template service and let it handle how the presentation should look like. The template service can make 1 or many query calls to build a page and return it as a REST response. Having it return an old robust response such as REST grants some benefits for clients such as caching GET requests. With graphQL requests it's all done via POST and you have to leverage the library like Apollo to handle the caching for you.
+The template service is the client's one stop shop for building the views. The client can provide some context to the template service for it to tailor specific responses for that domain. This also removes individual clients from having to write their own GraphQL. Rather, all queries can be kept within the template service and let it handle how the presentation should look like. The template service can make 1 or many query calls to build a page and return it as a response for the client to digest. Depending on preference, it can be REST, WebSockets or an alternative - depends on the use case.
 
 ## Compositor (GraphQL Server)
 

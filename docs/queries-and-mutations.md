@@ -4,7 +4,7 @@
 
 A query should return all the necessary view elements for a page or component. Depending on your approach, Page level or Component level, read [composable design](./composable-design.md) to learn more.
 
-Queries are generally straight forwarded in design. However there are some guidelines you can follow to help design better queries.
+Queries are generally straight forward in design. However there are some guidelines you can follow to help design better queries.
 
 ### Required inputs
 
@@ -31,7 +31,7 @@ Having just required inputs allows the developer to understand what is important
 
 ### Context
 
-Context plays an important role to help the GraphQL server understand where this request is coming from. Having understand where this is coming from, the server and curate a response catered for that device. Context may also be used for presentation layout, for example a tablet device or an extra large display may want to present differently to a mobile or small display.
+Context plays an important role to help the GraphQL server understand where this request is coming from. Having understood where this request is coming from, the server and curate a response catered for that device. Context may also be used for presentation layout, for example a tablet device or an extra large display may want to present differently to a mobile or small display.
 
 ```graphql
 input Context {
@@ -43,7 +43,7 @@ input Context {
 
 ## Mutations
 
-Mutations are used on actions that require some form of modification; add, update, delete. It follow the same principles as queries; having only required inputs. However, mutations should be able to take inputs directly driven by the server to be fully SDUI compliant, this mostly relates to forms.
+Mutations are used on actions that require some form of modification; add, update, delete. It follows the same principles as queries; having only required inputs. However, mutations should be able to take inputs directly driven by the server to be fully SDUI compliant, this mostly relates to forms.
 
 To learn about how to deal with forms, read [SDUI Forms](./forms.md)
 

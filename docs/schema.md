@@ -4,7 +4,7 @@ This document is a guideline when it comes to writing up a schema for your clien
 
 ## Design first
 
-Before you can start writing a schema it is best to first have a design of a component first that will be used as reference. Schemas can be quickly become annoying to change once it has been deployed to an environment, and is preferred to be well thought out before it gets released to an environment. However, I don't mean that it requires to be feature complete, it can also be worked on iteratively, but should not change existing fields within the schema design.
+Before you can start writing a schema it is best to first have a design of a component first that will be used as reference. Schemas can be quickly become a challenge to change once it has been deployed to an environment, and is preferred to be well thought out before it gets released to an environment. However, I don't mean that it requires to be feature complete, it can also be worked on iteratively, but should avoid change to existing fields within the schema design.
 
 ## Atomic design
 
@@ -12,7 +12,7 @@ Brad Frost's [Atomic Design](https://atomicdesign.bradfrost.com/table-of-content
 
 To give a TLDR;
 
-**Atoms** - these are foundational building blocks that make up our user interfaces. These can be identified as labels, inputs, buttons, text, they cannot be broken down any further without ceasing to be functional.
+**Atoms** - these are foundational building blocks that make up our user interfaces. These can be identified as labels, inputs, buttons, text, etc. They cannot be broken down any further without ceasing to be functional.
 
 **Molecules** - they are relatively simple groups of UI. They comprise of atoms put together to become a unit. For example, a label, input field and button put together create a form molecule.
 
@@ -39,7 +39,7 @@ Looking at the breakdown shown above we can see each element separated to it's o
 
 ## Building the schema
 
-When building a schema using old habits of your traditional client driven approach, it may look like this:
+When building a schema using old habits of traditional client driven approach, it may look like this:
 
 ```graphql
 type NewsCard {
@@ -66,7 +66,7 @@ What's wrong with this approach is that it is not composable. You've now heavily
 
 ![Example card component 2](images/component-card-example-2.png)
 
-Looking at the above we can see that the action button is no longer present and now the meta is below the heading whereas before it was above. You can argue that you can see use the same graphQL schema, but it would mean that the client will now have to have a new component or added business logic into the component for it to look like the design above. This would mean that for native clients (Android, iOS) you'll have to release a new version with this update to your users and it won't be for some time that most your users will have this version of the app. This goes for the same when creating A/B tests and experiments. Your experiments will have to go over a longer period of time because you're having to add in more work and time for it to be used by your users.
+Looking at the above we can see that the action button is no longer present and now the meta is below the heading whereas before it was above. You can argue that you can reuse the same graphQL schema, but it would mean that the client will now have to have a new component or added business logic into the component for it to look like the design above. This would mean that for native clients (Android, iOS) you'll have to release a new version with this update to your users and it won't be for some time that most your users will have this version of the app. This goes for the same when creating A/B tests and experiments. Your experiments will have to go over a longer period of time because you're having to add in more work and time for it to be used by your users.
 
 Let's take a look at the breakdown one last time.
 

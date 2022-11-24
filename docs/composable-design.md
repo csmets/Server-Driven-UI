@@ -2,7 +2,7 @@
 
 A composable design system is to allow any elements to be shown in any order you wish to have them. An example of a non-composable design system is when you've coupled the response to the UI. When the response changes, the data may change, but the design will still look the same. A composable design is allowing the server's response to be able to change the design, for example, having the heading of a card from the top to be moved down to the bottom without making any changes within the client app.
 
-Creating a composable design system will help you build new designs with pre-existing building blocks. This is the greatest advantage of SDUI. The reward of using SDUI is to provide users with new experiences without having to update the mobile app, so it's best to design towards that.
+Creating a composable design system will help you build new designs with pre-existing building blocks. This is the greatest advantage of SDUI. The reward of using SDUI is to provide users with new experiences without having to update the application, so it's best to design towards that.
 
 ## How do we create a composable design system?
 
@@ -10,7 +10,7 @@ Depending on your use case, there's two different composable design systems, pag
 
 ### Page level composable design
 
-When starting on SDUI it is important to create a distinct separation of concerns. Separating the concerns allows you to build new schemas with higher confidence and less cognitive load. Schemas are not easy to design, so it's important to create a system that helps visualize, and importantly scale.
+When starting in SDUI it is important to create a distinct separation of concerns. Separating the concerns allows you to build new schemas with higher confidence and less cognitive load. Schemas are not easy to design, so it's important to create a system that helps visualize, and importantly scale.
 
 These are the rules when building for page level composable designs:
 
@@ -28,7 +28,7 @@ A clear example of what you should **NOT** do is:
 union Element = Button | ImageCard | SectionContainer | ContentCard
 ```
 
-In the above union, there's a `SectionContainer` within the union of possible types. A section container is a container that would hold elements. Why is this bad? It is unclear what is the separation of concern. We can not fall into a cyclical loop. If a section container is to hold elements but is contained with a list of elements, that would mean a section container can be held within a section container infinitely.
+In the above union, there's a `SectionContainer` within the union of possible types. A section container is a container that would hold elements. Why is this bad? It is unclear what is the separation of concern. We can not allow ourselves to fall into a cyclical loop. If a section container is to hold elements but is contained with a list of elements, that would mean a section container can be held within a section container infinitely.
 
 **Make it clear**, what is an element and what is a layout.
 
@@ -60,10 +60,10 @@ In the above example, we can see that the `SectionContainer` and `NavigationCont
 
 ### Component composable design
 
-Creating a component only query, that's composable, the design is very similar page level design. The trick is to not make dynamic fields static within the type, put elements into an array so the server can draw out it's design by placing them into a particular order.
+Creating a component only query, that's composable, the design is very similar to page level design. The trick is to not make dynamic fields static within the type, put elements into an array so the server can draw out it's design by placing them into a particular order.
 
 ```graphql
-union ImageCardElement = Image | Heading | BodyTypography | Button
+union ImageCardElement = Image | Heading | Typography | Button
 
 type ImageCard {
   elements: [ImageCardElement!]
@@ -95,7 +95,7 @@ type ImageCarousel {
 }
 ```
 
-Great! Now we have a elements that can be composed in alternate manners and images can be styled and handled to scroll horizontally. However, this is still wrong! It's better, but what if you wanted to have some typography on the bottom of the images, rather than only having it up the top? You'd have to introduce a new field and creates more complexity.
+Great! Now we have elements that can be composed in alternate manners and images can be handled to scroll horizontally. However, this is still wrong! It's better, but what if you wanted to have some typography on the bottom of the images, rather than only having it up the top? You'd have to introduce a new field and creates more complexity.
 
 You can adopt the page composable design mentioned earlier in this document. Let's take a look at how that would look.
 
@@ -111,17 +111,17 @@ type ImageCarousel {
 }
 ```
 
-I created `ImageCarouselElement` to be a layout, then added a bunch of elements to be composed, one of them is `ImageCarousel`. This will be used to show images that can slide horizontally. I can now also change the layout to have the `Heading` to be either before or after the `ImageCarousel`.
+I change `ImageCarouselElement` to be a layout named `ImageCarouselContainer`. Then added a bunch of elements to be composed within it, one of them is `ImageCarousel`. This will be used to show images that can slide horizontally. I can now also change the layout to have the `Heading` to be either before or after the `ImageCarousel`.
 
-When doing this avoid the temptation to throw `ImageCarouselContainer` into a union of other elements. This is a layout and not an element.
+When doing this, avoid the temptation to throw `ImageCarouselContainer` into a union of other elements. This is a layout and not an element.
 
 ```graphql
 // Don't do this
 union elements = ImageCard | ImageCarouselContainer | ContentCard
 ```
 
-Layouts should belong with other layouts, doing the above can lead into cyclic issues and also loses the role of responsibility. Will make it hard to deal with styling, such as spacing.
+Layouts should belong with other layouts, doing the above can lead into cyclic issues and also loses the role of responsibility.
 
 ## WARNING!
 
-If you're not careful, creating unions/interfaces that may hold a large number of types increases the number of possible types that the client will be requesting. For example, if you have a union of 10 different types for a view that only returns 2 of them, the client isn't aware of what the server will return and will always ask for the 10 possible types that may get returned. Now, what if in these 10 types there's another union within each of them that has 20 different types. The client will end up requesting a query of 10 * 20 = 200 types. The problem is that it multiplies every time you extend an end node to have further possible types. **The client doesn't know what it exactly wants, so it will ask the server for every possible case.**
+If you're not careful, creating unions/interfaces that may hold a large number of types increases the number of possible types that the client will be requesting. For example, if you have a union of 10 different types for a view that only returns 2 of them, the client isn't aware of what the server will return and will always ask for the 10 possible types that may never get returned. Now, what if in these 10 types there's another union within each of them that has 20 different types. The client will end up requesting a query of 10 * 20 = 200 types. The problem is that it multiplies every time you extend an end node to have further possible types. **The client doesn't know what it exactly wants, so it will ask the server for every possible case.**
