@@ -40,7 +40,7 @@ class EmitSignalFactoryImpl @Inject constructor(
         }
 
         return EmitSignal(
-            signal = signalFactory.create(emitSignal.getJSONObject("signal"))!!,
+            signal = signalFactory.create(emitSignal.getJSONObject("signal")),
             values = values
         )
     }
@@ -51,8 +51,8 @@ class EmitSignalFactoryImpl @Inject constructor(
                 text = value.getString("text")
             )
             "SignalArrayValue" -> SignalValue.SignalArrayValue(
-                suffix = makeStringArray(value.getJSONArray("suffix")),
-                prefix = makeStringArray(value.getJSONArray("prefix")),
+                suffix = value.optJSONArray("suffix")?.let { makeStringArray(it) },
+                prefix = value.optJSONArray("prefix")?.let { makeStringArray(it) },
                 array = makeStringArray(value.getJSONArray("array"))
             )
             else -> SignalValue.SignalStringValue(

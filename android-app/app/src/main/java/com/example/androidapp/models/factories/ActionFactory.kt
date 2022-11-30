@@ -19,25 +19,25 @@ class ActionFactoryImpl @Inject constructor(
             "URLAction" -> {
                 Action.URLAction(
                     url = action.getString("url"),
-                    description = action.getString("description")
+                    description = action.optString("description")
                 )
             }
             "FavouriteAction" -> {
-                val save: List<EmitSignal> = action.getJSONArray("save").let {
+                val save = action.optJSONArray("save")?.let {
                     val saveSignals = mutableListOf<EmitSignal>()
                     var saveIndex = 0
                     while (saveIndex < it.length()) {
-                        emitSignalFactory.create(it.getJSONObject(saveIndex))?.let { es -> saveSignals.add(es) }
+                        emitSignalFactory.create(it.getJSONObject(saveIndex))?.let(saveSignals::add)
                         saveIndex++
                     }
                     saveSignals
                 }
 
-                val unsave = action.getJSONArray("unsave").let {
+                val unsave = action.optJSONArray("unsave")?.let {
                     val unsaveSignals = mutableListOf<EmitSignal>()
                     var unsaveIndex = 0
                     while (unsaveIndex < it.length()) {
-                        emitSignalFactory.create(it.getJSONObject(unsaveIndex))?.let { es -> unsaveSignals.add(es) }
+                        emitSignalFactory.create(it.getJSONObject(unsaveIndex))?.let(unsaveSignals::add)
                         unsaveIndex++
                     }
                     unsaveSignals

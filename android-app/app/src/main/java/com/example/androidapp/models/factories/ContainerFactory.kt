@@ -16,7 +16,7 @@ class ContainerFactoryImpl @Inject constructor(
     private val buttonFactory: ButtonFactory
 ): ContainerFactory {
     override fun create(container: JSONObject): ViewElement.Container {
-        val elements = container.getJSONArray("elements")
+        val elements = container.optJSONArray("elements") ?: return ViewElement.Container(emptyList())
         val containerElements: MutableList<ContainerElement> = mutableListOf()
 
         var index = 0

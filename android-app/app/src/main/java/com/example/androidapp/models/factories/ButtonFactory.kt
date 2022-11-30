@@ -15,11 +15,7 @@ class ButtonFactoryImpl @Inject constructor(
     override fun create(button: JSONObject): FactoryButton {
         val label = if (button.has("label")) button.getString("label") else null
 
-        val action = if (!button.isNull("action")) {
-            actionFactory.create(button.getJSONObject("action"))
-        } else {
-            null
-        }
+        val action = button.optJSONObject("action")?.let { actionFactory.create(it) }
 
         val disabled = if (button.has("disabled")) button.getBoolean("disabled") else null
         val disableElevation = if (button.has("disableElevation")) button.getBoolean("disableElevation") else null
@@ -27,11 +23,7 @@ class ButtonFactoryImpl @Inject constructor(
         val theme = if (button.has("buttonTheme")) adaptButtonTheme(button.getString("buttonTheme")) else null
         val size = if (button.has("buttonSize")) adaptButtonSize(button.getString("buttonSize")) else null
         val icon = if (button.has("icon") && !button.isNull("icon")) button.getString("icon") else null
-        val signal = if (button.has("signal")) {
-            signalFactory.create(button.getJSONObject("signal"))
-        } else {
-            null
-        }
+        val signal = button.optJSONObject("signal")?.let { signalFactory.create(it) }
 
         return FactoryButton(
             label = label,

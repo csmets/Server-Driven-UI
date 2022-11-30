@@ -18,20 +18,16 @@ class CardFactoryImpl @Inject constructor(
     private val signalFactory: SignalFactory
 ): CardFactory {
     override fun create(card: JSONObject): ContainerElement.Card {
-        val hasAction = !card.isNull("action")
-        val hasLinks = !card.isNull("links")
-        val hasMedia = !card.isNull("media")
         return ContainerElement.Card(
             primary = card.getString("primary"),
-            secondaries = getSecondaries(card.getJSONArray("secondaries")),
-            action = if (hasAction) actionFactory.create(card.getJSONObject("action")) else null,
-            links = if (hasLinks) {
-                val links = card.getJSONArray("links")
+            secondaries = card.optJSONArray("secondaries")?.let { getSecondaries(it) },
+            action = card.optJSONObject("action")?.let { actionFactory.create(it) },
+            links = card.optJSONArray("links")?.let { links ->
                 val output: MutableList<Buttons> = emptyList<Buttons>().toMutableList()
                 var index = 0
                 while (index < links.length()) {
                     val link = links.getJSONObject(index)
-                    val button = buttonFactory.create(links.getJSONObject(index))
+                    val button = buttonFactory.create(links.optJSONObject(index))
                     val type = link.getString("__typename")
                     when(type) {
                         "FavouriteButton" -> button.toFavourite()?.let { output.add(it) }
@@ -40,10 +36,8 @@ class CardFactoryImpl @Inject constructor(
                     index++
                 }
                 output
-            } else {
-                null
             },
-            media = if (hasMedia) imageFactory.create(card.getJSONObject("media")) else null,
+            media = card.optJSONObject("media")?.let { imageFactory.create(it) },
             content = card.optJSONArray("content")?.let { makeStringArray(it) },
             signal = card.optJSONObject("signal")?.let { signalFactory.create(it) }
         )

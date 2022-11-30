@@ -5,16 +5,12 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 fun interface SignalFactory {
-    fun create(signal: JSONObject?): Signal?
+    fun create(signal: JSONObject): Signal
 }
 
 class SignalFactoryImpl @Inject constructor(): SignalFactory {
 
-    override fun create(signal: JSONObject?): Signal? {
-        if (signal == null) {
-            return null
-        }
-
+    override fun create(signal: JSONObject): Signal {
         return Signal(
             type = signal.getString("type").toSignalType(),
             reference = signal.getString("reference")

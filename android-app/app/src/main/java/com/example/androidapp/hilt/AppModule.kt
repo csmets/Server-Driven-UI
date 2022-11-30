@@ -23,9 +23,6 @@ abstract class AppModule {
    abstract fun bindEmitSignalFactory(impl: EmitSignalFactoryImpl): EmitSignalFactory
 
    @Binds
-   abstract fun bindParagraphFactory(impl: ParagraphFactoryImpl): ParagraphFactory
-
-   @Binds
    abstract fun bindSignalFactory(impl: SignalFactoryImpl): SignalFactory
 
    @Binds
