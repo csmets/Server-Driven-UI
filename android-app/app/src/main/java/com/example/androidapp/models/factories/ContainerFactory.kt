@@ -2,6 +2,7 @@ package com.example.androidapp.models.factories
 
 import com.example.androidapp.models.ContainerElement
 import com.example.androidapp.models.ViewElement
+import com.example.androidapp.models.toContainerImage
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -13,7 +14,8 @@ class ContainerFactoryImpl @Inject constructor(
     private val cardFactory: CardFactory,
     private val typographyFactory: TypographyFactory,
     private val boxFactory: BoxFactory,
-    private val buttonFactory: ButtonFactory
+    private val buttonFactory: ButtonFactory,
+    private val imageFactory: ImageFactory
 ): ContainerFactory {
     override fun create(container: JSONObject): ViewElement.Container {
         val elements = container.optJSONArray("elements") ?: return ViewElement.Container(emptyList())
@@ -31,6 +33,7 @@ class ContainerFactoryImpl @Inject constructor(
                 "Box" -> containerElements.add(boxFactory.create(el))
                 "Button" -> buttonFactory.create(el).toContainerButton()
                     ?.let { containerElements.add(it) }
+                "Image" -> containerElements.add(imageFactory.create(el).toContainerImage())
             }
 
             index++

@@ -3,6 +3,6 @@
 """
     Place all composable elements into this union for the container.
 """
-union ContainerElement = Card | Typography | Box | Button
+union ContainerElement = Card | Typography | Box | Button | Image
 
 union ViewElement = Container

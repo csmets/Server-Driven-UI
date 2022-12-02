@@ -1,6 +1,5 @@
 package com.example.androidapp.models
 
-import com.example.androidapp.models.factories.toContainerButton
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -41,6 +40,15 @@ sealed class ContainerElement {
         val theme: ButtonTheme,
         val size: ButtonSize,
         val icon: String?
+    ) : ContainerElement()
+
+    @Serializable
+    data class ContainerImage(
+        val url: String,
+        val alt: String,
+        val width: Int?,
+        val height: Int?,
+        val valueType: ImageValueType?
     ) : ContainerElement()
 }
 

@@ -17,6 +17,10 @@ export const containerResolver = {
         return 'Button';
       }
 
+      if (obj.url && obj.alt) {
+        return 'Image';
+      }
+
       return null;
     }
   }

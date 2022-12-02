@@ -15,6 +15,7 @@ export const containerFragment = gql`
       ...typographyFragment
       ...boxFragment
       ...buttonFragment
+      ...imageFragment
     }
   }
   ${cardFragment}

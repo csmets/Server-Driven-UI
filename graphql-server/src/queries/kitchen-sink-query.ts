@@ -230,6 +230,25 @@ export const kitchenSinkQuery = {
             })
           ]
         },
+        {
+          //container
+          containerType: "FILL",
+          elements: [
+            // Image
+            {
+              typographyVariant: "H2",
+              value: "Image",
+              typographyTheme: "PRIMARY"
+            },
+            {
+              url: 'https://picsum.photos/500/400',
+              alt: 'Random image',
+              width: null,
+              height: null,
+              valueType: null
+            }
+          ]
+        },
       ]
     }
   }

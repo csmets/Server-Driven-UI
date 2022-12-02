@@ -12,11 +12,13 @@ fun interface ImageFactory {
 class ImageFactoryImpl @Inject constructor(): ImageFactory {
     override fun create(image: JSONObject): Image {
         val hasValueType = !image.isNull("valueType")
+        val hasHeight = image.has("height")
+        val hasWidth = image.has("width")
         return Image(
             url = image.getString("url"),
             alt = image.getString("alt"),
-            width = image.optInt("width"),
-            height = image.optInt("height"),
+            width = if (hasWidth) image.getInt("width") else null,
+            height = if (hasHeight) image.getInt("height") else null,
             valueType = if (hasValueType) adaptImageValueType(image.getString("valueType")) else null
         )
     }

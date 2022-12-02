@@ -8,10 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.androidapp.components.typography.Typography
-import com.example.androidapp.models.BoxColor
-import com.example.androidapp.models.ContainerElement
-import com.example.androidapp.models.ViewElement
-import com.example.androidapp.models.toButton
+import com.example.androidapp.models.*
 
 @Composable
 fun Container(container: ViewElement.Container) {
@@ -31,6 +28,7 @@ fun Container(container: ViewElement.Container) {
                             .background(adaptColor(it._debugColor))
                     )
                     is ContainerElement.Button -> Button(it.toButton())
+                    is ContainerElement.ContainerImage -> ImageComponent(image = it.toImage())
                 }
             }
         }

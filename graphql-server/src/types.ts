@@ -107,7 +107,7 @@ export type Container = {
 };
 
 /** Place all composable elements into this union for the container. */
-export type ContainerElement = Box | Button | Card | Typography;
+export type ContainerElement = Box | Button | Card | Image | Typography;
 
 export enum ContainerType {
   Column = 'COLUMN',
@@ -128,7 +128,7 @@ export type EditNameSubmitAction = {
 
 export type EmitSignal = {
   __typename?: 'EmitSignal';
-  signal?: Maybe<Signal>;
+  signal: Signal;
   values: Array<SignalValuePair>;
 };
 

@@ -7,6 +7,7 @@ import { TypographyVM } from "../models/typography-vm";
 import { Typography } from "./typography/typography";
 import { Button } from "./button";
 import { ButtonVM } from "../models/buttons/button-vm";
+import { ImageVM } from "../models/image-vm";
 
 export const Container = (props: { data: ContainerData }): JSX.Element => {
   const { data } = props;
@@ -31,6 +32,9 @@ export const Container = (props: { data: ContainerData }): JSX.Element => {
     }
     if (el instanceof ButtonVM) {
       return <Button key={`container-button-${index}`} data={el} />
+    }
+    if (el instanceof ImageVM) {
+      return <img src={el.url} alt={el.alt} width={el.width ?? 'auto'} height={el.height ?? 'auto'}/>
     }
     return <></>
   })
