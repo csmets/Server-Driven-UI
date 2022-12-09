@@ -216,11 +216,6 @@ export type MutationResponse = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type Paragraph = {
-  __typename?: 'Paragraph';
-  value?: Maybe<Scalars['String']>;
-};
-
 export type Query = {
   __typename?: 'Query';
   editName?: Maybe<EditNameContainer>;
@@ -285,11 +280,6 @@ export type Typography = {
   typographyTheme: TypographyTheme;
   typographyVariant: TypographyVariant;
   value: Scalars['String'];
-};
-
-export type TypographyContent = {
-  __typename?: 'TypographyContent';
-  paragraph?: Maybe<Array<Maybe<Paragraph>>>;
 };
 
 export enum TypographyTheme {

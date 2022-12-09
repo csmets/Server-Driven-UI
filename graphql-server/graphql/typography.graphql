@@ -1,13 +1,3 @@
-# Deprecated
-type TypographyContent {
-    paragraph: [Paragraph]
-}
-
-# Deprecated
-type Paragraph {
-    value: String
-}
-
 type Typography {
     signal: Signal
     value: String!
