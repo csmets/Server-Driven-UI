@@ -1,9 +1,16 @@
-import { heading } from './heading';
-import { typography } from './typography';
-import { fetchFeed } from '../../../components/feed/feed';
+import {heading} from './heading';
+import {typography} from './typography';
+import {fetchFeed} from '../../../components/feed/feed';
+import { Card } from '../../../types';
 
-export const elements = {
-  "heading": heading,
-  "typography": typography,
-  "feed": [ ...fetchFeed() ]
+export type FeedElement = typeof heading | typeof typography | Card[];
+
+export interface FeedElements {
+  [key: string]: FeedElement;
 }
+
+export const elements: FeedElements = {
+  heading: heading,
+  typography: typography,
+  feed: [...fetchFeed()],
+};

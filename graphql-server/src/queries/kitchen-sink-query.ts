@@ -1,6 +1,5 @@
-import { button } from "../components/button/button"
-import { card } from "../components/card/card"
-import { ButtonVariant } from "../types"
+import {button} from '../components/button/button';
+import {ButtonVariant} from '../types';
 
 export const kitchenSinkQuery = {
   kitchenSink: () => {
@@ -9,210 +8,211 @@ export const kitchenSinkQuery = {
       elements: [
         {
           // container
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             // Typography
             {
-              typographyVariant: "H1",
-              value: "H1. Kitchen Sink",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H1',
+              value: 'H1. Kitchen Sink',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H2",
-              value: "H2. Typography",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H2',
+              value: 'H2. Typography',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H3",
-              value: "H3. Heading",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H3',
+              value: 'H3. Heading',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H4",
-              value: "H4. Heading",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H4',
+              value: 'H4. Heading',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H5",
-              value: "H5. Heading",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H5',
+              value: 'H5. Heading',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H6",
-              value: "H6. Heading",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H6',
+              value: 'H6. Heading',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "SUBTITLE1",
-              value: "SUBTITLE1. This is a subtitle",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'SUBTITLE1',
+              value: 'SUBTITLE1. This is a subtitle',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "SUBTITLE2",
-              value: "SUBTITLE2. This is a smaller subtitle",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'SUBTITLE2',
+              value: 'SUBTITLE2. This is a smaller subtitle',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "BODY1",
-              value: "BODY1. This is a some body text.",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'BODY1',
+              value: 'BODY1. This is a some body text.',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "BODY1",
-              value: "BODY1. This is a some smaller body text.",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'BODY1',
+              value: 'BODY1. This is a some smaller body text.',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "CAPTION",
-              value: "CAPTION. text.",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'CAPTION',
+              value: 'CAPTION. text.',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "OVERLINE",
-              value: "OVERLINE. text.",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'OVERLINE',
+              value: 'OVERLINE. text.',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H3",
-              value: "Heading in secondary typographyTheme",
-              typographyTheme: "SECONDARY"
+              typographyVariant: 'H3',
+              value: 'Heading in secondary typographyTheme',
+              typographyTheme: 'SECONDARY',
             },
             {
-              typographyVariant: "BODY1",
-              value: "Theme can be applied to any typography item.",
-              typographyTheme: "SECONDARY"
-            }
-          ]
+              typographyVariant: 'BODY1',
+              value: 'Theme can be applied to any typography item.',
+              typographyTheme: 'SECONDARY',
+            },
+          ],
         },
         {
           // container
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             // Spacing
             {
-              typographyVariant: "H2",
-              value: "Spacing",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H2',
+              value: 'Spacing',
+              typographyTheme: 'PRIMARY',
             },
             {
               _debugColor: null,
               width: 0,
-              height: 60
+              height: 60,
             },
             {
-              typographyVariant: "BODY1",
-              value: "Use spacing between items. You can debug via adding a color.",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'BODY1',
+              value:
+                'Use spacing between items. You can debug via adding a color.',
+              typographyTheme: 'PRIMARY',
             },
             {
-              _debugColor: "PRIMARY",
+              _debugColor: 'PRIMARY',
               width: 20,
-              height: 60
+              height: 60,
             },
             {
-              typographyVariant: "BODY1",
-              value: "See above! to visually see the spacing",
-              typographyTheme: "PRIMARY"
-            }
+              typographyVariant: 'BODY1',
+              value: 'See above! to visually see the spacing',
+              typographyTheme: 'PRIMARY',
+            },
           ],
         },
         {
           //container
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             // Button
             {
-              typographyVariant: "H2",
-              value: "Buttons",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H2',
+              value: 'Buttons',
+              typographyTheme: 'PRIMARY',
             },
             {
-              typographyVariant: "H5",
-              value: "Basic button",
-              typographyTheme: "PRIMARY"
-            }
-          ]
+              typographyVariant: 'H5',
+              value: 'Basic button',
+              typographyTheme: 'PRIMARY',
+            },
+          ],
         },
         {
-          containerType: "ROW",
+          containerType: 'ROW',
           elements: [
             {
-              buttonVariant: "TEXT",
-              label: "Text",
+              buttonVariant: 'TEXT',
+              label: 'Text',
               action: null,
               disabled: false,
               disableElevation: false,
-              buttonTheme: "PRIMARY",
-              buttonSize: "MEDIUM"
+              buttonTheme: 'PRIMARY',
+              buttonSize: 'MEDIUM',
             },
             {
-              buttonVariant: "CONTAINED",
-              label: "Contained",
+              buttonVariant: 'CONTAINED',
+              label: 'Contained',
               action: null,
               disabled: false,
               disableElevation: false,
-              buttonTheme: "PRIMARY",
-              buttonSize: "MEDIUM"
+              buttonTheme: 'PRIMARY',
+              buttonSize: 'MEDIUM',
             },
             {
-              buttonVariant: "OUTLINED",
-              label: "Outlined",
+              buttonVariant: 'OUTLINED',
+              label: 'Outlined',
               action: null,
               disabled: false,
               disableElevation: false,
-              buttonTheme: "PRIMARY",
-              buttonSize: "MEDIUM"
-            }
-          ]
+              buttonTheme: 'PRIMARY',
+              buttonSize: 'MEDIUM',
+            },
+          ],
         },
         {
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             {
-              typographyVariant: "H5",
-              value: "Text button",
-              typographyTheme: "PRIMARY"
-            }
-          ]
+              typographyVariant: 'H5',
+              value: 'Text button',
+              typographyTheme: 'PRIMARY',
+            },
+          ],
         },
         {
-          containerType: "ROW",
+          containerType: 'ROW',
           elements: [
             {
-              buttonVariant: "TEXT",
-              label: "Primary",
+              buttonVariant: 'TEXT',
+              label: 'Primary',
               action: null,
               disabled: false,
               disableElevation: false,
-              buttonTheme: "PRIMARY",
-              buttonSize: "MEDIUM"
+              buttonTheme: 'PRIMARY',
+              buttonSize: 'MEDIUM',
             },
             {
-              buttonVariant: "TEXT",
-              label: "Disabled",
+              buttonVariant: 'TEXT',
+              label: 'Disabled',
               action: null,
               disabled: true,
               disableElevation: false,
-              buttonTheme: "PRIMARY",
-              buttonSize: "MEDIUM"
-            }
-          ]
+              buttonTheme: 'PRIMARY',
+              buttonSize: 'MEDIUM',
+            },
+          ],
         },
         {
           //container
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             // Card
             {
-              typographyVariant: "H2",
-              value: "Cards",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H2',
+              value: 'Cards',
+              typographyTheme: 'PRIMARY',
             },
-            card({
+            {
               primary: 'Basic card',
-              secondaries: ['Secondary text']
-            }),
-            card({
+              secondaries: ['Secondary text'],
+            },
+            {
               primary: 'Media link card',
               secondaries: ['Secondary text'],
               links: [
@@ -220,36 +220,36 @@ export const kitchenSinkQuery = {
                   label: 'Card link',
                   disabled: false,
                   disableElevation: true,
-                  buttonVariant: ButtonVariant.Text
-                })
+                  buttonVariant: ButtonVariant.Text,
+                }),
               ],
               media: {
                 url: 'https://picsum.photos/500/400',
-                alt: 'Random image'
-              }
-            })
-          ]
+                alt: 'Random image',
+              },
+            },
+          ],
         },
         {
           //container
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             // Image
             {
-              typographyVariant: "H2",
-              value: "Image",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H2',
+              value: 'Image',
+              typographyTheme: 'PRIMARY',
             },
             {
               url: 'https://picsum.photos/500/400',
               alt: 'Random image',
               width: null,
               height: null,
-              valueType: null
-            }
-          ]
+              valueType: null,
+            },
+          ],
         },
-      ]
-    }
-  }
-}
+      ],
+    };
+  },
+};

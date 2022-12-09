@@ -1,14 +1,14 @@
 import express from 'express';
 import fs from 'fs';
 import glob from 'glob';
-import { ApolloServer } from 'apollo-server-express';
+import {ApolloServer} from 'apollo-server-express';
 import cors from 'cors';
-import { resolvers } from './resolvers/resolvers';
-import { queries } from './queries/queries';
-import { mutations } from './mutations/mutations';
+import {resolvers} from './resolvers/resolvers';
+import {queries} from './queries/queries';
+import {mutations} from './mutations/mutations';
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
-let schema = "";
+let schema = '';
 
 graphqlFiles.forEach(element => {
   try {
@@ -19,14 +19,14 @@ graphqlFiles.forEach(element => {
   }
 });
 
-async function startApolloServer(typeDefs, resolvers) {
+async function startApolloServer(typeDefs: string, resolvers: any) {
   const app = express();
   const corsOptions = {
     origin: 'http://localhost:3000',
-    credentials: true
-  }
+    credentials: true,
+  };
 
-  app.use(cors(corsOptions))
+  app.use(cors(corsOptions));
   const server = new ApolloServer({
     // cors: {
     //   origin: '*',
@@ -36,13 +36,13 @@ async function startApolloServer(typeDefs, resolvers) {
     resolvers: {
       ...resolvers,
       ...queries,
-      ...mutations
+      ...mutations,
     },
   });
   await server.start();
-  server.applyMiddleware({ app });
-  await new Promise(resolve => app.listen({ port: 4000 }, resolve as () => void));
+  server.applyMiddleware({app});
+  await new Promise(resolve => app.listen({port: 4000}, resolve as () => void));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
-startApolloServer(schema, resolvers)
+startApolloServer(schema, resolvers);

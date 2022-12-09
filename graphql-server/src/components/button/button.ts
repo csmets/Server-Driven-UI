@@ -1,4 +1,10 @@
-import { Action, Button, ButtonSize, ButtonTheme, ButtonVariant } from "../../types";
+import {
+  Action,
+  Button,
+  ButtonSize,
+  ButtonTheme,
+  ButtonVariant,
+} from '../../types';
 
 interface ButtonProps {
   icon?: string;
@@ -24,6 +30,6 @@ export const button = (button: ButtonProps): Button => {
     disabled: button.disabled,
     disableElevation: button.disableElevation,
     buttonTheme: theme,
-    buttonSize: size
+    buttonSize: size,
   };
-}
+};

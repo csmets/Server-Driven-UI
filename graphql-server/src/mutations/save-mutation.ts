@@ -1,11 +1,11 @@
-import { sleep } from '../utils';
+import {sleep} from '../utils';
 
 export const saveMutation = {
-    save: async (_, { feedId }) => {
-      await sleep(2000)
+  save: async () => {
+    await sleep(2000);
 
-      return {
-        success: true
-      };
-    }
+    return {
+      success: true,
+    };
+  },
 };

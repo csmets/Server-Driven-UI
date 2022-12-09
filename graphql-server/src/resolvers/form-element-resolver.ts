@@ -1,12 +1,13 @@
 export const formElementResolver = {
   FormElement: {
-    __resolveType(obj) {
+    __resolveType(obj: any) {
       if (obj.label) {
-        return 'Button'
+        return 'Button';
       }
       if (obj.formId) {
-        return 'TextInput'
+        return 'TextInput';
       }
-    }
-  }
+      return null;
+    },
+  },
 };

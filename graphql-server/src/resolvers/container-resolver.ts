@@ -1,6 +1,6 @@
 export const containerResolver = {
   ContainerElement: {
-    __resolveType(obj) {
+    __resolveType(obj: any) {
       if (obj.primary) {
         return 'Card';
       }
@@ -22,6 +22,6 @@ export const containerResolver = {
       }
 
       return null;
-    }
-  }
+    },
+  },
 };

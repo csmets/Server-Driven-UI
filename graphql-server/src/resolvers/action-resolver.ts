@@ -1,6 +1,6 @@
 export const actionResolver = {
   Action: {
-    __resolveType(obj) {
+    __resolveType(obj: any) {
       if (obj.inputIds) {
         return 'EditNameSubmitAction';
       }
@@ -12,6 +12,6 @@ export const actionResolver = {
       }
 
       return null;
-    }
-  }
+    },
+  },
 };

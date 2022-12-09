@@ -1,15 +1,15 @@
-import { signalEnum } from '../components/signal';
-import { sleep } from '../utils';
+import {signalEnum} from '../components/signal';
+import {sleep} from '../utils';
 
 export const editNameQuery = {
   editName: async () => {
-    await sleep(5000)
+    await sleep(5000);
 
     return {
       elements: [
         {
           formId: 'headingInput',
-          placeholder: 'Updating heading title'
+          placeholder: 'Updating heading title',
         },
         {
           // button
@@ -19,18 +19,18 @@ export const editNameQuery = {
             emitSignal: {
               signal: {
                 type: signalEnum.TITLE,
-                reference: null
+                reference: null,
               },
-              values: []
-            }
+              values: [],
+            },
           },
           disabled: false,
           disableElevation: false,
-          buttonVariant: "CONTAINED",
-          buttonTheme: "PRIMARY",
-          buttonSize: "MEDIUM"
-        }
-      ]
-    }
-  }
+          buttonVariant: 'CONTAINED',
+          buttonTheme: 'PRIMARY',
+          buttonSize: 'MEDIUM',
+        },
+      ],
+    };
+  },
 };

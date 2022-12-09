@@ -2,7 +2,7 @@ const glob = require('glob');
 const fs = require('fs');
 
 const graphqlFiles = glob.sync('./graphql/**/*.graphql');
-let schema = "";
+let schema = '';
 
 graphqlFiles.forEach(element => {
   try {
@@ -13,4 +13,4 @@ graphqlFiles.forEach(element => {
   }
 });
 
-fs.writeFileSync('src/schema.graphql', schema, { encoding: 'utf-8', flag: 'w'})
+fs.writeFileSync('src/schema.graphql', schema, {encoding: 'utf-8', flag: 'w'});

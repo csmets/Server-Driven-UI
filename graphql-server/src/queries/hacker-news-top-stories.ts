@@ -1,22 +1,22 @@
-import { card } from '../components/card/card';
-import { getHNTopStories } from '../services/hacker-news-service';
+import {getHNTopStories} from '../services/hacker-news-service';
+import {Card} from '../types';
 
 export const hackerNewsTopStoriesQuery = {
   hackerNewsTopStories: async () => {
-    const result = await getHNTopStories()
-    let elements = [];
+    const result = await getHNTopStories();
+    let elements: Card[] = [];
 
     if (Array.isArray(result)) {
-      elements = result.map((element) => {
-        const { title, url, by } = element.data;
+      elements = result.map((element): Card => {
+        const {title, url, by} = element.data;
 
-        const action = url ? { url } : null
+        const action = url ? {url} : null;
 
-        return card({
+        return {
           primary: title,
           secondaries: [by],
-          action
-        })
+          action,
+        };
       });
     }
 
@@ -27,24 +27,24 @@ export const hackerNewsTopStoriesQuery = {
         {
           // typename: Container
           // container elements
-          containerType: "FILL",
+          containerType: 'FILL',
           elements: [
             {
               // typename: Typography
-              typographyVariant: "H1",
-              value: "Top Stories",
-              typographyTheme: "PRIMARY"
+              typographyVariant: 'H1',
+              value: 'Top Stories',
+              typographyTheme: 'PRIMARY',
             },
             {
               // typename: Box
               width: null,
               height: 24,
-              _debugColor: null
+              _debugColor: null,
             },
-            ...elements
-          ]
-        }
-      ]
-    }
-  }
+            ...elements,
+          ],
+        },
+      ],
+    };
+  },
 };

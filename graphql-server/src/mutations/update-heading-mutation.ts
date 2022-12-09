@@ -1,11 +1,11 @@
-import { sleep } from '../utils';
+import {sleep} from '../utils';
 
 export const updateHeadingMutation = {
-    updateHeading: async (_, { formInputs }) => {
-      await sleep(2000)
+  updateHeading: async () => {
+    await sleep(2000);
 
-      return {
-        success: true
-      }
-    }
+    return {
+      success: true,
+    };
+  },
 };

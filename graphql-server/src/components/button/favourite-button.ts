@@ -1,4 +1,4 @@
-import { Action, ButtonSize, FavouriteButton, Signal } from "../../types";
+import {Action, ButtonSize, FavouriteButton, Signal} from '../../types';
 
 interface FavouriteButtonProps {
   icon?: string;
@@ -9,7 +9,9 @@ interface FavouriteButtonProps {
   signal?: Signal;
 }
 
-export const favouriteButton = (button: FavouriteButtonProps): FavouriteButton => {
+export const favouriteButton = (
+  button: FavouriteButtonProps
+): FavouriteButton => {
   const size = button.buttonSize || ButtonSize.Medium;
   return {
     __typename: 'FavouriteButton',
@@ -18,6 +20,6 @@ export const favouriteButton = (button: FavouriteButtonProps): FavouriteButton =
     action: button.action,
     disabled: button.disabled,
     buttonSize: size,
-    signal: button?.signal
+    signal: button?.signal,
   };
-}
+};
