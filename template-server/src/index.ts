@@ -51,6 +51,26 @@ app.get('/kitchen-sink', async (_, res) => {
   res.end(JSON.stringify(response))
 });
 
+app.get('/traditional-api', (_, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({
+    "feed": [
+      {
+        "title": "My cute little puppy",
+        "likes": 21,
+        "image": "https://picsum.photos/id/1025/4951/3301",
+        "id": 421245
+      },
+      {
+        "title": "Amazing Australian views",
+        "likes": 10,
+        "image": "https://picsum.photos/id/1016/3844/2563",
+        "id": 394283
+      },
+    ]
+  }));
+});
+
 server.on('upgrade', function upgrade(request, socket, head) {
   const { pathname } = parse(request.url);
 
