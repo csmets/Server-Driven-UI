@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "theo": "^8.1.5"
+    "theo": "^4.3.0"
   }
 }
