@@ -1,0 +1,30 @@
+version: "3"
+services:
+  server:
+    build: ./graphql-server
+    ports:
+      - 4000:4000
+    networks:
+      sdui:
+        ipv4_address: 192.168.92.30
+    environment:
+      templateAddr: "192.168.92.40"
+    volumes:
+      - ./graphql-server/src:/app/src
+  template:
+    build: ./template-server
+    ports:
+      - 9090:9090
+    networks:
+      sdui:
+        ipv4_address: 192.168.92.40
+    environment:
+      graphqlAddr: "192.168.92.30"
+    volumes:
+      - ./template-server/src:/app/src
+networks:
+  sdui:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.92.0/24"

@@ -22,16 +22,12 @@ graphqlFiles.forEach(element => {
 async function startApolloServer(typeDefs: string, resolvers: any) {
   const app = express();
   const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true,
   };
 
   app.use(cors(corsOptions));
   const server = new ApolloServer({
-    // cors: {
-    //   origin: '*',
-    //   credentials: true
-    // },
     typeDefs,
     resolvers: {
       ...resolvers,

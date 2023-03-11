@@ -2,7 +2,7 @@
 
 # Server-Driven User-Interface (SDUI)
 
-**Currently this is a work in progress. Expect things to not work and change.**
+**Early draft. Expect things to not work and change.**
 
 [**Read documentation here**](docs/README.md)
 
@@ -53,3 +53,21 @@ An Android jetpack compose app that showcases SDUI.
 ## Documentation
 
 [Read documentation here](docs/README.md)
+
+## Quickly get started
+
+Ensure you have the following prerequisites:
+    - docker with docker-compose
+    - nvm (node version manager)
+
+To quickly get started and see a working web application demo, run:
+
+```
+bash ./quickly-get-started.sh
+```
+
+If you want to quickly run the server-side apps, run:
+
+```
+docker-compose up
+```

@@ -32,9 +32,11 @@ export const feedQuery = {
   feed: async () => {
     let template: FeedElement[] = [];
 
+    const origin = process.env.templateAddr || 'localhost';
+
     try {
       const templateResponse: FeedTemplateResponse = await axios.get(
-        'http://localhost:9090/component/feed'
+        `http://${origin}:9090/component/feed`
       );
       templateResponse.data.elements.forEach(el => {
         const templateElement = elements[el.type];
