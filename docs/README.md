@@ -17,6 +17,7 @@ This documentation is to house the standards that should be in placed when worki
 10. [Knowledge: All business logic should only live in the server-side](./server-side-business-logic.md)
 11. [Knowledge: Benefits for clients to not call GraphQL in SDUI](./decouple-graphql-client.md)
 12. [Appendix: Sending Signals in SDUI](https://medium.com/expedia-group-tech/sending-signals-in-server-driven-ui-a8a580059ed1)
+13. [Appendix: Why Server-Driven UI Is Key to the Longevity of Web Software Architecture Platforms](https://medium.com/better-programming/why-sdui-is-key-to-the-longevity-of-web-software-architecture-platforms-97e915ec4bc3)
 
 ## Preface
 
