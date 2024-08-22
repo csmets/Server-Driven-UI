@@ -6,5 +6,5 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-rootProject.name = "Android App"
+rootProject.name = "SDUI App"
 include ':app'

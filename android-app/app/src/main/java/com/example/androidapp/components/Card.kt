@@ -53,6 +53,8 @@ fun Card(card: ContainerElement.Card, viewModel: FeedFavouriteViewModel = hiltVi
                         is Action.URLAction -> {
                             uriHandler.openUri(it.url)
                         }
+
+                        is Action.FavouriteAction -> {}
                     }
                 }
             },

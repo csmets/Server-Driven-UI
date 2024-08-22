@@ -3,13 +3,15 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type Action = EditNameSubmitAction | FavouriteAction | UrlAction;
@@ -17,8 +19,8 @@ export type Action = EditNameSubmitAction | FavouriteAction | UrlAction;
 export type Box = {
   __typename?: 'Box';
   _debugColor?: Maybe<Color>;
-  height?: Maybe<Scalars['Int']>;
-  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']['output']>;
+  width?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Button = Buttons & {
@@ -27,10 +29,10 @@ export type Button = Buttons & {
   buttonSize: ButtonSize;
   buttonTheme: ButtonTheme;
   buttonVariant: ButtonVariant;
-  disableElevation: Scalars['Boolean'];
-  disabled: Scalars['Boolean'];
-  icon?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
+  disableElevation: Scalars['Boolean']['output'];
+  disabled: Scalars['Boolean']['output'];
+  icon?: Maybe<Scalars['String']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
 };
 
 export enum ButtonSize {
@@ -55,19 +57,19 @@ export enum ButtonVariant {
 export type Buttons = {
   action?: Maybe<Action>;
   buttonSize: ButtonSize;
-  disabled: Scalars['Boolean'];
-  icon?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
+  disabled: Scalars['Boolean']['output'];
+  icon?: Maybe<Scalars['String']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
 };
 
 export type Card = {
   __typename?: 'Card';
   action?: Maybe<Action>;
-  content?: Maybe<Array<Scalars['String']>>;
+  content?: Maybe<Array<Scalars['String']['output']>>;
   links?: Maybe<Array<Buttons>>;
   media?: Maybe<Image>;
-  primary: Scalars['String'];
-  secondaries?: Maybe<Array<Scalars['String']>>;
+  primary: Scalars['String']['output'];
+  secondaries?: Maybe<Array<Scalars['String']['output']>>;
   signal?: Maybe<Signal>;
 };
 
@@ -123,7 +125,7 @@ export type EditNameContainer = {
 export type EditNameSubmitAction = {
   __typename?: 'EditNameSubmitAction';
   emitSignal: EmitSignal;
-  inputIds: Array<Scalars['String']>;
+  inputIds: Array<Scalars['String']['output']>;
 };
 
 export type EmitSignal = {
@@ -138,12 +140,12 @@ export type EmitSignals = {
 
 export type Error = {
   __typename?: 'Error';
-  message?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']['output']>;
 };
 
 export type FavouriteAction = {
   __typename?: 'FavouriteAction';
-  feedId: Scalars['String'];
+  feedId: Scalars['String']['output'];
   save?: Maybe<Array<EmitSignal>>;
   unsave?: Maybe<Array<EmitSignal>>;
 };
@@ -152,9 +154,9 @@ export type FavouriteButton = Buttons & {
   __typename?: 'FavouriteButton';
   action?: Maybe<Action>;
   buttonSize: ButtonSize;
-  disabled: Scalars['Boolean'];
-  icon?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
+  disabled: Scalars['Boolean']['output'];
+  icon?: Maybe<Scalars['String']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
   signal?: Maybe<Signal>;
 };
 
@@ -166,8 +168,8 @@ export type FeedView = {
 export type FormElement = Button | TextInput;
 
 export type FormInput = {
-  key: Scalars['String'];
-  value?: InputMaybe<Scalars['String']>;
+  key: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type HackerNewsView = {
@@ -177,11 +179,11 @@ export type HackerNewsView = {
 
 export type Image = {
   __typename?: 'Image';
-  alt: Scalars['String'];
-  height?: Maybe<Scalars['Int']>;
-  url: Scalars['String'];
+  alt: Scalars['String']['output'];
+  height?: Maybe<Scalars['Int']['output']>;
+  url: Scalars['String']['output'];
   valueType?: Maybe<ImageValueType>;
-  width?: Maybe<Scalars['Int']>;
+  width?: Maybe<Scalars['Int']['output']>;
 };
 
 export enum ImageValueType {
@@ -202,7 +204,7 @@ export type Mutation = {
 
 
 export type MutationSaveArgs = {
-  feedId: Scalars['String'];
+  feedId: Scalars['String']['input'];
 };
 
 
@@ -213,7 +215,7 @@ export type MutationUpdateHeadingArgs = {
 export type MutationResponse = {
   __typename?: 'MutationResponse';
   error?: Maybe<Error>;
-  success?: Maybe<Scalars['Boolean']>;
+  success?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Query = {
@@ -226,25 +228,25 @@ export type Query = {
 
 export type Signal = {
   __typename?: 'Signal';
-  reference?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']['output']>;
   type: SignalType;
 };
 
 export type SignalArrayValue = {
   __typename?: 'SignalArrayValue';
-  array: Array<Scalars['String']>;
-  prefix?: Maybe<Array<Scalars['String']>>;
-  suffix?: Maybe<Array<Scalars['String']>>;
+  array: Array<Scalars['String']['output']>;
+  prefix?: Maybe<Array<Scalars['String']['output']>>;
+  suffix?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type SignalInput = {
-  reference?: InputMaybe<Scalars['String']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
   type: SignalType;
 };
 
 export type SignalStringValue = {
   __typename?: 'SignalStringValue';
-  text: Scalars['String'];
+  text: Scalars['String']['output'];
 };
 
 export enum SignalType {
@@ -270,8 +272,8 @@ export type SignalValuePairValue = SignalArrayValue | SignalStringValue;
 
 export type TextInput = {
   __typename?: 'TextInput';
-  formId: Scalars['String'];
-  placeholder?: Maybe<Scalars['String']>;
+  formId: Scalars['String']['output'];
+  placeholder?: Maybe<Scalars['String']['output']>;
 };
 
 export type Typography = {
@@ -279,7 +281,7 @@ export type Typography = {
   signal?: Maybe<Signal>;
   typographyTheme: TypographyTheme;
   typographyVariant: TypographyVariant;
-  value: Scalars['String'];
+  value: Scalars['String']['output'];
 };
 
 export enum TypographyTheme {
@@ -304,8 +306,8 @@ export enum TypographyVariant {
 
 export type UrlAction = {
   __typename?: 'URLAction';
-  description?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
+  description?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
 };
 
 export type ViewElement = Container;
