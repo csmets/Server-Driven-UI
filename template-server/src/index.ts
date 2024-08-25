@@ -59,13 +59,15 @@ app.get('/traditional-api', (_, res) => {
         "title": "My cute little puppy",
         "likes": 21,
         "image": "https://picsum.photos/id/1025/4951/3301",
-        "id": 421245
+        "id": 421245,
+        "isTopStory": true
       },
       {
         "title": "Amazing Australian views",
         "likes": 10,
         "image": "https://picsum.photos/id/1016/3844/2563",
-        "id": 394283
+        "id": 394283,
+        "isTopStory": false
       },
     ]
   }));

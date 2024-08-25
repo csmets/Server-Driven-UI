@@ -5,7 +5,7 @@ import { FeedItem } from './types';
 
 export const FeedCard = (props: { data: FeedItem }) => {
   const { data } = props;
-  const { title, likes, image, id } = data;
+  const { title, likes, image, id, isTopStory } = data;
   const [numOfLikes, setNumOfLikes] = React.useState(likes);
 
   return (
@@ -21,6 +21,10 @@ export const FeedCard = (props: { data: FeedItem }) => {
           <Typography variant="h5" component="div">
             {title}
           </Typography>
+          {isTopStory &&
+            <Typography color="text.secondary">
+              Top Stories
+            </Typography>}
             <Typography color="text.secondary">
               {numOfLikes} likes
             </Typography>

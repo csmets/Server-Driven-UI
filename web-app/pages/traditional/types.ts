@@ -3,6 +3,7 @@ export interface FeedItem {
   title: string;
   image: string;
   id: number;
+  isTopStory: boolean;
 }
 
 export interface FetchFeedResponse {

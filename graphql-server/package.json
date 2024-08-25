@@ -20,27 +20,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^3.3.0",
-    "axios": "^0.27.2",
+    "apollo-server-express": "^3.13.0",
+    "axios": "^1.7.4",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-graphql": "^0.12.0",
+    "express": "^4.19.2",
     "glob": "^7.1.7",
-    "globby": "^12.0.2",
-    "graphql": "^15.5.3"
+    "graphql": "^16.9.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.12.1",
-    "@graphql-codegen/typescript": "^2.7.3",
-    "@types/cors": "^2.8.12",
-    "@types/express": "^4.17.14",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/glob": "^8.0.0",
-    "@types/graphql": "^14.5.0",
-    "@types/node": "^14.11.2",
+    "@types/node": "^22.5.0",
     "graphql-codegen": "^0.4.0",
-    "gts": "^3.1.1",
-    "nodemon": "^2.0.20",
-    "typescript": "~4.7.0"
+    "gts": "^5.3.1",
+    "nodemon": "^3.1.4",
+    "typescript": "~5.5.4"
   },
   "nodemonConfig": {
     "ignore": [

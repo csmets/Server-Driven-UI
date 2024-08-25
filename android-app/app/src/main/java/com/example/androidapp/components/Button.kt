@@ -142,6 +142,8 @@ private fun actionHandler(action: Action?, handler: UriHandler) {
             is Action.URLAction -> {
                 handler.openUri(action.url)
             }
+
+            is Action.FavouriteAction -> {}
         }
     }
 }

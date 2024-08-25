@@ -7,6 +7,7 @@ export const MockFeedService = {
         count: 21,
         image: 'https://picsum.photos/id/1025/4951/3301',
         alt: 'Cute wrapped up dog',
+        isTopStory: true
       },
       {
         id: 'id2',
@@ -14,6 +15,7 @@ export const MockFeedService = {
         count: 10,
         image: 'https://picsum.photos/id/1016/3844/2563',
         alt: 'A landscape image of Australia',
+        isTopStory: false
       },
     ];
   },
