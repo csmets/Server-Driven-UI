@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.androidapp.models.ContainerElement
 import com.example.androidapp.models.TypographyTheme
@@ -16,7 +17,7 @@ fun Typography(data: ContainerElement.Typography) {
 
     when (data.variant) {
         TypographyVariant.H1 -> {
-            Text(text = data.value, fontSize = 60.sp, fontWeight = FontWeight.W300, color = color)
+            Text(text = data.value, fontSize = 60.sp, fontWeight = FontWeight.W300, color = color, lineHeight = 60.sp)
         }
         TypographyVariant.H2 -> {
             Text(text = data.value, fontSize = 48.sp, fontWeight = FontWeight.W300, color = color)
