@@ -33,19 +33,14 @@ const Home: NextPage = () => {
               <Feed />
               <p>
                 Read{' '}
-                <Link href="/about">
-                  <a>about page!</a>
+                <Link href="/about">about page!</Link>
+              </p>
+              <p>
+                <Link href="/hacker-news">Hacker News top stories
                 </Link>
               </p>
               <p>
-                <Link href="/hacker-news">
-                  <a>Hacker News top stories</a>
-                </Link>
-              </p>
-              <p>
-                <Link href="/kitchen-sink">
-                  <a>Kitchen sink</a>
-                </Link>
+                <Link href="/kitchen-sink">Kitchen sink</Link>
               </p>
             </div>
           </main>
